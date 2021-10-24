@@ -7,7 +7,7 @@ import Downloading from './Downloading';
 import Completed from './Completed';
 import Founder from './Founder';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faDownload, faHome, faUserAstronaut, faUserFriends, faUserNinja, } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faDownload, faHome, faUserNinja } from '@fortawesome/free-solid-svg-icons';
 
 
 const Tab = createBottomTabNavigator();
@@ -15,11 +15,7 @@ const Tab = createBottomTabNavigator();
 const NAVIGATION = () => {
     return (
         <NavigationContainer>
-            <Tab.Navigator
-              screenOptions={{
-                tabBarStyle: { tabBarActiveTintColor : "#ff156f"},
-              }}
-            >
+            <Tab.Navigator screenOptions={{ headerShown: false }}> 
                 <Tab.Screen
                     name="Home" 
                     component={Home}
@@ -27,6 +23,8 @@ const NAVIGATION = () => {
                         tabBarIcon: ({ color, size }) => (
                           <FontAwesomeIcon icon={faHome} color={color} size={size} />
                         ),
+                        tabBarActiveTintColor: '#ff156f',
+                        tabBarInactiveTintColor: '#999',
                       }}
                 />
                 <Tab.Screen 
@@ -36,6 +34,8 @@ const NAVIGATION = () => {
                         tabBarIcon: ({ color, size }) => (
                           <FontAwesomeIcon icon={faDownload} color={color} size={size} />
                         ),
+                        tabBarActiveTintColor: '#ff156f',
+                        tabBarInactiveTintColor: '#999',
                       }}
                 />
                 <Tab.Screen
@@ -45,6 +45,8 @@ const NAVIGATION = () => {
                         tabBarIcon: ({ color, size }) => (
                           <FontAwesomeIcon icon={faCheckCircle} color={color} size={size} />
                         ),
+                        tabBarActiveTintColor: '#ff156f',
+                        tabBarInactiveTintColor: '#999',
                       }}
                     />
                 <Tab.Screen
@@ -54,6 +56,8 @@ const NAVIGATION = () => {
                         tabBarIcon: ({ color, size }) => (
                           <FontAwesomeIcon icon={faUserNinja} color={color} size={size} />
                         ),
+                        tabBarActiveTintColor: '#ff156f',
+                        tabBarInactiveTintColor: '#999',
                       }}
                     />
             </Tab.Navigator>
