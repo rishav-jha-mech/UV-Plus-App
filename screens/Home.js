@@ -16,7 +16,8 @@ const Home = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [thumb, setThumb] = useState()
     const [title, setTitle] = useState()
-    const [formats,setFormats] = useState([''])
+    const [formats, setFormats] = useState([''])
+    const [arr, setArr] = useState([''])
 
     const PostReq = (url) => {
         console.log(url)
@@ -39,8 +40,12 @@ const Home = () => {
         setThumb(data.thumbnail);
         setTitle(data.title);
         setFormats(data.formats)
+        // console.log(typeof(data))
+        // console.log(typeof(data.formats))
+        // console.log(typeof(data.formats[0]))
+        // console.log(typeof(data.formats[0].height))
+        console.log(formats)
     }
-
     return (
         <View style={styles.Container}>
             <View style={styles.urlContainer}>
@@ -83,21 +88,67 @@ const Home = () => {
                                     <Image style={styles.Thumbnail} source={{ uri: thumb }} resizeMode={'contain'} />
 
                                     <Text style={styles.Heading}>Audio</Text>
-                                    {formats.map((data) =>{
-                                        return(
-                                            <Pressable style={{marginVertical:15}} 
-                                            onPress={() => {
-                                              navigation.navigate('Web Tab', {
-                                                itemId: data.id,
-                                                urlToMedia: data.url,
-                                              });
-                                            }}
-                                          >
-                                        <Text>{data.format}</Text>
-                                        </Pressable>
-                                        )
-                                    })}
+                                    <View>
+                                    <ScrollView style={[styles.AuScroll]}>
+                                        {formats.map((data, index) => { // CalBack Function's second Param is the index
+                                            return (
+                                                <>
+                                                    {(data.height === null) ?
+                                                        <Pressable
+                                                            key={index}
+                                                            style={styles.ListContainer}
+                                                            onPress={() => {
+                                                                navigation.navigate('Web Tab', {
+                                                                    itemId: data.id,
+                                                                    urlToMedia: data.url,
+                                                                });
+                                                            }}
+                                                        >
+                                                            <Text style={styles.List}>
+                                                                {/* {index}  */}
+                                                                { data.format.slice(((data.format).search("-"))+2, data.format.length) }
+                                                            </Text>
+                                                            <Text style={styles.Capsule}>
+                                                                {data.ext}
+                                                            </Text>
+                                                        </Pressable>
+                                                        : <></>}
+                                                </>
+                                            )
+
+                                        })}
+                                    </ScrollView></View>
                                     <Text style={styles.Heading}>Video</Text>
+                                    <View>
+                                    <ScrollView style={[styles.ViAuScroll,styles.ViScroll]}>
+                                        {formats.map((data, index) => { // CalBack Function's second Param is the index
+                                            return (
+                                                <>
+                                                    {(data.asr !== null && data.fps != null) ?
+                                                        <Pressable
+                                                            key={index}
+                                                            style={styles.ListContainer}
+                                                            onPress={() => {
+                                                                navigation.navigate('Web Tab', {
+                                                                    itemId: data.id,
+                                                                    urlToMedia: data.url,
+                                                                });
+                                                            }}
+                                                        >
+                                                            <Text style={styles.List}>
+                                                                {/* {index}  */}
+                                                                { data.format.slice(((data.format).search("-"))+2, data.format.length) }
+                                                            </Text>
+                                                            <Text style={styles.Capsule}>
+                                                                {data.ext}
+                                                            </Text>
+                                                        </Pressable>
+                                                        : <></>}
+                                                </>
+                                            )
+
+                                        })}
+                                    </ScrollView></View>
                                 </ScrollView>
                             }
                         </Pressable>
@@ -148,19 +199,17 @@ const styles = StyleSheet.create({
     ModalContainer: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.3)',
-        justifyContent: 'center',
+        justifyContent: 'flex-end'
     },
     Results: {
         backgroundColor: '#fff',
-        borderRadius: 12,
-        marginHorizontal: 16,
-        height: 400,
-        paddingVertical: 20
+        height: '80%',
+        paddingVertical: 20,
+        paddingHorizontal: 16,
     },
     Title: {
         fontSize: 16,
         fontWeight: 'bold',
-        marginHorizontal: 16,
         backgroundColor: '#ff56'
     },
     Thumbnail: {
@@ -168,15 +217,35 @@ const styles = StyleSheet.create({
         minHeight: 175,
         borderRadius: 6,
         marginVertical: 12,
-        paddingHorizontal: 8,
         backgroundColor: '#ff156f'
     },
     Heading: {
         fontSize: 24,
-        marginHorizontal: 16,
         marginVertical: 8,
         fontWeight: '800',
         textAlign: 'center',
         backgroundColor: 'lightblue'
-    }
+    },
+    ListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 8,
+        marginVertical: 5,
+        backgroundColor: '#ff56',
+        alignItems:'center'
+    },
+    List: {
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        fontWeight: 'bold',
+    },
+    Capsule: {
+        paddingVertical: 3,
+        paddingHorizontal: 8,
+        backgroundColor: '#ff156f',
+        fontSize: 12,
+        fontWeight: '800',
+        borderRadius:16,
+        color:'#fff'
+    },
 })
