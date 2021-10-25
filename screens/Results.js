@@ -59,7 +59,7 @@ const Results = ({ route }) => {
                     <View>
                         <ScrollView>
                             {formats.map((data, index) => { // CalBack Function's second Param is the index
-                                return (<VideoList key={index} info={data} />)
+                                return (<VideoList source={source} key={index} info={data} />)
                             })}
                         </ScrollView></View>
                 </ScrollView>
