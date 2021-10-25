@@ -14,6 +14,10 @@ const Web = ( { route } ) => {
         style={styles.Container}
         javaScriptEnabled={true}
         allowsFullscreenVideo={true}
+        onLoadStart={() => console.log("Loading Started")}
+        onLoadEnd={() => console.log("Completed Loaded")}
+        onError={() => console.log("Error")}
+        onHttpError={() => console.log("HTTP ERROR")}
         />
     )
 }
