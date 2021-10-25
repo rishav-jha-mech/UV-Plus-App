@@ -29,7 +29,7 @@ const VideoList = ({ info, source }) => {
         // Checking the source of the video file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         if (source == 'facebook') { setFacebook(true); Facebook(info); }
-        if (source == 'Instagram') { setYoutube(true); Instagram(info) }
+        if (source == 'Instagram') { setInstagram(true)} //Instagram gives only a single file so no need of a seperate function
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -50,17 +50,17 @@ const VideoList = ({ info, source }) => {
     }
     const Facebook = (info) => {
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
-            if(info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a"){
+        if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
             setVideo(true);
-            if(info.format_id == "dash_sd_src"){
+            if (info.format_id == "dash_sd_src") {
                 setFormat("SD Quality Video")
             }
-            else if(info.format_id == "dash_hd_src"){setFormat("HD Quality Video")}
-            else if(info.format_id.includes("sd_src_no_ratelimit")){setFormat("SD High Quality Video")}
-            else if(info.format_id.includes("hd_src_no_ratelimit")){setFormat("HD High Quality Video")}
-            else if(info.format_id.includes("sd")){setFormat("SD Video")}
-            else if(info.format_id.includes("hd")){setFormat("HD Video")}
-            else {setFormat(info.format)}
+            else if (info.format_id == "dash_hd_src") { setFormat("HD Quality Video") }
+            else if (info.format_id.includes("sd_src_no_ratelimit")) { setFormat("SD High Quality Video") }
+            else if (info.format_id.includes("hd_src_no_ratelimit")) { setFormat("HD High Quality Video") }
+            else if (info.format_id.includes("sd")) { setFormat("SD Video") }
+            else if (info.format_id.includes("hd")) { setFormat("HD Video") }
+            else { setFormat(info.format) }
         }
     }
     return (youtube && video) ? (
@@ -81,8 +81,17 @@ const VideoList = ({ info, source }) => {
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>
             </Pressable>
-        )
-            : (<></>)
+        ) :
+            (instagram) ? (
+                <Pressable
+                    style={styles.Container}
+                    onPress={() => { SendToWebPage(info.url) }}
+                >
+                    <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
+                    <Text style={styles.TheText}> {info.ext}</Text>
+                </Pressable>
+            )
+                : (<></>)
 }
 
 export default VideoList

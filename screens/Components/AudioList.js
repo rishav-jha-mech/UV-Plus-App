@@ -29,7 +29,7 @@ const AudioList = ({ info, source }) => {
         // Checking the source of the audio file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         if (source == 'facebook') { setFacebook(true); Facebook(info) }
-        if (source == 'Instagram') { setYoutube(true); Instagram(info) }
+        if (source == 'Instagram') { setInstagram(true); Instagram(info) }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -53,6 +53,8 @@ const AudioList = ({ info, source }) => {
             setFormat("High Quality Audio")
         }
     }
+    const Instagram = (info) =>{
+    }
     return (youtube && audio) ? (
         <Pressable
             style={styles.Container}
@@ -70,8 +72,9 @@ const AudioList = ({ info, source }) => {
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
         </Pressable>
-    )
-        : (<></>)
+    ) : (instagram) ?(
+            <Text style={styles.nf}>We Dont Do That Here</Text>
+    ) : (<></>)
 }
 
 export default AudioList
@@ -95,5 +98,13 @@ const styles = StyleSheet.create({
     format: {
         textTransform: 'capitalize',
         textAlign: 'left'
+    },
+    nf:{
+        fontSize:20,
+        paddingVertical:10,
+        backgroundColor:'orangered',
+        color:'white',
+        fontWeight:'800',
+        textAlign:'center'
     }
 })
