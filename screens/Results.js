@@ -11,6 +11,7 @@ const Results = ({ route }) => {
     const [thedata, setTheData] = useState([''])
     const [formats, setFormats] = useState([''])
     const [loading, setLoading] = useState(true)
+    const [source, setSource] = useState()
     const [error,setError] = useState(false)
     const navigation = useNavigation();
     const { url } = route.params;
@@ -34,6 +35,7 @@ const Results = ({ route }) => {
         // console.log(data)
         setTheData(data)
         setFormats(data.formats)
+        setSource(data.source)
         setLoading(false)
     }
     return (
@@ -49,7 +51,7 @@ const Results = ({ route }) => {
                     <View>
                         <ScrollView>
                             {formats.map((data, index) => { // CalBack Function's second Param is the index
-                                return (<AudioList key={index} info={data} />)
+                                return (<AudioList source={source} key={index} info={data} />)
 
                             })}
                         </ScrollView></View>
@@ -77,18 +79,18 @@ const styles = StyleSheet.create({
     Title: {
         fontSize: 16,
         fontWeight: 'bold',
-        backgroundColor: '#ff56'
+        backgroundColor: '#ff56',
+        lineHeight: 27,
     },
     Thumbnail: {
         width: '100%',
         minHeight: 275,
         borderRadius: 6,
-        marginVertical: 12,
-        backgroundColor: '#ff156f'
+        marginVertical: 6,
     },
     Heading: {
         fontSize: 24,
-        marginVertical: 8,
+        marginVertical: 4,
         paddingVertical:8,
         fontWeight: '800',
         textAlign: 'center',
