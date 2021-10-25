@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native'
 import React,{ useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
@@ -8,7 +7,7 @@ const AudioList = ( { info, source } ) => {
 
     const navigation = useNavigation();
     // This is temporary in future clicking on the button will start the download itself
-    const SenToWebPage = (url) => { 
+    const SendToWebPage = (url) => { 
         navigation.navigate('Web Tab', {
           urlToMedia: url,
         });
@@ -52,7 +51,7 @@ const AudioList = ( { info, source } ) => {
     return (youtube && audio) ?(
         <Pressable 
             style={styles.Container}
-            onPress={() => {SenToWebPage(info.url)}}
+            onPress={() => {SendToWebPage(info.url)}}
         >
             <Text style={[styles.TheText,styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>

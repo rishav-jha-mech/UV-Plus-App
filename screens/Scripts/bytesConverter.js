@@ -1,5 +1,6 @@
 const bytesConverter = (bytes, decimals = 2) => {
-    if (bytes === 0 || bytes === null) return '0 Bytes';
+    console.log(bytes)
+    if (bytes === 0 || bytes === null) return 'Unknown';
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
