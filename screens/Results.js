@@ -5,13 +5,14 @@ import axios from 'axios'
 import Loading from './Components/Loading';
 import AudioList from './Components/AudioList';
 import VideoList from './Components/VideoList';
-
+import timeConverter from './Scripts/timeConverter';
 
 const Results = ({ route }) => {
     const [thedata, setTheData] = useState([''])
     const [formats, setFormats] = useState([''])
     const [loading, setLoading] = useState(true)
     const [source, setSource] = useState()
+    const [duration, setDuration] = useState(0)
     const [error,setError] = useState(false)
     const navigation = useNavigation();
     const { url } = route.params;
@@ -36,6 +37,7 @@ const Results = ({ route }) => {
         setTheData(data)
         setFormats(data.formats)
         setSource(data.source)
+        setDuration(timeConverter(data.duration))
         setLoading(false)
     }
     return (
@@ -46,7 +48,7 @@ const Results = ({ route }) => {
                 <ScrollView>
                     <Text style={styles.Title} numberOfLines={2}> {thedata.title}</Text>
                     <Image style={styles.Thumbnail} source={{ uri: thedata.thumbnail }} resizeMode={'contain'} />
-
+                    <Text style={styles.DuraContainer}> <Text style={styles.DurationHead}>Duration :</Text> {duration}</Text>
                     <Text style={styles.Heading}>Audio</Text>
                     <View>
                         <ScrollView>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     },
 
     Title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         backgroundColor: '#ff56',
         lineHeight: 27,
@@ -104,4 +106,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#ff56',
         alignItems: 'center'
     },
+    DuraContainer:{
+        paddingVertical:16,
+        backgroundColor: 'violet',
+        paddingHorizontal:12,
+        color:'white',
+        fontSize:18
+    },
+    DurationHead:{
+        fontSize:22,
+        fontWeight:'800',
+        letterSpacing:1
+    }
 })
