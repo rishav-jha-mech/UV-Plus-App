@@ -10,6 +10,7 @@ import Downloading from './Downloading';
 import Completed from './Completed';
 import Founder from './Founder';
 import Web from './Web.js'
+import Results from './Results';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheckCircle, faDownload, faHome, faUserNinja } from '@fortawesome/free-solid-svg-icons';
 
@@ -73,6 +74,7 @@ const NAVIGATION = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
+        <Stack.Screen name="Result Tab" component={Results} />
         <Stack.Screen name="Web Tab" component={Web} />
       </Stack.Navigator>
     </NavigationContainer>
