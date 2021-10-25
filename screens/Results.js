@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, ScrollView,Image, Pressable } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
 import Loading from './Components/Loading';
+import AudioList from './Components/AudioList';
+import VideoList from './Components/VideoList';
+
 
 const Results = ({ route }) => {
     const [thedata, setTheData] = useState([''])
@@ -44,64 +47,17 @@ const Results = ({ route }) => {
 
                     <Text style={styles.Heading}>Audio</Text>
                     <View>
-                        <ScrollView style={[styles.AuScroll]}>
+                        <ScrollView>
                             {formats.map((data, index) => { // CalBack Function's second Param is the index
-                                return (
-                                    <>
-                                        {(data.height === null) ?
-                                            <Pressable
-                                                key={index}
-                                                style={styles.ListContainer}
-                                                onPress={() => {
-                                                    navigation.navigate('Web Tab', {
-                                                        itemId: data.id,
-                                                        urlToMedia: data.url,
-                                                    });
-                                                }}
-                                            >
-                                                <Text style={styles.List}>
-                                                    {/* {index}  */}
-                                                    {(data.format).replace('(','')} {data.format.length}
-                                                </Text>
-                                                <Text style={styles.Capsule}>
-                                                    {data.ext}
-                                                </Text>
-                                            </Pressable>
-                                            : <></>}
-                                    </>
-                                )
+                                return (<AudioList key={index} info={data} />)
 
                             })}
                         </ScrollView></View>
                     <Text style={styles.Heading}>Video</Text>
                     <View>
-                        <ScrollView style={[styles.ViAuScroll, styles.ViScroll]}>
+                        <ScrollView>
                             {formats.map((data, index) => { // CalBack Function's second Param is the index
-                                return (
-                                    <>
-                                        {(data.asr !== null && data.fps != null) ?
-                                            <Pressable
-                                                key={index}
-                                                style={styles.ListContainer}
-                                                onPress={() => {
-                                                    navigation.navigate('Web Tab', {
-                                                        itemId: data.id,
-                                                        urlToMedia: data.url,
-                                                    });
-                                                }}
-                                            >
-                                                <Text style={styles.List}>
-                                                    {/* {index}  */}
-                                                    {data.format.slice(((data.format).search("-")) + 2, data.format.length)}
-                                                </Text>
-                                                <Text style={styles.Capsule}>
-                                                    {data.ext}
-                                                </Text>
-                                            </Pressable>
-                                            : <></>}
-                                    </>
-                                )
-
+                                return (<VideoList key={index} info={data} />)
                             })}
                         </ScrollView></View>
                 </ScrollView>
@@ -142,22 +98,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 8,
-        marginVertical: 5,
+        marginVertical: 2,
         backgroundColor: '#ff56',
         alignItems: 'center'
-    },
-    List: {
-        paddingVertical: 8,
-        paddingHorizontal: 8,
-        fontWeight: 'bold',
-    },
-    Capsule: {
-        paddingVertical: 3,
-        paddingHorizontal: 8,
-        backgroundColor: '#ff156f',
-        fontSize: 12,
-        fontWeight: '800',
-        borderRadius: 16,
-        color: '#fff'
     },
 })

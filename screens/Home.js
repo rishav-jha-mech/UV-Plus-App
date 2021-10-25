@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import axios from 'axios'
 import validator from 'validator'
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler'
 
 const Home = () => {
     const navigation = useNavigation();
