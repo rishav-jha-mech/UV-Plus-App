@@ -1,5 +1,4 @@
 const bytesConverter = (bytes, decimals = 2) => {
-    console.log(bytes)
     if (bytes === 0 || bytes === null) return 'Unknown';
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
