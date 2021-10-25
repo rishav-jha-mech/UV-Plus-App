@@ -1,9 +1,19 @@
+import { NavigationContainer } from '@react-navigation/native'
 import React,{ useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
 
 const AudioList = ( { info, source } ) => {
 
+    const navigation = useNavigation();
+    // This is temporary in future clicking on the button will start the download itself
+    const SenToWebPage = (url) => { 
+        navigation.navigate('Web Tab', {
+          urlToMedia: url,
+        });
+    }
+    //
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
     const [ext, setExt] = useState()
@@ -40,11 +50,14 @@ const AudioList = ( { info, source } ) => {
     }
 
     return (youtube && audio) ?(
-        <View style={styles.Container}>
+        <Pressable 
+            style={styles.Container}
+            onPress={() => {SenToWebPage(info.url)}}
+        >
             <Text style={[styles.TheText,styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
             <Text style={styles.TheText}> {filesize ? filesize : 'undefined'}</Text>
-        </View>
+        </Pressable>
     ):(<></>)
 }
 
