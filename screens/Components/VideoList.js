@@ -21,6 +21,7 @@ const VideoList = ({ info, source }) => {
     const [youtube, setYoutube] = useState(false)
     const [facebook, setFacebook] = useState(false)
     const [instagram, setInstagram] = useState(false)
+    const [arp, setArp] = useState(false)
 
     // Hooks for showing video only
     const [video, setVideo] = useState(false)
@@ -28,8 +29,9 @@ const VideoList = ({ info, source }) => {
     useEffect(() => {
         // Checking the source of the video file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
-        if (source == 'facebook') { setFacebook(true); Facebook(info); }
-        if (source == 'Instagram') { setInstagram(true)} //Instagram gives only a single file so no need of a seperate function
+        else if (source == 'facebook') { setFacebook(true); Facebook(info); }
+        else if (source == 'Instagram') { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
+        else if (source == '') { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -63,6 +65,14 @@ const VideoList = ({ info, source }) => {
             else { setFormat(info.format) }
         }
     }
+    const Arp = (info) => {
+        if(info.protocol == "https"){
+            setVideo(true);
+            if(info.format_id == "mp4-high"){setFormat("high quality")}
+            if(info.format_id == "mp4-low"){setFormat("low quality")}
+        }
+    }
+
     return (youtube && video) ? (
         <Pressable
             style={styles.Container}
@@ -90,8 +100,17 @@ const VideoList = ({ info, source }) => {
                     <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
                     <Text style={styles.TheText}> {info.ext}</Text>
                 </Pressable>
-            )
-                : (<></>)
+            ) :
+                (arp && video) ? (
+                    <Pressable
+                        style={styles.Container}
+                        onPress={() => { SendToWebPage(info.url) }}
+                    >
+                        <Text style={[styles.TheText, styles.format]}> {format} </Text>
+                        <Text style={styles.TheText}> {info.ext} </Text>
+                    </Pressable>
+
+                ) : (<></>)
 }
 
 export default VideoList
