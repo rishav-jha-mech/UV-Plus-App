@@ -8,10 +8,9 @@ const Stack = createStackNavigator();
 import Home from './Home';
 import Downloading from './Downloading';
 import Completed from './Completed';
-import Web from './Web.js'
 import Results from './Results';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faDownload, faHome, faUserNinja } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
 
 
 const Tab = createBottomTabNavigator();
@@ -63,7 +62,6 @@ const NAVIGATION = () => {
       <Stack.Navigator>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
         <Stack.Screen name="Result Tab" component={Results} />
-        <Stack.Screen name="Web Tab" component={Web} />
       </Stack.Navigator>
     </NavigationContainer>
   )
