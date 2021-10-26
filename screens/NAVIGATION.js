@@ -8,7 +8,6 @@ const Stack = createStackNavigator();
 import Home from './Home';
 import Downloading from './Downloading';
 import Completed from './Completed';
-import Founder from './Founder';
 import Web from './Web.js'
 import Results from './Results';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -48,17 +47,6 @@ const HomeTabNavigation = () => {
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesomeIcon icon={faCheckCircle} color={color} size={size} />
-            ),
-            tabBarActiveTintColor: '#ff156f',
-            tabBarInactiveTintColor: '#999',
-          }}
-        />
-        <Tab.Screen
-          name="Founder"
-          component={Founder}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesomeIcon icon={faUserNinja} color={color} size={size} />
             ),
             tabBarActiveTintColor: '#ff156f',
             tabBarInactiveTintColor: '#999',
