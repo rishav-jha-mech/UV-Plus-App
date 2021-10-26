@@ -80,7 +80,7 @@ const VideoList = ({ info, source }) => {
         if (!(info.format_id).includes("hls")) {
             setVideo(true)
             var Localformat = info.format
-            Localformat = Localformat.slice(Localformat.search('-')+2,Localformat.length)
+            Localformat = Localformat.slice(0,Localformat.search("-"))
             setFormat(Localformat)
         }
     }
