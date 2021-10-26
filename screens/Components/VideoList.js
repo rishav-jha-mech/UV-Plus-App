@@ -22,6 +22,7 @@ const VideoList = ({ info, source }) => {
     const [facebook, setFacebook] = useState(false)
     const [instagram, setInstagram] = useState(false)
     const [arp, setArp] = useState(false)
+    const [sago, setSago] = useState(false)
     const [unknown, setUnknown] = useState(false)
 
     // Hooks for showing video only
@@ -33,6 +34,7 @@ const VideoList = ({ info, source }) => {
         else if (source == 'facebook') { setFacebook(true); Facebook(info); }
         else if (source == 'Instagram') { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
         else if (source == '') { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
+        else if (source == '') { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
         else { setUnknown(true) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
@@ -74,7 +76,14 @@ const VideoList = ({ info, source }) => {
             else if (info.format_id == "mp4-low") { setFormat("low quality") }
         }
     }
-
+    const Sago = (info) => {
+        if (!(info.format_id).includes("hls")) {
+            setVideo(true)
+            var Localformat = info.format
+            Localformat = Localformat.slice(Localformat.search('-')+2,Localformat.length)
+            setFormat(Localformat)
+        }
+    }
     return (youtube && video) ? (
         <Pressable
             style={styles.Container}
@@ -112,16 +121,25 @@ const VideoList = ({ info, source }) => {
                         <Text style={styles.TheText}> {info.ext} </Text>
                     </Pressable>
                 ) :
-                    (unknown) ? (
+                    (sago && video) ? (
                         <Pressable
                             style={styles.Container}
                             onPress={() => { SendToWebPage(info.url) }}
                         >
-                            <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
+                            <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
-                            <Text style={styles.TheText}> {info.filesize} </Text>
                         </Pressable>
-                    ) : (<></>)
+                    ) :
+                        (unknown) ? (
+                            <Pressable
+                                style={styles.Container}
+                                onPress={() => { SendToWebPage(info.url) }}
+                            >
+                                <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
+                                <Text style={styles.TheText}> {info.ext} </Text>
+                                <Text style={styles.TheText}> {info.filesize} </Text>
+                            </Pressable>
+                        ) : (<></>)
 }
 
 export default VideoList

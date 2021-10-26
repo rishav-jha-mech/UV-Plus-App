@@ -40,7 +40,6 @@ const Results = ({ route }) => {
         setLoading(false)
         if (data.formats.length < 0){setPresent(false)}
         setError(false)
-        setError(true)
     }
     return loading ?(
         <View style={styles.Container}>
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
     Thumbnail: {
         width: '100%',
         minHeight: 275,
-        borderRadius: 6,
         marginVertical: 6,
     },
     Heading: {
