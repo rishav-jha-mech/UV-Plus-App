@@ -23,6 +23,7 @@ const VideoList = ({ info, source }) => {
     const [instagram, setInstagram] = useState(false)
     const [arp, setArp] = useState(false)
     const [sago, setSago] = useState(false)
+    const [shwe, setShwe] = useState(false)
     const [unknown, setUnknown] = useState(false)
 
     // Hooks for showing video only
@@ -35,6 +36,7 @@ const VideoList = ({ info, source }) => {
         else if (source == 'Instagram') { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
         else if (source == '') { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else if (source == '') { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
+        else if (source == '') { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else { setUnknown(true) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
@@ -80,8 +82,15 @@ const VideoList = ({ info, source }) => {
         if (!(info.format_id).includes("hls")) {
             setVideo(true)
             var Localformat = info.format
-            Localformat = Localformat.slice(0,Localformat.search("-"))
+            Localformat = Localformat.slice(0, Localformat.search("-"))
             setFormat(Localformat)
+        }
+    }
+    const Shwe = (info) => {
+        if (info.protocol == "https") {
+            setVideo(true);
+            if (info.format_id == "high") { setFormat("high quality") }
+            else if (info.format_id == "low") { setFormat("low quality") }
         }
     }
     return (youtube && video) ? (
@@ -122,6 +131,14 @@ const VideoList = ({ info, source }) => {
                     </Pressable>
                 ) :
                     (sago && video) ? (
+                        <Pressable
+                            style={styles.Container}
+                            onPress={() => { SendToWebPage(info.url) }}
+                        >
+                            <Text style={[styles.TheText, styles.format]}> {format} </Text>
+                            <Text style={styles.TheText}> {info.ext} </Text>
+                        </Pressable>
+                    ) : (shwe && video) ? (
                         <Pressable
                             style={styles.Container}
                             onPress={() => { SendToWebPage(info.url) }}
