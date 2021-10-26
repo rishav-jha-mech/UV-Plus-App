@@ -107,7 +107,7 @@ const VideoList = ({ info, source }) => {
         (facebook && video) ? (
             <Pressable
                 style={styles.Container}
-                onPress={() => { startDownloading(info.url,info.ext) }}
+                onPress={() => { startDownloading(info.title,info.url,info.ext) }}
             >
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>
@@ -116,7 +116,7 @@ const VideoList = ({ info, source }) => {
             (instagram) ? (
                 <Pressable
                     style={styles.Container}
-                    onPress={() => { SendToWebPage(info.url) }}
+                    onPress={() => { startDownloading(info.title,info.url,info.ext) }}
                 >
                     <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
                     <Text style={styles.TheText}> {info.ext}</Text>
@@ -125,7 +125,7 @@ const VideoList = ({ info, source }) => {
                 (arp && video) ? (
                     <Pressable
                         style={styles.Container}
-                        onPress={() => { SendToWebPage(info.url) }}
+                        onPress={() => { startDownloading(info.title,info.url,info.ext) }}
                     >
                         <Text style={[styles.TheText, styles.format]}> {format} </Text>
                         <Text style={styles.TheText}> {info.ext} </Text>
@@ -134,7 +134,7 @@ const VideoList = ({ info, source }) => {
                     (sago && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { SendToWebPage(info.url) }}
+                            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -142,7 +142,7 @@ const VideoList = ({ info, source }) => {
                     ) : (shwe && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { SendToWebPage(info.url) }}
+                            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -151,7 +151,7 @@ const VideoList = ({ info, source }) => {
                         (unknown) ? (
                             <Pressable
                                 style={styles.Container}
-                                onPress={() => { SendToWebPage(info.url) }}
+                                onPress={() => { startDownloading(info.title,info.url,info.ext) }}
                             >
                                 <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
                                 <Text style={styles.TheText}> {info.ext} </Text>

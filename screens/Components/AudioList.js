@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
+import downloadFile from '../Scripts/downloadFile'
 
 const AudioList = ({ info, source }) => {
 
     const navigation = useNavigation();
-    // This is temporary in future clicking on the button will start the download itself
-    const SendToWebPage = (url) => {
-        navigation.navigate('Web Tab', {
-            urlToMedia: url,
-        });
+    // The Future is here
+    const startDownloading = (title,url,ext) =>{
+        downloadFile(title,url,ext)
+        alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
+        navigation.navigate("Home")
     }
     //
     const [filesize, setFilesize] = useState(0)
@@ -58,7 +59,7 @@ const AudioList = ({ info, source }) => {
     return (youtube && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { SendToWebPage(info.url) }}
+            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
@@ -67,7 +68,7 @@ const AudioList = ({ info, source }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { SendToWebPage(info.url) }}
+            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
