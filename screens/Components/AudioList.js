@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
 import downloadFile from '../Scripts/downloadFile'
 
-const AudioList = ({ info, source }) => {
+const AudioList = ({ title, info, source }) => {
 
     const navigation = useNavigation();
     // The Future is here
-    const startDownloading = (title,url,ext) =>{
+    const startDownloading = (url,ext) =>{
         downloadFile(title,url,ext)
         alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
         navigation.navigate("Home")
@@ -30,7 +30,7 @@ const AudioList = ({ info, source }) => {
         // Checking the source of the audio file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         if (source == 'facebook') { setFacebook(true); Facebook(info) }
-        if (source == 'Instagram') { setInstagram(true); Instagram(info) }
+        if (source == 'Instagram') { setInstagram(true);}
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -54,12 +54,10 @@ const AudioList = ({ info, source }) => {
             setFormat("High Quality Audio")
         }
     }
-    const Instagram = (info) =>{
-    }
     return (youtube && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
+            onPress={() => { startDownloading(info.url,info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
@@ -68,7 +66,7 @@ const AudioList = ({ info, source }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.title,info.url,info.ext) }}
+            onPress={() => { startDownloading(info.url,info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
