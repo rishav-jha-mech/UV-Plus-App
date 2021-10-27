@@ -1,5 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob'
-import { PermissionsAndroid } from 'react-native' // I have to ask this on the App.js part or Honme Page only or this will continue throwing me circular errors for 3*2 lines everytime
+import { PermissionsAndroid, Alert } from 'react-native' // I have to ask this on the App.js part or Honme Page only or this will continue throwing me circular errors for 3*2 lines everytime
 // Console Logs are for debugging only they will not be there in the final code
 const downloadFile = async (title, url, ext) => {
     try {
@@ -22,18 +22,25 @@ const downloadFile = async (title, url, ext) => {
                     title: title,
                     useDownloadManager: true,
                     notification: true,
-                    path: PictureDir + `/title` + "." + ext,
+                    path: `${PictureDir}/${title}.${ext}`,
                     description: 'Media',
                 },
             }
             config(options).fetch('GET', media_url)
                 // listen to download progress event, every 10%
-                .progress({ count: 10 }, (received, total) => {
+                .progress((received, total) => {
                     console.log('progress', received / total)
                 })
                 .then(res => {
                     console.log('response -> ', JSON.stringify(res))
-                    alert("File Downloaded Successfully")
+                    Alert.alert(
+                        '', // i dont want any title over here
+                        `${title}.${ext}\n\n\n Downloaded Successfully !`,
+                        [
+                           {text: 'OK'},
+                        ],
+                        { cancelable: true }
+                        )
                 })
 
         } else {
