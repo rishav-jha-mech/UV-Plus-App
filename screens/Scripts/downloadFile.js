@@ -11,8 +11,6 @@ const downloadFile = async (title, url, ext) => {
             })
         if (granted == PermissionsAndroid.RESULTS.GRANTED) {
             console.log("Storage Permission Granted")
-            let date = new Date()
-            let media_url = url
             // Get config and fs from rnfetchblob
             const { config, fs } = RNFetchBlob
             let PictureDir = fs.dirs.DownloadDir
@@ -26,11 +24,7 @@ const downloadFile = async (title, url, ext) => {
                     description: 'Media',
                 },
             }
-            config(options).fetch('GET', media_url)
-                // listen to download progress event, every 10%
-                .progress((received, total) => {
-                    console.log('progress', received / total)
-                })
+            config(options).fetch('GET', url)
                 .then(res => {
                     console.log('response -> ', JSON.stringify(res))
                     Alert.alert(
