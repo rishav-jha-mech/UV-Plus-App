@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
+import formatFormatter from '../Scripts/formatFormatter'
 
 const FileList = (data) => { // By default it is sorted by recent old order
     
@@ -17,15 +18,17 @@ const FileList = (data) => { // By default it is sorted by recent old order
     useEffect(() =>{
         setFileSize(bytesConverter(data.data.size))
         setDate(TimeStampToDate(data.data.lastModified))
-        
+        setFilename(formatFormatter(data.data.filename).FILENAME)  // Calling the function to give us the FIle Name
+        setExt(formatFormatter(data.data.filename).EXTENSION)  // Calling the function to give us the FIle Extension
+
     },[])
 
     return (
         <View style={styles.Container}>
             <Image style={styles.Thumb} source={{uri: 'https://via.placeholder.com/120.png/ddf'}} resizeMode="contain" />
             <View style={styles.infoContainer}>
-                <Text style={styles.Title} numberOfLines={2}> {data.data.filename}</Text>
-                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize}&nbsp;&nbsp;|&nbsp;&nbsp;mp4&nbsp;&nbsp;|&nbsp;&nbsp;{date}</Text>
+                <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize}&nbsp;&nbsp;|&nbsp;&nbsp;{ext}&nbsp;&nbsp;|&nbsp;&nbsp;{date}</Text>
             </View>
             <TouchableOpacity style={styles.theButton}>
                 <FontAwesomeIcon icon={faEllipsisV} size={18} />
