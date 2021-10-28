@@ -1,14 +1,9 @@
 /*
-    Normally you get the 13 digit lastModified code from the file like this which is of strign type 1612321321321 this is called timestamp
-    This module is made first to convert the timestamp to date of format =>  YYYY-MM-DD
-    Then to convert the single digited Months and Days to two digits by adding a 0 before it.
+    Changes in this module cuz react-natvei-fs gives u a date object instaed of a time stamp
 */
-const TimeStampToDate = (date) => {
+const TimeStampToDate = (date) => { // date is an object as this functions paramerter
 
-    var timestamp = parseInt(date) // Its a string we have to parse it as a int or we will get error :)
-    var Localdate = new Date(timestamp); // This is an OBJECT
-    // console.log(`TimeStamp => ${Localdate}`)
-    LocalDateString = `${Localdate.getFullYear()}-${ModTime(Localdate.getMonth())}-${ModTime(Localdate.getDate())}`
+    LocalDateString = `${date.getFullYear()}-${ModTime(date.getMonth())}-${ModTime(date.getDate())}`
     return LocalDateString
 }
 

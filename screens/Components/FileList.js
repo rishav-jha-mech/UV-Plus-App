@@ -8,25 +8,25 @@ import formatFormatter from '../Scripts/formatFormatter'
 
 const FileList = (data) => { // By default it is sorted by recent old order
     
-    // console.log(JSON.stringify(data,null,3))
+    console.log(JSON.stringify(data,null,3))
 
     const [fileSize, setFileSize] = useState(0)
-    const [date, setDate] = useState()
+    const [date, setDate] = useState(0)
     const [filename, setFilename] = useState("")
     const [ext, setExt] = useState("")
 
     useEffect(() =>{
         setFileSize(bytesConverter(data.data.size))
-        setDate(TimeStampToDate(data.data.lastModified))
-        setFilename(formatFormatter(data.data.filename).FILENAME)  // Calling the function to give us the FIle Name
-        setExt(formatFormatter(data.data.filename).EXTENSION)  // Calling the function to give us the FIle Extension
+        setDate(TimeStampToDate(data.data.mtime)) //last modified time
+        setFilename(formatFormatter(data.data.name).FILENAME)  // Calling the function to give us the FIle Name
+        setExt(formatFormatter(data.data.name).EXTENSION)  // Calling the function to give us the FIle Extension
 
     },[])
 
     return (
         <View style={styles.Container}>
             <Image style={styles.Thumb} source={{uri: 'https://via.placeholder.com/120.png/ddf'}} resizeMode="contain" />
-            <View style={styles.infoContainer}>
+            <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
                 <Text style={styles.SubTitle} numberOfLines={1}>{fileSize}&nbsp;&nbsp;|&nbsp;&nbsp;{ext}&nbsp;&nbsp;|&nbsp;&nbsp;{date}</Text>
             </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         width:'25%',
         // backgroundColor:'aqua'
     },
-    infoContainer:{
+    dataContainer:{
         // backgroundColor:'tomato',
         flex:1,
         justifyContent:'space-between',
