@@ -1,27 +1,26 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
-import AltDownFile from './Scripts/AltDownFile'
-import * as Progress from 'react-native-progress';
 import RNFetchBlob from 'rn-fetch-blob';
 import FileList from './Components/FileList';
 
 const Downloads = () => {
     const [filestats, setFileStats] = useState([])
+    const [totalFiles,setTotalFiles] = useState(0)
     const dirs = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader'
 
     useEffect(() => {
     // Object of File details
     RNFetchBlob.fs.lstat(dirs)
         .then((stats) => {
-            // console.log(JSON.stringify(stats[(stats.length)-1],null,4))
+            // console.log(JSON.stringify(stats,null,4))
+            setTotalFiles(stats.reduce((a, obj) => a + Object.keys(obj).length, 0)) ;
             setFileStats(stats)
         })
         .catch((error) => {
             console.log(error)
         })
-
-    }, []) // I want to the app to update files again when new file is adde or old file is removed
+    }, [totalFiles]) // I want to this page to update files again when new file is adde or old file is removed
 
     return (
         <View style={styles.Container}>
@@ -51,11 +50,11 @@ const styles = StyleSheet.create({
 3. The files will have an id ofc
     first we need to read the files ✅ This will be done in this commit
     then each file will have
-        an id
-        filename => of two lines max
-        filesize
-        foramat
-        date downloaded
+        an id ✅
+        filename => of two lines max ✅
+        filesize ✅
+        foramat ✅
+        date downloaded ✅
         status = ['downloaded','downloading']
         an options button
             to rename the file

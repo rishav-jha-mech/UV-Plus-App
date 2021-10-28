@@ -3,6 +3,7 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import bytesConverter from '../Scripts/bytesConverter'
 import { useNavigation } from '@react-navigation/core'
 import downloadFile from '../Scripts/downloadFile'
+import AltDownFile from '../Scripts/AltDownFile'
 
 const VideoList = ({ title, info, source }) => {
 
@@ -10,9 +11,9 @@ const VideoList = ({ title, info, source }) => {
     // The Future is here
 
     const startDownloading = (url,ext) =>{
-        downloadFile(title,url,ext)
-        alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
-        navigation.navigate("Home")
+        AltDownFile(title,url,ext)
+        alert("Download Started")
+        navigation.navigate("Downloads")
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
