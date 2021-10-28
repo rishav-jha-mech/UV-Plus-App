@@ -5,7 +5,7 @@ import * as Progress from 'react-native-progress';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
-const Downloading = () => {
+const Downloads = () => {
 
     const [percent, setPercent] = useState(0)
     const [complete,setComplete] = useState(false)
@@ -36,7 +36,7 @@ const Downloading = () => {
     )
 }
 
-export default Downloading
+export default Downloads
 
 const styles = StyleSheet.create({
     Container:{

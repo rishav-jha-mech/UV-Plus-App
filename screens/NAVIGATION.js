@@ -6,11 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 import Home from './Home';
-import Downloading from './Downloading';
-import Completed from './Completed';
 import Results from './Results';
+import Downloads from './Downloads';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
 
 
 const Tab = createBottomTabNavigator();
@@ -30,22 +29,11 @@ const HomeTabNavigation = () => {
           }}
         />
         <Tab.Screen
-          name="Downloading"
-          component={Downloading}
+          name="Downloads"
+          component={Downloads}
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesomeIcon icon={faDownload} color={color} size={size} />
-            ),
-            tabBarActiveTintColor: '#ff156f',
-            tabBarInactiveTintColor: '#999',
-          }}
-        />
-        <Tab.Screen
-          name="Completed"
-          component={Completed}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesomeIcon icon={faCheckCircle} color={color} size={size} />
             ),
             tabBarActiveTintColor: '#ff156f',
             tabBarInactiveTintColor: '#999',
