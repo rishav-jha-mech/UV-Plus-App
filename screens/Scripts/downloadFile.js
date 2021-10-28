@@ -1,6 +1,7 @@
 import RNFetchBlob from 'rn-fetch-blob'
-import { PermissionsAndroid, Alert } from 'react-native' // I have to ask this on the App.js part or Honme Page only or this will continue throwing me circular errors for 3*2 lines everytime
-// Console Logs are for debugging only they will not be there in the final code
+import { PermissionsAndroid, Alert } from 'react-native'
+
+// rnfetch blobover here is giving circular import error
 const downloadFile = async (title, url, ext) => {
     try {
         const granted = await PermissionsAndroid.request(
@@ -14,8 +15,8 @@ const downloadFile = async (title, url, ext) => {
             // Get config and fs from rnfetchblob
             const { config, fs } = RNFetchBlob
             let PictureDir = fs.dirs.DownloadDir
-            let options = { // This is the header file in future versions we have to put the auth creds of the user here so that the user can access files from private accounts and private groups
-                fileCache: true,// Highly performant, directly saves to file
+            let options = { 
+                fileCache: true,
                 addAndroidDownloads: {
                     title: title,
                     useDownloadManager: true,
