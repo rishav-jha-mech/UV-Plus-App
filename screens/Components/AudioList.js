@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
-import downloadFile from '../Scripts/downloadFile'
+// import downloadFile from '../Scripts/downloadFile'
 
 const AudioList = ({ title, info, source }) => {
 
     const navigation = useNavigation();
     // The Future is here
-    const startDownloading = (url,ext) =>{
-        downloadFile(title,url,ext)
-        alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
-        navigation.navigate("Home")
-    }
+    // const startDownloading = (url,ext) =>{
+    //     downloadFile(title,url,ext)
+    //     alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
+    //     navigation.navigate("Home")
+    // }
     //
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()

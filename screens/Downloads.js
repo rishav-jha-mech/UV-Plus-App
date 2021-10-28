@@ -5,23 +5,23 @@ import RNFetchBlob from 'rn-fetch-blob';
 import FileList from './Components/FileList';
 
 const Downloads = () => {
+
     const [filestats, setFileStats] = useState([])
     const [totalFiles,setTotalFiles] = useState(0)
     const dirs = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader'
 
     useEffect(() => {
-    // Object of File details
     RNFetchBlob.fs.lstat(dirs)
         .then((stats) => {
             // console.log(JSON.stringify(stats,null,4))
             setTotalFiles(stats.reduce((a, obj) => a + Object.keys(obj).length, 0)) ;
-            setFileStats(stats)
+            var y = [...stats].reverse(); // Reversed the array 
+            setFileStats(y)
         })
         .catch((error) => {
             console.log(error)
         })
     }, [totalFiles]) // I want to this page to update files again when new file is adde or old file is removed
-
     return (
         <View style={styles.Container}>
             <ScrollView>
