@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import validator from 'validator'
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
@@ -13,8 +12,6 @@ const Home = () => {
 
     const PostReq = (url) => {
         console.log(url)
-        if (!validator.isURL(url) && url == "") { setMessage("Enter A Valid Url 😒"); return; }
-        else { setMessage("");}
 
         navigation.navigate('Result Tab', {
             url: url,
