@@ -1,6 +1,7 @@
 import RNFetchBlob from 'rn-fetch-blob'
-import { PermissionsAndroid } from 'react-native'
+import { PermissionsAndroid,useState } from 'react-native'
 const downloadFile = async (url,title,ext) => {
+
     try {
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -25,12 +26,9 @@ const downloadFile = async (url,title,ext) => {
                 },
             }
             config(options).fetch('GET', url)
-                .progress((received, total) => {
-                    console.log('progress', received / total)
-                })
                 .then(res => {
                     console.log('response -> ', JSON.stringify(res,null,4))
-                    alert("File Downloaded Successfully")
+                    setDownloading(false)
                 })
 
         } else {

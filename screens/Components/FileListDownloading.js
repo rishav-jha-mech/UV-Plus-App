@@ -41,7 +41,7 @@ export default FileListDownloading
 
 const styles = StyleSheet.create({
     Container:{
-        backgroundColor:'#ff56',
+        backgroundColor:'#ddf',
         flex:1,
         flexDirection:'row',
         // borderBottomColor:'blue',

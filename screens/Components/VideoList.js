@@ -11,8 +11,6 @@ const VideoList = ({ title, info, source }) => {
 
     const startDownloading = (url,ext) =>{
         DownloadScript(url,title,ext)
-        alert("Download Started")
-        navigation.navigate("Downloads")
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
