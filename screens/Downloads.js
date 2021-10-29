@@ -2,18 +2,16 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import FileList from './Components/FileList';
-import RNFS from 'react-native-fs'
+import RNFetchBlob from 'rn-fetch-blob';
 
 const Downloads = () => {
 
-    const FILEPATH = RNFS.DownloadDirectoryPath + '/UV Downloader'
+    const FILEPATH = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader'
 
     const [filestats, setFileStats] = useState([])
-    const [totalFiles, setTotalFiles] = useState(0)
 
     useEffect(() => {
-
-        RNFS.readDir(FILEPATH).then(files => {          
+        RNFetchBlob.fs.lstat(FILEPATH).then(files => {          
             setFileStats(files)
         })
             .catch(err => {

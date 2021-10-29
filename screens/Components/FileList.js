@@ -7,7 +7,7 @@ import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 
 const FileList = (data) => { // By default it is sorted by recent old order
-    
+
     console.log(JSON.stringify(data,null,3))
 
     const [fileSize, setFileSize] = useState(0)
@@ -17,9 +17,9 @@ const FileList = (data) => { // By default it is sorted by recent old order
 
     useEffect(() =>{
         setFileSize(bytesConverter(data.data.size))
-        setDate(TimeStampToDate(data.data.mtime)) //last modified time
-        setFilename(formatFormatter(data.data.name).FILENAME)  // Calling the function to give us the FIle Name
-        setExt(formatFormatter(data.data.name).EXTENSION)  // Calling the function to give us the FIle Extension
+        setDate(TimeStampToDate(data.data.lastModified)) //last modified time
+        setFilename(formatFormatter(data.data.filename).FILENAME)  // Calling the function to give us the FIle Name
+        setExt(formatFormatter(data.data.filename).EXTENSION)  // Calling the function to give us the FIle Extension
 
     },[])
 
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         // borderBottomColor:'blue',
         borderBottomWidth:1,
-        minHeight: 90,
+        minHeight: 100,
     },
     Thumb:{
         width:'25%',
