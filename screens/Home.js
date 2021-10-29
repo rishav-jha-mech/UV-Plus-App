@@ -3,8 +3,10 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import ReadPermission from './Scripts/ReadPermission';
 
 const Home = () => {
+    ReadPermission()
     const navigation = useNavigation();
 
     const [url, setUrl] = useState("")

@@ -1,25 +1,26 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, PermissionsAndroid } from 'react-native'
 import FileList from './Components/FileList';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const Downloads = () => {
 
     const FILEPATH = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader'
-
     const [filestats, setFileStats] = useState([])
-
+    const [readPerm, setReadPerm] = useState(true)
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => {setReadPerm(res)})
     useEffect(() => {
-        RNFetchBlob.fs.lstat(FILEPATH).then(files => {          
-            setFileStats(files)
+        RNFetchBlob.fs.lstat(FILEPATH).then(files => {
+            var y = [...files].reverse(); // Reversed the array 
+            setFileStats(y)
         })
             .catch(err => {
-                // console.log(err.message, err.code);
+                console.log(err);
             });
     }, [])
-    return (
-        <View style={styles.Container}>
+    return readPerm ?(
+        <View style={styles.Container} >
             <ScrollView>
                 {filestats.map((data, index) => { // CalBack Function's second Param is the index
                     return (<FileList key={index} data={data} />)
@@ -28,6 +29,13 @@ const Downloads = () => {
             </ScrollView>
         </View>
     )
+    :
+    <View style={styles.Container}>
+        <Text style={Errors.TheText}>Read Permission Not Given</Text>
+        <Text style={Errors.TheText}>You Can't View Files</Text>
+        <Text style={Errors.TheText}>Try Enabling Storage Permission in Settings or</Text>
+        <Text style={Errors.TheText}>Try Reinstalling The App</Text>
+    </View>
 }
 
 export default Downloads
@@ -40,6 +48,18 @@ const styles = StyleSheet.create({
     },
 })
 
+const Errors = StyleSheet.create({
+    Container:{
+
+    },
+    TheText:{
+        fontSize:22,
+        fontWeight:'700',
+        textAlign:'center',
+        textTransform:'capitalize',
+        lineHeight:40
+    }
+})
 /*
 1. Step one download animation showing (0% to 100%) ✅ In the previous commit
 2. The files will be displayed in a flat list or ScrollView => Object.map(<View></View>)

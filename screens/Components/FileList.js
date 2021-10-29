@@ -8,7 +8,7 @@ import formatFormatter from '../Scripts/formatFormatter'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
-    console.log(JSON.stringify(data,null,3))
+    // console.log(JSON.stringify(data,null,3))
 
     const [fileSize, setFileSize] = useState(0)
     const [date, setDate] = useState(0)

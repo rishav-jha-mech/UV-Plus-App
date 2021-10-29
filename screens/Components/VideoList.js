@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import bytesConverter from '../Scripts/bytesConverter'
 import { useNavigation } from '@react-navigation/core'
+import DownloadScript from '../Scripts/DownloadScript'
 
 const VideoList = ({ title, info, source }) => {
 
@@ -9,7 +10,7 @@ const VideoList = ({ title, info, source }) => {
     // The Future is here
 
     const startDownloading = (url,ext) =>{
-        // downloadFile(title,url,ext)
+        DownloadScript(url,title,ext)
         alert("Download Started")
         navigation.navigate("Downloads")
     }
