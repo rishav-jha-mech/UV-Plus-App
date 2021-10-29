@@ -5,9 +5,12 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
+import { useNavigation } from '@react-navigation/native';
+
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
+    const navigation = useNavigation();
     // console.log(JSON.stringify(data,null,3))
 
     const [fileSize, setFileSize] = useState(0)
@@ -20,11 +23,10 @@ const FileList = (data) => { // By default it is sorted by recent old order
         setDate(TimeStampToDate(data.data.lastModified)) //last modified time
         setFilename(formatFormatter(data.data.filename).FILENAME)  // Calling the function to give us the FIle Name
         setExt(formatFormatter(data.data.filename).EXTENSION)  // Calling the function to give us the FIle Extension
-
     },[])
 
     return (
-        <View style={styles.Container}>
+        <Pressable style={styles.Container} onPress={() => { navigation.navigate("Video",{url:(data.data.path)}) }}>
             <Image style={styles.Thumb} source={{uri: 'https://via.placeholder.com/120.png/ddf'}} resizeMode="contain" />
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
@@ -33,7 +35,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
             <TouchableOpacity style={styles.theButton}>
                 <FontAwesomeIcon icon={faEllipsisV} size={18} />
             </TouchableOpacity>
-        </View>
+        </Pressable>
     )
 }
 

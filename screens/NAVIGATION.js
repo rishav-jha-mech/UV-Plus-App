@@ -10,6 +10,7 @@ import Results from './Results';
 import Downloads from './Downloads';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
+import VideoPlayer from './Components/VideoPlayer';
 
 
 const Tab = createBottomTabNavigator();
@@ -50,6 +51,7 @@ const NAVIGATION = () => {
       <Stack.Navigator>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
         <Stack.Screen name="Result Tab" component={Results} />
+        <Stack.Screen name="Video" component={VideoPlayer} />
       </Stack.Navigator>
     </NavigationContainer>
   )

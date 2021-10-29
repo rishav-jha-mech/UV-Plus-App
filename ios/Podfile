@@ -12,6 +12,10 @@ target 'uv' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'react-native-background-downloader', :path => '../node_modules/react-native-background-downloader'
+
   target 'uvTests' do
     inherit! :complete
     # Pods for testing
