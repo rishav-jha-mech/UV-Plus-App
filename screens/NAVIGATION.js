@@ -48,7 +48,7 @@ const HomeTabNavigation = () => {
 const NAVIGATION = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
         <Stack.Screen name="Result Tab" component={Results} />
         <Stack.Screen name="Video" component={VideoPlayer} />

@@ -19,14 +19,26 @@ const FileList = (data) => { // By default it is sorted by recent old order
     const [ext, setExt] = useState("")
 
     useEffect(() =>{
+        try{
         setFileSize(bytesConverter(data.data.size))
         setDate(TimeStampToDate(data.data.lastModified)) //last modified time
         setFilename(formatFormatter(data.data.filename).FILENAME)  // Calling the function to give us the FIle Name
         setExt(formatFormatter(data.data.filename).EXTENSION)  // Calling the function to give us the FIle Extension
+        }catch{error => 
+            console.log(error)
+        }
     },[])
 
+    const ViewVideo = () =>{
+        navigation.navigate("Video",{
+            url: (data.data.path),
+            name : filename,
+            size: fileSize,
+        })
+    }
+
     return (
-        <Pressable style={styles.Container} onPress={() => { navigation.navigate("Video",{url:(data.data.path)}) }}>
+        <Pressable style={styles.Container} onPress={ViewVideo}>
             <Image style={styles.Thumb} source={{uri: 'https://via.placeholder.com/120.png/ddf'}} resizeMode="contain" />
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
