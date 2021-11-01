@@ -10,7 +10,7 @@ import Results from './Results';
 import Downloads from './Downloads';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
-import VideoPlayer from './Components/VideoPlayer';
+import VideoPlayer from './VideoPlayer';
 
 
 const Tab = createBottomTabNavigator();
