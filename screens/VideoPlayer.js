@@ -1,22 +1,14 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Pressable, TouchableOpacity } from "react-native";
 import Video from "react-native-video";
 import MediaControls, { PLAYER_STATES } from "react-native-media-controls";
-import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCompress, faCompressAlt, faCompressArrowsAlt, faExchangeAlt, faExpand, faExpandAlt, faExpandArrowsAlt, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faExpand , faCompress , faExpandArrowsAlt } from "@fortawesome/free-solid-svg-icons";
 
 const VideoPlayer = ({ route }) => {
 
     const FILEPATH = route.params.url
     const FILENAME = route.params.name
-    const FILESIZE = route.params.size
-    const navigation = useNavigation();
-
-    const VideoInfo = (data) => {
-        console.log(JSON.stringify(data, null, 5))
-        setDuration(Math.floor(data.duration))
-    }
     const videoPlayer = useRef(null);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -25,6 +17,8 @@ const VideoPlayer = ({ route }) => {
     const [paused, setPaused] = useState(false);
     const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
     const [message,setMessage] = useState("")
+    const [resizeMode, setResizeMode] = useState("contain")
+    const [click, setClick] = useState(0)
 
     const onSeek = (seek) => {
         videoPlayer?.current.seek(seek);
@@ -54,6 +48,20 @@ const VideoPlayer = ({ route }) => {
 
     const onSeeking = (currentTime) => setCurrentTime(currentTime);
 
+    const SendMessage = (message) =>{
+        setMessage(message)
+        setTimeout(() => {
+            setMessage("")
+        }, 2000);
+    }
+
+    const VideoArr = ['cover','stretch','contain']
+    const ChangeVideoSize = () =>{
+        setClick(click+1)
+        if (click >=0 && click <=2){SendMessage(VideoArr[click]);setResizeMode(VideoArr[click])}
+        else{setClick(1);SendMessage(VideoArr[0]);setResizeMode(VideoArr[0])}
+    }
+
     return (
         <View style={styles.Container}>
             <Text style={styles.Message}>{message}</Text>
@@ -62,7 +70,7 @@ const VideoPlayer = ({ route }) => {
                 onProgress={onProgress}
                 paused={paused}
                 ref={(ref) => (videoPlayer.current = ref)}
-                resizeMode="contain"
+                resizeMode={resizeMode}
                 source={{
                     uri: FILEPATH,
                 }}
@@ -87,12 +95,12 @@ const VideoPlayer = ({ route }) => {
                     <View style={styles.Cont}>
                         <Text style={styles.Title} numberOfLines={2} >{FILENAME}</Text>
                         <View style={styles.Toolbar}>
-                            <Pressable style={styles.Button} >
+                            <TouchableOpacity style={styles.Button} onPress={() => {ChangeVideoSize();}}>
                                 <FontAwesomeIcon icon={faExpandArrowsAlt} size={24} color={"#fff"} />
-                            </Pressable>
-                            <Pressable style={styles.Button} onPress={() => {setIsFullScreen(!isFullScreen);isFullScreen ? setMessage("Full Screen Disabled") : setMessage("Full Screen") }}>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.Button} onPress={() => {setIsFullScreen(!isFullScreen);isFullScreen ? SendMessage("Full Screen Disabled") : SendMessage("Full Screen") }}>
                                 <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand } size={24} color={"#fff"} />
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </MediaControls.Toolbar>
@@ -129,25 +137,27 @@ const styles = StyleSheet.create({
     Toolbar: {
         position: "absolute",
         bottom: 0,
-        top: '130%',
+        top: '110%',
         right: 0,
         height: '80%',
         marginRight: -19,
     },
     Button: {
-        padding: 8,
+        padding: 12,
         backgroundColor: '#6f00ff',
-        marginVertical:10
-
+        marginVertical:16
     },
     Message:{
-        backgroundColor:'#rgba(0,0,0,0.5)',
-        top:'15%',
+        // backgroundColor:'#rgba(0,0,0,0.5)',
+        top:'20%',
         zIndex:1,
         textAlign:'center',
         color:'#fff',
         textShadowRadius:5,
-        fontSize:18,
-        letterSpacing:1
+        fontSize:16,
+        letterSpacing:1,
+        textTransform:"capitalize",
+        position:'absolute',
+        width:'100%'
     }
 });
