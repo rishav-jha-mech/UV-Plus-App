@@ -1,41 +1,30 @@
-import RNFetchBlob from 'rn-fetch-blob'
-import { PermissionsAndroid,useState } from 'react-native'
-const downloadFile = async (url,title,ext) => {
+import RNFetchBlob, { RNFetchBlobFile } from 'rn-fetch-blob'
+import WritePermission from './WritePermission'
 
-    try {
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-            {
-                title: "Storage Permission Required",
-                message: "App needs access to your storage to download files"
-            })
-        if (granted == PermissionsAndroid.RESULTS.GRANTED) {
-            console.log("Storage Permission Granted")
-            const PATH = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader/' + title + '.'  + ext
-            // Get config and fs from rnfetchblob
-            const { config, fs } = RNFetchBlob
-            let PictureDir = fs.dirs.DownloadDir
-            let options = { 
-                fileCache: true,
-                addAndroidDownloads: {
-                    title: title,
-                    useDownloadManager: true,
-                    notification: true,
-                    path: PATH,
-                    description: 'Media',
-                },
-            }
-            config(options).fetch('GET', url)
-                .then(res => {
-                    console.log('response -> ', JSON.stringify(res,null,4))
-                    setDownloading(false)
-                })
+const downloadFile = (url, title, ext) => {
 
-        } else {
-            alert("Storage Permission Not granted")
+    const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
+    
+    if (WritePermission()){
+        const { config, fs } = RNFetchBlob
+        let options = { 
+            fileCache: true,
+            addAndroidDownloads: {
+                title: (title + '.' + ext),
+                useDownloadManager: true,
+                notification: true,
+                path: (SAVE_FILE_TO + title + "." + ext),
+                description: 'Media',
+            },
         }
-    } catch (error) {
-        console.log(error)
+        config(options).fetch('GET', url)
+            .then(res => {
+                console.log('response -> ', JSON.stringify(res,null,4))
+                alert("Media Downloaded Successfully")
+            })
+            .catch(error =>{
+                alert(error)
+            })
     }
 }
 

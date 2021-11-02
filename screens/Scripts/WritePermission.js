@@ -2,7 +2,7 @@
 import { PermissionsAndroid } from 'react-native'
 
 const WritePermission = async () => {
-
+    var result;
     try {
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -12,14 +12,15 @@ const WritePermission = async () => {
             })
             if (granted == PermissionsAndroid.RESULTS.GRANTED) {
                 console.log("Storage Write Permission Granted")
-                return true
+                result = true
             }else{
                 alert("Storage Write Permission Not granted")
-                return false
+                result = false
             }
     } catch (error) {
         console.error(error)
     }
+    return result
 }
 
 export default WritePermission
