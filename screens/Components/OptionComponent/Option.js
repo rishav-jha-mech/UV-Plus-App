@@ -5,8 +5,9 @@ import OptionList from './OptionList'
 import IfTheFileExists from '../../Scripts/fileExists'
 import FileDoesNotExist from '../FileDoesNotExist'
 import Info from './Info'
-import Delete from './Delete'
-import Rename from './Rename'
+// Imports below will be uncommented once this libs by community actually works !
+// import Delete from './Delete'
+// import Rename from './Rename'
 
 const Option = (data) => {
 
@@ -17,11 +18,6 @@ const Option = (data) => {
     const FILE_SIZE = data.size
 
     const FILE_EXISTS = IfTheFileExists(FILE_PATH)
-
-    console.log(FILE_NAME)
-    console.log(FILE_PATH)
-    console.log(FILE_EXTENSION)
-    console.log(FILE_LASTMOD)
 
     const [showOption, setShowOption] = useState(true);
     const [showRename, setShowRename] = useState(false);
@@ -34,14 +30,14 @@ const Option = (data) => {
         {showOption ? 
             <>
             <View style={styles.Option}>
-
+{/* 
                 <TouchableOpacity style={styles.OptionBtn}  onPress={() => {setShowOption(false);setShowRename(true)}} >
                     <OptionList icon={faPen} title="Rename" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.OptionBtn} onPress={() => {setShowOption(false);setShowDelete(true)}} >
                     <OptionList icon={faTrashAlt} title="Delete" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity style={styles.OptionBtn}>
                     <OptionList icon={faShareAlt} title="Share" />
@@ -53,8 +49,8 @@ const Option = (data) => {
 
             </View>
             </>
-        : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
-        : (ShowDelete) ? (<Delete name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} />)
+        // : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
+        // : (ShowDelete) ? (<Delete name={FILE_NAME} ext={FILE_EXTENSION} path={FILE_PATH} size={FILE_SIZE} />)
         : (ShowInfo)   ? (<Info name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
         :<></>}
 
@@ -69,7 +65,7 @@ export default Option
 const styles = StyleSheet.create({
     Option: {
         backgroundColor: '#fff',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         zIndex: 10,
         padding: 12,
         paddingHorizontal: 16,

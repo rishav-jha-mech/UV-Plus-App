@@ -12,7 +12,7 @@ const OptionList = (props) => {
     return (
         <> 
             <View style={List.font}>
-                <FontAwesomeIcon icon={props.icon} size={16} color={'#555'} />
+                <FontAwesomeIcon icon={props.icon} size={22} color={'#555'} />
             </View>
             <Text style={List.OptionTxt}> {props.title} </Text>
         </>
@@ -33,7 +33,7 @@ const List = StyleSheet.create({
     OptionTxt: {
         color: '#555',
         fontWeight: '700',
-        fontSize: 18,
+        fontSize: 26,
         letterSpacing: 1,
         flex: 6
     },
