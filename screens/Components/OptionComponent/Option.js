@@ -4,6 +4,9 @@ import { faInfoCircle, faPen, faShareAlt, faTrashAlt } from '@fortawesome/free-s
 import OptionList from './OptionList'
 import IfTheFileExists from '../../Scripts/fileExists'
 import FileDoesNotExist from '../FileDoesNotExist'
+import Info from './Info'
+import Delete from './Delete'
+import Rename from './Rename'
 
 const Option = (data) => {
 
@@ -26,6 +29,8 @@ const Option = (data) => {
 
     return FILE_EXISTS ?(
         <>
+        {showOption ? 
+            <>
             <View style={styles.Option}>
 
                 <TouchableOpacity style={styles.OptionBtn}>
@@ -45,6 +50,8 @@ const Option = (data) => {
                 </TouchableOpacity>
 
             </View>
+            </>
+        : <></>}
         </>
     ):
     (
