@@ -57,6 +57,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
                         path={data.data.path}
                         ext={ext}
                         last_mod={date}
+                        size={fileSize}
                     />
 
                 </Pressable>
