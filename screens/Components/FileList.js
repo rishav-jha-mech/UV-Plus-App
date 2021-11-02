@@ -1,12 +1,12 @@
 import React,{ useState,useEffect } from 'react'
 import { Image, Pressable, StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faEllipsisV, faInfo, faInfoCircle, faPen, faShareAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import { useNavigation } from '@react-navigation/native';
-
+import Option from './OptionComponent/Option'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -51,36 +51,14 @@ const FileList = (data) => { // By default it is sorted by recent old order
 
             <Modal visible={showmodal} transparent={true} animationType={"fade"}>
                 <Pressable style={styles.Modal} onPress={() => setShowModal(!showmodal)}>
-                    <View style={styles.Option}>
-                        <TouchableOpacity style={styles.OptionBtn}>
-                            <View style={styles.font}>
-                                <FontAwesomeIcon icon={faPen} size={16} color={'#555'} />
-                            </View>
-                            <Text style={styles.OptionTxt}> Rename</Text>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.OptionBtn}>
-                            <View style={styles.font}>
-                                <FontAwesomeIcon icon={faTrashAlt} size={16} color={'#555'} />
-                            </View>
-                            <Text style={styles.OptionTxt}> Delete</Text>
-                        </TouchableOpacity>
+                    <Option 
+                        filename={filename}
+                        path={data.data.path}
+                        ext={ext}
+                        last_mod={date}
+                    />
 
-                        <TouchableOpacity style={styles.OptionBtn}>
-                            <View style={styles.font}>
-                                <FontAwesomeIcon icon={faShareAlt} size={16} color={'#555'} />
-                            </View>
-                            <Text style={styles.OptionTxt}> Share</Text>
-                        </TouchableOpacity>
-
-                        
-                        <TouchableOpacity style={styles.OptionBtn}>
-                            <View style={styles.font}>
-                                <FontAwesomeIcon icon={faInfoCircle} size={16} color={'#555'} />
-                            </View>
-                            <Text style={styles.OptionTxt}> Info</Text>
-                        </TouchableOpacity>
-                    </View>
                 </Pressable>
             </Modal>
         </Pressable>
@@ -129,35 +107,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    Option:{
-        backgroundColor:'#fff',
-        justifyContent:'space-between',
-        zIndex:10,
-        padding:12,
-        paddingHorizontal:16,
-        elevation:10,
-        borderRadius:4,
-        width:'55%',
-        height:'30%'
-    },
-    OptionBtn:{
-        marginVertical:5,
-        paddingHorizontal:8,
-        paddingVertical:8,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    OptionTxt:{
-        color:'#555',
-        fontWeight:'700',
-        fontSize:18,
-        letterSpacing: 1,
-        flex:6
-    },
-    font:{
-        flex:1,
-    }
 })
 
 
