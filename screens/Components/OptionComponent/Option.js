@@ -14,12 +14,14 @@ const Option = (data) => {
     const FILE_PATH = data.path
     const FILE_EXTENSION = data.ext
     const FILE_LASTMOD = data.last_mod
+    const FILE_SIZE = data.size
+
     const FILE_EXISTS = IfTheFileExists(FILE_PATH)
 
-    // console.log(FILE_NAME)
-    // console.log(FILE_PATH)
-    // console.log(FILE_EXTENSION)
-    // console.log(FILE_LASTMOD)
+    console.log(FILE_NAME)
+    console.log(FILE_PATH)
+    console.log(FILE_EXTENSION)
+    console.log(FILE_LASTMOD)
 
     const [showOption, setShowOption] = useState(true);
     const [showRename, setShowRename] = useState(false);
@@ -33,7 +35,7 @@ const Option = (data) => {
             <>
             <View style={styles.Option}>
 
-                <TouchableOpacity style={styles.OptionBtn}>
+                <TouchableOpacity style={styles.OptionBtn}  onPress={() => {setShowOption(false);setShowRename(true)}} >
                     <OptionList icon={faPen} title="Rename" />
                 </TouchableOpacity>
 
@@ -51,7 +53,11 @@ const Option = (data) => {
 
             </View>
             </>
-        : <></>}
+        : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size = {filesize} />)
+        : (ShowDelete) ? (<Delete />)
+        :(ShowInfo) ? (<Info />)
+        :<></>}
+
         </>
     ):
     (
