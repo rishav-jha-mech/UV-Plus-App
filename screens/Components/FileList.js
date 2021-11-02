@@ -1,7 +1,7 @@
 import React,{ useState,useEffect } from 'react'
 import { Image, Pressable, StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
@@ -46,7 +46,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
                 <Text style={styles.SubTitle} numberOfLines={1}>{fileSize}&nbsp;&nbsp;|&nbsp;&nbsp;{ext}&nbsp;&nbsp;|&nbsp;&nbsp;{date}</Text>
             </View>
             <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showmodal)}>
-                <FontAwesomeIcon icon={faEllipsisV} size={18} />
+                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
             </TouchableOpacity>
 
             <Modal visible={showmodal} transparent={true} animationType={"fade"}>

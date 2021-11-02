@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { faInfoCircle, faPen, faShareAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import OptionList from './OptionList'
 import IfTheFileExists from '../../Scripts/fileExists'
 import FileDoesNotExist from '../FileDoesNotExist'
 import Info from './Info'
-// Imports below will be uncommented once this libs by community actually works !
+
+// Imports below will be uncommented once these packages by community actually works !
+// import OptionList from './OptionList'
 // import Delete from './Delete'
 // import Rename from './Rename'
 
@@ -20,24 +21,24 @@ const Option = (data) => {
     const FILE_EXISTS = IfTheFileExists(FILE_PATH)
 
     const [showOption, setShowOption] = useState(true);
-    const [showRename, setShowRename] = useState(false);
+    // const [showRename, setShowRename] = useState(false);
     // For share we wont be using useState hook cuz its not required
-    const [ShowDelete, setShowDelete] = useState(false);
-    const [ShowInfo, setShowInfo] = useState(false);
+    // const [ShowDelete, setShowDelete] = useState(false);
+    // const [ShowInfo, setShowInfo] = useState(false);
 
     return FILE_EXISTS ?(
         <>
-        {showOption ? 
-            <>
+            <Info name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />
+
+            {/* 
             <View style={styles.Option}>
-{/* 
                 <TouchableOpacity style={styles.OptionBtn}  onPress={() => {setShowOption(false);setShowRename(true)}} >
                     <OptionList icon={faPen} title="Rename" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.OptionBtn} onPress={() => {setShowOption(false);setShowDelete(true)}} >
                     <OptionList icon={faTrashAlt} title="Delete" />
-                </TouchableOpacity> */}
+                </TouchableOpacity> *
 
                 <TouchableOpacity style={styles.OptionBtn}>
                     <OptionList icon={faShareAlt} title="Share" />
@@ -46,13 +47,11 @@ const Option = (data) => {
                 <TouchableOpacity style={styles.OptionBtn} onPress={() => {setShowOption(false);setShowInfo(true)}} >
                     <OptionList icon={faInfoCircle} title="Info" />
                 </TouchableOpacity>
-
             </View>
-            </>
-        // : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
-        // : (ShowDelete) ? (<Delete name={FILE_NAME} ext={FILE_EXTENSION} path={FILE_PATH} size={FILE_SIZE} />)
-        : (ShowInfo)   ? (<Info name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
-        :<></>}
+            */}
+        {/* : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />) */}
+        {/* : (ShowDelete) ? (<Delete name={FILE_NAME} ext={FILE_EXTENSION} path={FILE_PATH} size={FILE_SIZE} />) */}
+        {/* : (ShowInfo)   ? (<Info name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />) */}
 
         </>
     ):
