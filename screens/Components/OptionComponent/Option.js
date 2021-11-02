@@ -53,7 +53,7 @@ const Option = (data) => {
 
             </View>
             </>
-        : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size = {filesize} />)
+        : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
         : (ShowDelete) ? (<Delete />)
         :(ShowInfo) ? (<Info />)
         :<></>}
