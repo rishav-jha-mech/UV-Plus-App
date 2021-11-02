@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView, RefreshControl, FlatList, Text, PermissionsAndroid } from 'react-native'
 import FileList from './Components/FileList';
 import RNFetchBlob from 'rn-fetch-blob';
+import PermissionNotGiven from './Components/PermissionNotGiven';
 
 const Downloads = () => {
 
@@ -37,12 +38,7 @@ const Downloads = () => {
         </View>
     )
         :
-        <View style={styles.Container}>
-            <Text style={Errors.TheText}>Read Permission Not Given</Text>
-            <Text style={Errors.TheText}>You Can't View Files</Text>
-            <Text style={Errors.TheText}>Try Enabling Storage Permission in Settings or</Text>
-            <Text style={Errors.TheText}>Try Reinstalling The App</Text>
-        </View>
+        <PermissionNotGiven />
 }
 
 export default Downloads
@@ -55,18 +51,6 @@ const styles = StyleSheet.create({
     },
 })
 
-const Errors = StyleSheet.create({
-    Container: {
-
-    },
-    TheText: {
-        fontSize: 22,
-        fontWeight: '700',
-        textAlign: 'center',
-        textTransform: 'capitalize',
-        lineHeight: 40
-    }
-})
 /*
 1. Step one download animation showing (0% to 100%) ✅ In the previous commit
 2. The files will be displayed in a flat list or ScrollView => Object.map(<View></View>)
