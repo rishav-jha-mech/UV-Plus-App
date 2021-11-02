@@ -7,7 +7,7 @@ const Info = (data) => {
     return (
         <Pressable style={styles.Container}>
             <Text style={styles.Title}>Info</Text>
-            <Text style={styles.SubTitle} noOfLines={3}>File Name :  <Text style={styles.Details}>{data.name}</Text></Text>
+            <Text style={styles.SubTitle}>File Name :  <Text style={styles.Details}>{data.name}</Text></Text>
             <Text style={styles.SubTitle}>Ext :  <Text style={styles.Details}>.{data.ext}</Text></Text>
             <Text style={styles.SubTitle}>File Size :  <Text style={styles.Details}>{data.size}</Text></Text>
             <Text style={styles.SubTitle}>Last Modified :  <Text style={styles.Details}>{data.lastMod}</Text></Text>
@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         elevation:10,
         borderRadius:16,
-        width:'75%',
-        height:'40%',
+        minWidth:'75%',
+        maxWidth:'80%',
+        minHeight:'40%',
         zIndex:15,
         paddingVertical:10,
         paddingHorizontal:16
