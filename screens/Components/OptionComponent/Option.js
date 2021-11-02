@@ -39,7 +39,7 @@ const Option = (data) => {
                     <OptionList icon={faPen} title="Rename" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.OptionBtn}>
+                <TouchableOpacity style={styles.OptionBtn} onPress={() => {setShowOption(false);setShowDelete(true)}} >
                     <OptionList icon={faTrashAlt} title="Delete" />
                 </TouchableOpacity>
 
@@ -47,15 +47,15 @@ const Option = (data) => {
                     <OptionList icon={faShareAlt} title="Share" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.OptionBtn}>
+                <TouchableOpacity style={styles.OptionBtn} onPress={() => {setShowOption(false);setShowInfo(true)}} >
                     <OptionList icon={faInfoCircle} title="Info" />
                 </TouchableOpacity>
 
             </View>
             </>
         : (showRename) ? (<Rename name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
-        : (ShowDelete) ? (<Delete />)
-        :(ShowInfo) ? (<Info />)
+        : (ShowDelete) ? (<Delete name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} />)
+        : (ShowInfo)   ? (<Info name={FILE_NAME} ext={FILE_EXTENSION} size={FILE_SIZE} lastMod={FILE_LASTMOD} />)
         :<></>}
 
         </>
