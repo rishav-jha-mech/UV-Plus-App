@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Pressable, Button } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import ReadPermission from './Scripts/ReadPermission';
 
@@ -49,6 +49,9 @@ const Home = () => {
                 </Text>
                 :<></>
             }
+            <View style={{flex:1,backgroundColor:'#ddd',justifyContent:'center',alignItems:'center'}}>
+                <Button title="Open Downloads" onPress={() => navigation.navigate("Downloads")} />
+            </View>
         </View>
     )
 }
