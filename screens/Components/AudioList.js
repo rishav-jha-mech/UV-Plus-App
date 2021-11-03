@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
-// import downloadFile from '../Scripts/downloadFile'
+import DownloadScript from '../Scripts/DownloadScript'
 
 const AudioList = ({ title, info, source }) => {
-
+    
     const navigation = useNavigation();
-    // The Future is here
-    // const startDownloading = (url,ext) =>{
-    //     downloadFile(title,url,ext)
-    //     alert("Download Started Check Notification Bar For Progress") // Looks Damn Cool
-    //     navigation.navigate("Home")
-    // }
-    //
+
+    const startDownloading = (url,ext,platform) =>{
+        DownloadScript(url,title,ext,platform)
+        alert("Download Started Check Notification For Progress");
+        navigation.navigate("Home")
+
+    }
+
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
     const [ext, setExt] = useState()
@@ -66,7 +67,7 @@ const AudioList = ({ title, info, source }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.url,info.ext) }}
+            onPress={() => { startDownloading(info.url,info.ext,"fb") }}
         >
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
