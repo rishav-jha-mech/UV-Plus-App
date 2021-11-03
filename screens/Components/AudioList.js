@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
+import RNFetchBlob from 'rn-fetch-blob'
 import WritePermission from '../Scripts/WritePermission'
 
 const AudioList = ({ title, info, source }) => {
