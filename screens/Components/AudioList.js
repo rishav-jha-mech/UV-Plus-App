@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import bytesConverter from '../Scripts/bytesConverter'
-import DownloadScript from '../Scripts/DownloadScript'
+import WritePermission from '../Scripts/WritePermission'
 
 const AudioList = ({ title, info, source }) => {
     
@@ -14,7 +14,40 @@ const AudioList = ({ title, info, source }) => {
         navigation.navigate("Home")
 
     }
+    const DownloadScript = (url, title, ext, platform) => {
 
+        const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
+        var FileName = `${title}.${ext}`
+
+        if (platform == "fb") { FileName = `Facebook Media.${ext}` }
+
+        if (WritePermission()) {
+            const { config, fs } = RNFetchBlob
+            let options = {
+                fileCache: true,
+                addAndroidDownloads: {
+                    title: (title + '.' + ext),
+                    useDownloadManager: true,
+                    notification: true,
+                    path: (SAVE_FILE_TO + FileName),
+                    description: 'Media',
+                },
+            }
+            config(options).fetch('GET', url, { 'Cache-Control': 'no-store', 'Transfer-Encoding': 'Chunked' })
+                .then(res => {
+                    console.log('response -> ', JSON.stringify(res, null, 4))
+                    alert("Media Downloaded Successfully")
+                    navigation.navigate("Home")
+                })
+                .catch(error => { // Smartest Decision Till Date 😂😎😎😎😎
+                    alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
+                    navigation.navigate("Web", {
+                        url: url
+                    })
+                    console.log(error) // if i dont print this then i will get a unhandled promise error
+                })
+        }
+    }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
     const [ext, setExt] = useState()

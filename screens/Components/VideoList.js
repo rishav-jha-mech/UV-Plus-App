@@ -1,18 +1,53 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
-import { useNavigation } from '@react-navigation/core'
-import DownloadScript from '../Scripts/DownloadScript'
+import RNFetchBlob from 'rn-fetch-blob'
+import WritePermission from '../Scripts/WritePermission'
 
 const VideoList = ({ title, info, source }) => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation(); // This is a hook and cannot be used as a scripts file
+
     // The Future is here
 
-    const startDownloading = (url,ext,platform) =>{
-        DownloadScript(url,title,ext,platform)
+    const startDownloading = (url, ext, platform) => {
+        DownloadScript(url, title, ext, platform)
         alert("Download Started Check Notification For Progress");
-        navigation.navigate("Home")
+    }
+    const DownloadScript = (url, title, ext, platform) => {
+
+        const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
+        var FileName = `${title}.${ext}`
+
+        if (platform == "fb") { FileName = `Facebook Media.${ext}` }
+
+        if (WritePermission()) {
+            const { config, fs } = RNFetchBlob
+            let options = {
+                fileCache: true,
+                addAndroidDownloads: {
+                    title: (title + '.' + ext),
+                    useDownloadManager: true,
+                    notification: true,
+                    path: (SAVE_FILE_TO + FileName),
+                    description: 'Media',
+                },
+            }
+            config(options).fetch('GET', url, { 'Cache-Control': 'no-store', 'Transfer-Encoding': 'Chunked' })
+                .then(res => {
+                    console.log('response -> ', JSON.stringify(res, null, 4))
+                    alert("Media Downloaded Successfully")
+                    navigation.navigate("Home")
+                })
+                .catch(error => { // Smartest Decision Till Date 😂😎😎😎😎
+                    alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
+                    navigation.navigate("Web", {
+                        url: url
+                    })
+                    console.log(error) // if i dont print this then i will get a unhandled promise error
+                })
+        }
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
@@ -97,7 +132,7 @@ const VideoList = ({ title, info, source }) => {
     return (youtube && video) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.url,info.ext) }}
+            onPress={() => { startDownloading(info.url, info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
@@ -107,7 +142,7 @@ const VideoList = ({ title, info, source }) => {
         (facebook && video) ? (
             <Pressable
                 style={styles.Container}
-                onPress={() => { startDownloading(info.url,info.ext,"fb") }}
+                onPress={() => { startDownloading(info.url, info.ext, "fb") }}
             >
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>
@@ -116,7 +151,7 @@ const VideoList = ({ title, info, source }) => {
             (instagram) ? (
                 <Pressable
                     style={styles.Container}
-                    onPress={() => { startDownloading(info.url,info.ext) }}
+                    onPress={() => { startDownloading(info.url, info.ext) }}
                 >
                     <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
                     <Text style={styles.TheText}> {info.ext}</Text>
@@ -125,7 +160,7 @@ const VideoList = ({ title, info, source }) => {
                 (arp && video) ? (
                     <Pressable
                         style={styles.Container}
-                        onPress={() => { startDownloading(info.url,info.ext) }}
+                        onPress={() => { startDownloading(info.url, info.ext) }}
                     >
                         <Text style={[styles.TheText, styles.format]}> {format} </Text>
                         <Text style={styles.TheText}> {info.ext} </Text>
@@ -134,7 +169,7 @@ const VideoList = ({ title, info, source }) => {
                     (sago && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { startDownloading(info.url,info.ext) }}
+                            onPress={() => { startDownloading(info.url, info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -142,7 +177,7 @@ const VideoList = ({ title, info, source }) => {
                     ) : (shwe && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { startDownloading(info.url,info.ext) }}
+                            onPress={() => { startDownloading(info.url, info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -151,7 +186,7 @@ const VideoList = ({ title, info, source }) => {
                         (unknown) ? (
                             <Pressable
                                 style={styles.Container}
-                                onPress={() => { startDownloading(info.url,info.ext) }}
+                                onPress={() => { startDownloading(info.url, info.ext) }}
                             >
                                 <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
                                 <Text style={styles.TheText}> {info.ext} </Text>
@@ -189,3 +224,5 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
+
+
