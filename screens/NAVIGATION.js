@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faDownload, faHome,  } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faGlobe, faHome,  } from '@fortawesome/free-solid-svg-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createStackNavigator();
@@ -12,10 +12,11 @@ import Home from './Home';
 import Results from './Results';
 import Downloads from './Downloads';
 import VideoPlayer from './VideoPlayer';
+import Web from './Web';
 
 const HomeTabNavigation = () => {
   return (
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Navigator screenOptions={{ headerShown: false,tabBarShowLabel:false, }}>
         <Tab.Screen
           name="Home"
           component={Home}
@@ -33,6 +34,17 @@ const HomeTabNavigation = () => {
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesomeIcon icon={faDownload} color={color} size={size} />
+            ),
+            tabBarActiveTintColor: '#ff156f',
+            tabBarInactiveTintColor: '#999',
+          }}
+        />
+        <Tab.Screen
+          name="Web"
+          component={Web}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesomeIcon icon={faGlobe} color={color} size={size} />
             ),
             tabBarActiveTintColor: '#ff156f',
             tabBarInactiveTintColor: '#999',
