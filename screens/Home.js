@@ -10,7 +10,6 @@ const Home = () => {
     const navigation = useNavigation();
 
     const [url, setUrl] = useState("")
-    const [message, setMessage] = useState()
 
     const PostReq = (url) => {
         console.log(url)
@@ -42,15 +41,6 @@ const Home = () => {
                         color={"#ff156f"}
                     />
                 </Pressable>
-            </View>
-            {message ?
-                <Text style={styles.Message}>
-                    {message}
-                </Text>
-                :<></>
-            }
-            <View style={{flex:1,backgroundColor:'#ddd',justifyContent:'center',alignItems:'center'}}>
-                <Button title="Open Downloads" onPress={() => navigation.navigate("Downloads")} />
             </View>
         </View>
     )

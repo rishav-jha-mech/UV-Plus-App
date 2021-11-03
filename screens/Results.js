@@ -5,6 +5,7 @@ import Loading from './Components/Loading';
 import AudioList from './Components/AudioList';
 import VideoList from './Components/VideoList';
 import timeConverter from './Scripts/timeConverter';
+import ErrorWrongURl from './Components/ErrorWrongURl';
 
 
 const Results = ({ route }) => {
@@ -47,9 +48,7 @@ const Results = ({ route }) => {
                 <Loading />
         </View>
     )   : (error) ? (
-        <View style={styles.Container}>
-            <Text>Error Occured</Text>
-        </View>
+        <ErrorWrongURl />
     ) : (
         <View style={styles.Container}>
                 <ScrollView>
