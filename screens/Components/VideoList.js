@@ -42,7 +42,7 @@ const VideoList = ({ title, info, source }) => {
                 })
                 .catch(error => { // Smartest Decision Till Date 😂😎😎😎😎
                     alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
-                    navigation.navigate("Web", {
+                    navigation.navigate("Plain Web", {
                         url: url
                     })
                     console.log(error) // if i dont print this then i will get a unhandled promise error

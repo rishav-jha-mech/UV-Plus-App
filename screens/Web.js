@@ -7,12 +7,9 @@ import validator from 'validator'
 
 const HOMEPAGE = "https://www.google.com/"
 
-const Web = ({ route }) => {
-    var url = ""
-    try{url = route.params.url}
-    catch{ url = HOMEPAGE }
+const Web = () => {
 
-    const [URL, setURL] = useState(url)
+    const [URL, setURL] = useState(HOMEPAGE)
     const [tempURL,setTempURL] = useState(URL)
     const [webkey,setWebKey] = useState(0) // Not a very good option, this does a force update on the webview component
     const [showModal,setShowModal] =useState(false)
