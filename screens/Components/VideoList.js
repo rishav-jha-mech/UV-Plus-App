@@ -9,8 +9,8 @@ const VideoList = ({ title, info, source }) => {
     const navigation = useNavigation();
     // The Future is here
 
-    const startDownloading = (url,ext) =>{
-        DownloadScript(url,title,ext)
+    const startDownloading = (url,ext,platform) =>{
+        DownloadScript(url,title,ext,platform)
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
@@ -105,7 +105,7 @@ const VideoList = ({ title, info, source }) => {
         (facebook && video) ? (
             <Pressable
                 style={styles.Container}
-                onPress={() => { startDownloading(info.url,info.ext) }}
+                onPress={() => { startDownloading(info.url,info.ext,"fb") }}
             >
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>

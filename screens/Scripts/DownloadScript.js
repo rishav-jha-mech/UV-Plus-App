@@ -1,10 +1,13 @@
 import RNFetchBlob, { RNFetchBlobFile } from 'rn-fetch-blob'
 import WritePermission from './WritePermission'
 
-const downloadFile = (url, title, ext) => {
+const downloadFile = (url, title, ext, platform) => {
+
+    console.log(platform)
 
     const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
-    
+    const FileName = `${title}.${ext}`
+
     if (WritePermission()){
         const { config, fs } = RNFetchBlob
         let options = { 
@@ -13,7 +16,7 @@ const downloadFile = (url, title, ext) => {
                 title: (title + '.' + ext),
                 useDownloadManager: true,
                 notification: true,
-                path: (SAVE_FILE_TO + title + "." + ext),
+                path: (SAVE_FILE_TO + FileName),
                 description: 'Media',
             },
         }
