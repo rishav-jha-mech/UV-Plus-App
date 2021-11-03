@@ -3,10 +3,10 @@ import WritePermission from './WritePermission'
 
 const downloadFile = (url, title, ext, platform) => {
 
-    console.log(platform)
-
     const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
-    const FileName = `${title}.${ext}`
+    var FileName = `${title}.${ext}`
+
+    if (platform=="fb"){FileName=`Facebook Media.${ext}`}
 
     if (WritePermission()){
         const { config, fs } = RNFetchBlob
