@@ -14,7 +14,6 @@ import Downloads from './Downloads';
 import VideoPlayer from './VideoPlayer';
 import Web from './Web';
 import PlainWeb from './PlainWeb'
-import FileNavigation from './FileNavigation';
 
 const HomeTabNavigation = () => {
   return (
@@ -64,7 +63,6 @@ const NAVIGATION = () => {
         <Stack.Screen name="Plain Web" component={PlainWeb} />
         <Stack.Screen name="Result Tab" component={Results} />
         <Stack.Screen name="Video" component={VideoPlayer} />
-        <Stack.Screen name="FileNavigation" component={FileNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   )

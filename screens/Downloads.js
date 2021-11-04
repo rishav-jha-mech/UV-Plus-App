@@ -12,7 +12,7 @@ const Downloads = () => {
     var FILEPATH = RNFetchBlob.fs.dirs.DownloadDir
     const [filestats, setFileStats] = useState([])
     const [readPerm, setReadPerm] = useState(true)
-    const [path, setpath] = useState((FILEPATH + '/UV Downloader'))
+    const [path, setPath] = useState((FILEPATH + '/UV Downloader'))
 
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) })
 
@@ -31,12 +31,12 @@ const Downloads = () => {
                 console.log(err);
             });
     }
-    const PreviousPath = () =>{
+    const PreviousPath = () =>{ // Implementing the previous folder file system
         var local = path;
         console.log("Before =>  ",local)
-        local = local.slice(0,local.lastIndexOf('/')+1)
+        local = local.slice(0,local.lastIndexOf('/'))
         console.log("After =>  ",local)
-        setpath(local)
+        setPath(local)
     }
     var shownPath = path
     shownPath = shownPath.slice((shownPath.indexOf(0)), shownPath.length)
@@ -47,7 +47,7 @@ const Downloads = () => {
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => PreviousPath()}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => {PreviousPath();console.log("Previous Clicked")}}>
                     <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
                 </TouchableOpacity>
                 <Text style={styles.PathText}>
@@ -56,7 +56,7 @@ const Downloads = () => {
             </View>
             <ScrollView>
                 {filestats.map((data, index) => { // CalBack Function's second Param is the index
-                    return (<FileList key={index} data={data} />)
+                    return (<FileList key={index} data={data} setthepath={(path) => setPath(path)} />)
                 })}
             </ScrollView>
         </View>

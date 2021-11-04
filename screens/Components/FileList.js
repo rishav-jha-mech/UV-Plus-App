@@ -62,7 +62,9 @@ const FileList = (data) => { // By default it is sorted by recent old order
             </Modal>
         </Pressable>
     ) : (
-        <Pressable style={styles.DirectoryContainer} onPress={() => navigation.navigate("FileNavigation",{path:(data.data.path)})}>
+        <Pressable style={styles.DirectoryContainer} 
+            onPress={() => {data.setthepath(data.data.path);console.log("File Is Clicked")}}
+            >
             <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/6f00ff' }} resizeMode="contain" />
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={1}>{filename}</Text>
