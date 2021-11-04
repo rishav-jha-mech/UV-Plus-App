@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
@@ -19,21 +19,15 @@ const FileList = (data) => { // By default it is sorted by recent old order
         var fileSize = data.data.size
         var date = data.data.lastModified
         var ext = (formatFormatter(data.data.filename)).EXTENSION;
+    }else if (data.data.type == "directory"){
+        var filename = (data.data.filename)
+        var fileSize = data.data.size
+        var date = data.data.lastModified
     }
-    console.log(JSON.stringify(data.data, null, 4))
-    // useEffect(() =>{
-    // try{
+    // console.log(JSON.stringify(data.data, null, 4))
+
     fileSize = (bytesConverter(data.data.size))
     date = (TimeStampToDate(data.data.lastModified))
-
-    // try{
-    // console.log((formatFormatter(data.data.filename)).FILENAME)
-    // console.log((formatFormatter(data.data.filename)).EXTENSION)
-    // }catch{
-    // console.log("Error",data.data.path)
-    // }
-
-    // },[fileSize,date,filename,ext])
 
     const ViewVideo = () => {
         navigation.navigate("Video", {
@@ -43,7 +37,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
         })
     }
     return (data.data.type == "file") ? ( //Render only when the type is file cuz this is file list for the directories part seperate list will be mde
-        <Pressable style={styles.Container} onPress={ViewVideo}>
+        <Pressable style={styles.FileContainer} onPress={ViewVideo}>
             <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/ddf' }} resizeMode="contain" />
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
@@ -67,13 +61,38 @@ const FileList = (data) => { // By default it is sorted by recent old order
                 </Pressable>
             </Modal>
         </Pressable>
-    ) : (<></>)
+    ) : (
+        <Pressable style={styles.DirectoryContainer} onPress={() => navigation.navigate("FileNavigation",{path:(data.data.path)})}>
+            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/6f00ff' }} resizeMode="contain" />
+            <View style={styles.dataContainer}>
+                <Text style={styles.Title} numberOfLines={1}>{filename}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;Folder&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
+            </View>
+            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showmodal)}>
+                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
+            </TouchableOpacity>
+
+            <Modal visible={showmodal} transparent={true} animationType={"fade"}>
+                <Pressable style={styles.Modal} onPress={() => setShowModal(!showmodal)}>
+
+                    <Option
+                        filename={filename}
+                        path={data.data.path}
+                        ext={ext}
+                        last_mod={date}
+                        size={fileSize}
+                    />
+
+                </Pressable>
+            </Modal>
+        </Pressable>
+    )
 }
 
 export default FileList
 
 const styles = StyleSheet.create({
-    Container: {
+    FileContainer: {
         backgroundColor: '#ff56',
         flex: 1,
         flexDirection: 'row',
@@ -112,6 +131,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    DirectoryContainer:{
+        backgroundColor: '#f5f6',
+        flex: 1,
+        flexDirection: 'row',
+        // borderBottomColor:'blue',
+        borderBottomWidth: 1,
+        minHeight: 100,
+    }
 })
 
 
