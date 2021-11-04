@@ -17,6 +17,7 @@ const Web = () => {
     const [webkey, setWebKey] = useState(0) // Not a very good option, this does a force update on the webview component
     const [showModal, setShowModal] = useState(false)
     const [showCard, setShowCard] = useState(true)
+    const [isIncognito, setisIncognito] = useState(false) // By default incognito is set to false
     const webViewRef = useRef();
 
     const Validate = (text) => { // If the input isnt a url then it will go to GoogleIt function will be called.
@@ -34,9 +35,9 @@ const Web = () => {
     }
     return (
         <>
-            <View style={TopBar.Container}>
+            <View style={[TopBar.Container,isIncognito ? {backgroundColor:'#000'} :{}]}>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => setURL(HOMEPAGE)}>
-                    <FontAwesomeIcon icon={faHome} color={'#555'} size={22} />
+                    <FontAwesomeIcon icon={faHome} color={isIncognito ? '#fff' : '#555'} size={22} />
                 </TouchableOpacity>
                 <TextInput
                     style={TopBar.Input}
@@ -48,17 +49,17 @@ const Web = () => {
                     onSubmitEditing={({ nativeEvent: { text, eventCount, target } }) => { Validate(text) }}
                 />
                 <TouchableOpacity style={TopBar.Copy}>
-                    <FontAwesomeIcon icon={faCopy} color={'#555'} size={19} />
+                    <FontAwesomeIcon icon={faCopy} color={isIncognito ? '#fff' : '#555'} size={19} />
                 </TouchableOpacity>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => {setShowModal(!showModal),setShowCard(true)}}>
-                    <FontAwesomeIcon icon={faEllipsisV} color={'#555'} size={20} />
+                    <FontAwesomeIcon icon={faEllipsisV} color={isIncognito ? '#fff' : '#555'} size={20} />
                 </TouchableOpacity>
             </View>
 
             <Modal style={{ flex: 1 }} visible={showModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container} onPress={() => {setShowModal(!showModal);setShowCard(!showCard)}}>
                     {showCard ?
-                        <Pressable style={modalStyle.Card}>
+                        <Pressable style={[modalStyle.Card,isIncognito ? {backgroundColor:'#000'}:{}]}>
                             <TouchableOpacity
                                 style={modalStyle.Button}
                                 onPress={() => {copyToClipboard(tempURL);setShowCard(false)}}
@@ -76,25 +77,33 @@ const Web = () => {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={modalStyle.Button}>
+                                style={modalStyle.Button}
+                                onPress={() => {setShowModal(false);setWebKey(webkey+1)}}
+                            >
                                 <Text style={modalStyle.ButtonText}>
                                     Reload
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={modalStyle.Button}>
+                                style={modalStyle.Button}
+                                onPress={() => {webViewRef.current.clearCache(true);setShowModal(false)}}
+                            >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear Cache
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={modalStyle.Button}>
+                                style={modalStyle.Button}
+                                onPress={() => {setisIncognito(!isIncognito),setShowModal(false)}}
+                            >
                                 <Text style={modalStyle.ButtonText}>
-                                    Use Incognito Mode
+                                    {isIncognito ? 'Turn Off Incognito Mode' : 'Use Incognito Mode' }
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={modalStyle.Button}>
+                                style={modalStyle.Button}
+                                onPress={() => {webViewRef.current.clearHistory(true)}} // Working
+                            >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear History (Forward/Back)
                                 </Text>
@@ -117,16 +126,19 @@ const Web = () => {
                 allowsFullscreenVideo={true}
                 onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url) }}
                 renderLoading={true}
+                  // ...
+                setSupportMultipleWindows={false} // We dont want the user to go out of our app
+                incognito={isIncognito}
             />
-            <View style={BotBar.Container}>
+            <View style={[BotBar.Container,isIncognito? {backgroundColor:'#000'} : {}]}>
                 <TouchableOpacity style={BotBar.Opt} onPress={() => { webViewRef.current.goBack(); }} >
-                    <FontAwesomeIcon icon={faArrowLeft} color={'#555'} size={25} />
+                    <FontAwesomeIcon icon={faArrowLeft} color={isIncognito ? '#fff' : '#555'} size={25} />
                 </TouchableOpacity>
                 <TouchableOpacity style={BotBar.Opt} onPress={() => { setWebKey(webkey + 1) }}>
-                    <FontAwesomeIcon icon={faRedo} color={'#555'} size={25} />
+                    <FontAwesomeIcon icon={faRedo} color={isIncognito ? '#fff' : '#555'} size={25} />
                 </TouchableOpacity>
                 <TouchableOpacity style={BotBar.Opt} onPress={() => { webViewRef.current.goForward(); }}  >
-                    <FontAwesomeIcon icon={faArrowRight} color={'#555'} size={25} />
+                    <FontAwesomeIcon icon={faArrowRight} color={isIncognito ? '#fff' : '#555'} size={25} />
                 </TouchableOpacity>
             </View>
         </>
