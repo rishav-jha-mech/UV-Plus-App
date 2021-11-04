@@ -6,6 +6,7 @@ import { faArrowLeft, faArrowRight, faCopy, faEllipsisV, faHome, faRedo } from '
 import validator from 'validator'
 import copyToClipboard from './Scripts/copyToClipboard'
 import Success from './Components/Success'
+import toShare from './Scripts/toShare'
 
 const HOMEPAGE = "https://www.google.com/"
 
@@ -49,7 +50,7 @@ const Web = () => {
                 <TouchableOpacity style={TopBar.Copy}>
                     <FontAwesomeIcon icon={faCopy} color={'#555'} size={19} />
                 </TouchableOpacity>
-                <TouchableOpacity style={TopBar.Opt} onPress={() => setShowModal(!showModal)}>
+                <TouchableOpacity style={TopBar.Opt} onPress={() => {setShowModal(!showModal),setShowCard(true)}}>
                     <FontAwesomeIcon icon={faEllipsisV} color={'#555'} size={20} />
                 </TouchableOpacity>
             </View>
@@ -67,7 +68,9 @@ const Web = () => {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={modalStyle.Button}>
+                                style={modalStyle.Button}
+                                onPress={() => {toShare(tempURL);setShowCard(false);setShowModal(false)}}
+                            >
                                 <Text style={modalStyle.ButtonText}>
                                     Share Link
                                 </Text>
