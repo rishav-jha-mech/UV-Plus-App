@@ -37,13 +37,12 @@ const FileList = (data) => { // By default it is sorted by recent old order
             size: fileSize,
         })
     }
-
-    return (
+    return (data.data.type == "file") ? ( //Render only when the type is file cuz this is file list for the directories part seperate list will be mde
         <Pressable style={styles.Container} onPress={ViewVideo}>
             <Image style={styles.Thumb} source={{uri: 'https://via.placeholder.com/120.png/ddf'}} resizeMode="contain" />
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
-                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize}&nbsp;&nbsp;|&nbsp;&nbsp;{ext}&nbsp;&nbsp;|&nbsp;&nbsp;{date}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{ext ? ext :'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
             </View>
             <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showmodal)}>
                 <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
@@ -63,7 +62,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
                 </Pressable>
             </Modal>
         </Pressable>
-    )
+    ) : (<></>)
 }
 
 export default FileList
