@@ -15,7 +15,7 @@ const formatFormatter = (filename) => {
         // var FILENAME = filename.slice(0,lastDotAt)
         // var EXTENSION = filename.slice(lastDotAt+1,filename.length) // Here +1 is written because we dont want the dot in our extension
         // We dont want to decrease the speed and increase the size of our app so all the comments above is for the open source enthusiasts like you to understand
-
+        // console.log("FILENAME => ",FILENAME,"EXTENSION => ",EXTENSION)
         return {FILENAME : filename.slice(0,filename.lastIndexOf('.')),EXTENSION: filename.slice(filename.lastIndexOf('.')+1,filename.length)}
         // We are returning a JavaScript Object which contains FileName and Extension
     }else{

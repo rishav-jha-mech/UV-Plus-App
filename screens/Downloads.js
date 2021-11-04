@@ -5,7 +5,7 @@ import FileList from './Components/FileList';
 import RNFetchBlob from 'rn-fetch-blob';
 import PermissionNotGiven from './Components/PermissionNotGiven';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Downloads = () => {
 
@@ -31,17 +31,23 @@ const Downloads = () => {
                 console.log(err);
             });
     }
-
+    const PreviousPath = () =>{
+        var local = path;
+        console.log("Before =>  ",local)
+        local = local.slice(0,local.lastIndexOf('/')+1)
+        console.log("After =>  ",local)
+        setpath(local)
+    }
     var shownPath = path
-    shownPath = shownPath.slice((shownPath.indexOf(0)) + 1, shownPath.length)
+    shownPath = shownPath.slice((shownPath.indexOf(0)), shownPath.length)
 
     // console.log("Actual Path => ", path)
-    console.log(JSON.stringify(filestats,null,4))
+    // console.log(JSON.stringify(filestats,null,4))
 
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => setpath(path)}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => PreviousPath()}>
                     <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
                 </TouchableOpacity>
                 <Text style={styles.PathText}>
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
     Path: {
         backgroundColor: '#fff',
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 16,
     },
     PathText: {
         color: '#ff156f',
@@ -82,6 +88,7 @@ const styles = StyleSheet.create({
     backBtn: {
         position: 'absolute',
         paddingHorizontal: 16,
-        paddingVertical: 10,
-    }
+        paddingVertical: 16,
+        backgroundColor:'lightblue'
+    },
 })
