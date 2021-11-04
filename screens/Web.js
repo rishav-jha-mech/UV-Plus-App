@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable } from 'react-native'
 import WebView from 'react-native-webview'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowLeft, faArrowRight, faCopy, faEllipsisV, faHome, faRedo } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faAssistiveListeningSystems, faCheckCircle, faCopy, faEllipsisV, faHome, faRedo, faUserAlt, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import validator from 'validator'
 import copyToClipboard from './Scripts/copyToClipboard'
 import Success from './Components/Success'
@@ -20,6 +20,20 @@ const Web = () => {
     const [isIncognito, setisIncognito] = useState(false) // By default incognito is set to false
     const webViewRef = useRef();
 
+    // Hooks for Success Card
+    const [bg, setBg] = useState('#fff')
+    const [font, setFont] = useState()
+    const [text, setText] = useState("")
+    const [foteco, setFoteco] = useState("#4bb543")
+    // Function to set Card props
+    const showOtherCard = (bg,font,text,foteco) =>{
+        setShowCard(false);
+        setFont(font);
+        setText(text);
+        if(bg == null){setBg("#fff");}else{setBg(bg);}
+        if(foteco == null){setFoteco("#4bb543");}else{setFoteco(foteco);}
+    }
+
     const Validate = (text) => { // If the input isnt a url then it will go to GoogleIt function will be called.
         if (validator.isURL(text)) {
             setURL(text)
@@ -33,9 +47,10 @@ const Web = () => {
         setURL(searchURL)
         setTempURL(searchURL)
     }
+    console.log(isIncognito)
     return (
         <>
-            <View style={[TopBar.Container,isIncognito ? {backgroundColor:'#000'} :{}]}>
+            <View style={[TopBar.Container,isIncognito ? {backgroundColor:'#333'} :{}]}>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => setURL(HOMEPAGE)}>
                     <FontAwesomeIcon icon={faHome} color={isIncognito ? '#fff' : '#555'} size={22} />
                 </TouchableOpacity>
@@ -59,10 +74,10 @@ const Web = () => {
             <Modal style={{ flex: 1 }} visible={showModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container} onPress={() => {setShowModal(!showModal);setShowCard(!showCard)}}>
                     {showCard ?
-                        <Pressable style={[modalStyle.Card,isIncognito ? {backgroundColor:'#000'}:{}]}>
+                        <Pressable style={[modalStyle.Card,isIncognito ? {backgroundColor:'#111'}:{}]}>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => {copyToClipboard(tempURL);setShowCard(false)}}
+                                onPress={() => {copyToClipboard(tempURL);showOtherCard("#fff",faCheckCircle,"Link Copied To Clipboard","green")}}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Copy Link
@@ -86,7 +101,7 @@ const Web = () => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => {webViewRef.current.clearCache(true);setShowModal(false)}}
+                                onPress={() => {webViewRef.current.clearCache(true);showOtherCard("#fff",faCheckCircle,"Cache Cleared","dodgerblue")}}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear Cache
@@ -94,7 +109,16 @@ const Web = () => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => {setisIncognito(!isIncognito),setShowModal(false)}}
+                                onPress={() => {
+                                    setisIncognito(!isIncognito);
+                                    if(isIncognito){
+                                        showOtherCard("#fff",faUserAlt,"Incognito Mode Off","dodgerblue")
+                                    } else {
+                                        showOtherCard("#333",faUserSecret,"Incognito Mode On","#ddd")
+                                    }
+                                    // Tried Ternary gave a strange syntax error, back to if else
+                                    // Honestly idk why is this even working
+                                    }}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     {isIncognito ? 'Turn Off Incognito Mode' : 'Use Incognito Mode' }
@@ -111,7 +135,7 @@ const Web = () => {
                         </Pressable>
                         :
 
-                        <Success />
+                        <Success bg={bg} font={font} text={text} foteco={foteco}  />
 
                     }
                 </Pressable>
@@ -130,7 +154,7 @@ const Web = () => {
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
                 incognito={isIncognito}
             />
-            <View style={[BotBar.Container,isIncognito? {backgroundColor:'#000'} : {}]}>
+            <View style={[BotBar.Container,isIncognito? {backgroundColor:'#333'} : {}]}>
                 <TouchableOpacity style={BotBar.Opt} onPress={() => { webViewRef.current.goBack(); }} >
                     <FontAwesomeIcon icon={faArrowLeft} color={isIncognito ? '#fff' : '#555'} size={25} />
                 </TouchableOpacity>
