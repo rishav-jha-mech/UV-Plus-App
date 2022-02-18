@@ -17,23 +17,21 @@ const Downloads = () => {
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) });
 
     useEffect(() => {
+        setLoading(true);
         ReadFiles();
     }, [path]) // When path changes component will re render
 
     const ReadFiles = () => {
-        console.log("Reading FIles....")
         RNFetchBlob.fs.lstat(path).then(files => {
             var y = [...files].reverse(); // Reversed the array 
             setFileStats(y)
+            setLoading(false)
         })
             .catch(err => {
                 console.log(err);
             });
-        console.log("Completed Reading Files");
-        setLoading(false)
     }
     const PreviousPath = () => { // Implementing the previous folder file system
-        setLoading(true)
         var local = path;
         local = local.slice(0, local.lastIndexOf('/'))
         setPath(local)
@@ -41,25 +39,22 @@ const Downloads = () => {
     var shownPath = path
     shownPath = shownPath.slice((shownPath.indexOf(0)), shownPath.length)
 
-    // console.log("Actual Path => ", path)
-    // console.log(JSON.stringify(filestats,null,4))
-    console.log(loading)
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => { PreviousPath(); console.log("Previous Clicked") }}>
-                    <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
-                </TouchableOpacity>
-                <Text style={styles.PathText}>
-                    {shownPath}
-                </Text>
+                    <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true);PreviousPath(); }}>
+                        <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
+                    </TouchableOpacity>
+                    <Text style={styles.PathText}>
+                        {shownPath}
+                    </Text>
             </View>
             {loading ?
                 <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                     <ActivityIndicator size={90} color={'#6f00ff'} />
                     <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>Loading Files</Text>
                 </View>
-                : (filestats.length === 0) ?
+                : (loading === false && filestats.length === 0) ?
                     <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
                     </View> :
@@ -85,20 +80,23 @@ const styles = StyleSheet.create({
     },
     Path: {
         backgroundColor: '#fff',
-        paddingHorizontal: 16,
-        paddingVertical: 16,
+        display: 'flex',
+        flexDirection: 'row',
+        height: 50
     },
     PathText: {
+        flex:1,
         color: '#ff156f',
         fontSize: 14,
         fontWeight: '700',
         letterSpacing: 0.5,
-        textAlign: 'center'
+        paddingHorizontal: 16.0,
+        paddingVertical: 16.0,
+        overflow: 'hidden'
     },
     backBtn: {
-        position: 'absolute',
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        paddingHorizontal: 16.0,
+        paddingVertical: 16.0
     },
 })
