@@ -10,7 +10,6 @@ import Option from './OptionComponent/Option'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
-    const navigation = useNavigation();
     // console.log(JSON.stringify(data,null,3))
 
     const [showmodal, setShowModal] = useState(false)
@@ -19,7 +18,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
         var fileSize = data.data.size
         var date = data.data.lastModified
         var ext = (formatFormatter(data.data.filename)).EXTENSION;
-    }else if (data.data.type == "directory"){
+    } else if (data.data.type == "directory") {
         var filename = (data.data.filename)
         var fileSize = data.data.size
         var date = data.data.lastModified
@@ -29,66 +28,11 @@ const FileList = (data) => { // By default it is sorted by recent old order
     fileSize = (bytesConverter(data.data.size))
     date = (TimeStampToDate(data.data.lastModified))
 
-    const ViewVideo = () => {
-        navigation.navigate("Video", {
-            url: (data.data.path),
-            name: filename,
-            size: fileSize,
-        })
-    }
     return (data.data.type == "file") ? ( //Render only when the type is file cuz this is file list for the directories part seperate list will be mde
-        <Pressable style={styles.FileContainer} onPress={ViewVideo}>
-            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/ddf' }} resizeMode="contain" />
-            <View style={styles.dataContainer}>
-                <Text style={styles.Title} numberOfLines={2}>{filename}</Text>
-                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{ext ? ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
-            </View>
-            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showmodal)}>
-                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
-            </TouchableOpacity>
-
-            <Modal visible={showmodal} transparent={true} animationType={"fade"}>
-                <Pressable style={styles.Modal} onPress={() => setShowModal(!showmodal)}>
-
-                    <Option
-                        filename={filename}
-                        path={data.data.path}
-                        ext={ext}
-                        last_mod={date}
-                        size={fileSize}
-                    />
-
-                </Pressable>
-            </Modal>
-        </Pressable>
+        <File filename={filename} fileSize={fileSize} date={date} ext={ext} path={data.data.path} />
     ) : (
-        <Pressable style={styles.DirectoryContainer} 
-            onPress={() => {data.setthepath(data.data.path);data.settheloading(true);console.log("File Is Clicked")}}
-            >
-            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/6f00ff' }} resizeMode="contain" />
-            <View style={styles.dataContainer}>
-                <Text style={styles.Title} numberOfLines={1}>{filename}</Text>
-                <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;Folder&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
-            </View>
-            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showmodal)}>
-                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
-            </TouchableOpacity>
-
-            <Modal visible={showmodal} transparent={true} animationType={"fade"}>
-                <Pressable style={styles.Modal} onPress={() => setShowModal(!showmodal)}>
-
-                    <Option
-                        filename={filename}
-                        path={data.data.path}
-                        ext={ext}
-                        last_mod={date}
-                        size={fileSize}
-                    />
-
-                </Pressable>
-            </Modal>
-        </Pressable>
-    )
+        <Directory filename={filename} fileSize={fileSize} date={date} path={data.data.path} SetThePath={(path) => data.setthepath(path)} SetTheLoading={(state) => data.settheloading(state)} />
+    );
 }
 
 export default FileList
@@ -133,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    DirectoryContainer:{
+    DirectoryContainer: {
         backgroundColor: '#f5f6',
         flex: 1,
         flexDirection: 'row',
@@ -141,9 +85,78 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         minHeight: 100,
     }
-})
+});
 
+const File = (props) => {
+    const [showModal, setShowModal] = useState(false);
+    const navigation = useNavigation();
 
-/*
-1. I have to do string manipulation here
-*/
+    const ViewVideo = () => {
+        navigation.navigate("Video", {
+            url: props.path,
+            name: props.filename,
+            size: props.fileSize,
+        })
+    }
+    return (
+        <Pressable style={styles.FileContainer} onPress={ViewVideo}>
+            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/ddf' }} resizeMode="contain" />
+            <View style={styles.dataContainer}>
+                <Text style={styles.Title} numberOfLines={2}>{props.filename}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>{props.fileSize ? props.fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.ext ? props.ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
+            </View>
+            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showModal)}>
+                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
+            </TouchableOpacity>
+
+            <Modal visible={showModal} transparent={true} animationType={"fade"}>
+                <Pressable style={styles.Modal} onPress={() => setShowModal(!showModal)}>
+
+                    <Option
+                        filename={props.filename}
+                        path={props.path}
+                        ext={props.ext}
+                        last_mod={props.date}
+                        size={props.fileSize}
+                    />
+
+                </Pressable>
+            </Modal>
+        </Pressable>
+    );
+}
+
+const Directory = (props) => {
+    const [showModal, setShowModal] = useState(false);
+
+    return (
+
+        <Pressable style={styles.DirectoryContainer}
+            onPress={() => { props.SetThePath(props.path); props.SetTheLoading(true) }}
+        >
+            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/6f00ff' }} resizeMode="contain" />
+            <View style={styles.dataContainer}>
+                <Text style={styles.Title} numberOfLines={1}>{props.filename}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>{props.fileSize ? props.fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;Folder&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
+            </View>
+            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showModal)}>
+                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
+            </TouchableOpacity>
+
+            <Modal visible={showModal} transparent={true} animationType={"fade"}>
+                <Pressable style={styles.Modal} onPress={() => setShowModal(!showModal)}>
+
+                    <Option
+                        filename={props.filename}
+                        path={props.path}
+                        ext={props.ext}
+                        last_mod={props.date}
+                        size={props.fileSize}
+                    />
+
+                </Pressable>
+            </Modal>
+        </Pressable>
+
+    );
+}

@@ -9,12 +9,12 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Downloads = () => {
 
-    var FILEPATH = RNFetchBlob.fs.dirs.DownloadDir
-    const [filestats, setFileStats] = useState([])
-    const [readPerm, setReadPerm] = useState(true)
-    const [path, setPath] = useState((FILEPATH + '/UV Downloader'))
-    const [loading, setLoading] = useState(true)
-    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) })
+    var FILEPATH = RNFetchBlob.fs.dirs.DownloadDir;
+    const [filestats, setFileStats] = useState([]);
+    const [readPerm, setReadPerm] = useState(true);
+    const [path, setPath] = useState((FILEPATH + '/UV Downloader'));
+    const [loading, setLoading] = useState(true);
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) });
 
     useEffect(() => {
         ReadFiles();
@@ -47,7 +47,7 @@ const Downloads = () => {
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => { PreviousPath();console.log("Previous Clicked") }}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => { PreviousPath(); console.log("Previous Clicked") }}>
                     <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
                 </TouchableOpacity>
                 <Text style={styles.PathText}>
@@ -59,12 +59,16 @@ const Downloads = () => {
                     <ActivityIndicator size={90} color={'#6f00ff'} />
                     <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>Loading Files</Text>
                 </View>
-            :
-                <ScrollView>
-                    {filestats.map((data, index) => { // CalBack Function's second Param is the index
-                        return (<FileList key={index} data={data} setthepath={(path) => setPath(path)} settheloading={(bools)=> setLoading(bools)} />)
-                    })}
-                </ScrollView>
+                : (filestats.length === 0) ?
+                    <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
+                    </View> :
+                    <ScrollView>
+                        
+                        {filestats.map((data, index) => { // CalBack Function's second Param is the index
+                            return (<FileList key={index} data={data} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />)
+                        })}
+                    </ScrollView>
             }
         </View>
     )
