@@ -28,9 +28,12 @@ const Downloads = () => {
             setFileStats(y)
             setLoading(false)
         })
-            .catch(err => {
-                console.log(err);
-            });
+        .catch(err => {
+            // Making the App Downloads folder if it doesnt exist
+            RNFetchBlob.fs.mkdir(path)
+            .then(() => { ReadFiles(); })
+            .catch((err) => { console.error(err) })
+        });
     }
     const PreviousPath = () => { // Implementing the previous folder file system
         var local = path;
