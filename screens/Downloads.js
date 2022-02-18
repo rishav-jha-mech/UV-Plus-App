@@ -1,11 +1,11 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ScrollView, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import FileList from './Components/FileList';
 import RNFetchBlob from 'rn-fetch-blob';
 import PermissionNotGiven from './Components/PermissionNotGiven';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Downloads = () => {
 
@@ -23,7 +23,8 @@ const Downloads = () => {
 
     const ReadFiles = () => {
         RNFetchBlob.fs.lstat(path).then(files => {
-            var y = [...files].reverse(); // Reversed the array 
+            var y = [... files].reverse(); // Reversed the array 
+            // console.log(JSON.stringify(y,0,4))
             setFileStats(y)
             setLoading(false)
         })
@@ -64,13 +65,15 @@ const Downloads = () => {
                 : (loading === false && filestats.length === 0) ?
                     <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
-                    </View> :
-                    <ScrollView>
-
-                        {filestats.map((data, index) => { // CalBack Function's second Param is the index
-                            return (<FileList key={index} data={data} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />)
-                        })}
-                    </ScrollView>
+                    </View> : 
+                    <FlatList 
+                        data={filestats}
+                        renderItem={(info) => {
+                            return (
+                                <FileList key={info.index} data={info.item} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />
+                            );
+                        }}
+                    />
             }
         </View>
     )
