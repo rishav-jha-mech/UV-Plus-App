@@ -42,12 +42,19 @@ const Downloads = () => {
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
-                    <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true);PreviousPath(); }}>
-                        <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
+                {loading ? // So that user does not click 2-3 times on the same button
+                    <TouchableOpacity style={styles.backBtn}>
+                        <ActivityIndicator size={20} />
                     </TouchableOpacity>
-                    <Text style={styles.PathText}>
-                        {shownPath}
-                    </Text>
+                    : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
+
+                        <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true); PreviousPath(); }}>
+                            <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
+                        </TouchableOpacity>
+                }
+                <Text style={styles.PathText}>
+                    {shownPath}
+                </Text>
             </View>
             {loading ?
                 <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
@@ -59,7 +66,7 @@ const Downloads = () => {
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
                     </View> :
                     <ScrollView>
-                        
+
                         {filestats.map((data, index) => { // CalBack Function's second Param is the index
                             return (<FileList key={index} data={data} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />)
                         })}
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
         height: 50
     },
     PathText: {
-        flex:1,
+        flex: 1,
         color: '#ff156f',
         fontSize: 14,
         fontWeight: '700',
