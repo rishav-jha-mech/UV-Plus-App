@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faDrumstickBite, faFile, faFileAlt, faFileAudio, faFileImage, faFilePdf, faFilePrescription, faFileVideo, faFolder, faImage, faInfoCircle, faMusic, faVideo } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
@@ -10,9 +10,6 @@ import Option from './OptionComponent/Option'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
-    // console.log(JSON.stringify(data,null,3))
-
-    const [showmodal, setShowModal] = useState(false)
     if (data.data.type == "file") {
         var filename = (formatFormatter(data.data.filename)).FILENAME
         var fileSize = data.data.size
@@ -38,20 +35,19 @@ const FileList = (data) => { // By default it is sorted by recent old order
 export default FileList
 
 const styles = StyleSheet.create({
-    FileContainer: {
-        backgroundColor: '#ff56',
+    Container: {
+        backgroundColor: '#fcfafa',
         flex: 1,
         flexDirection: 'row',
-        // borderBottomColor:'blue',
-        borderBottomWidth: 1,
-        minHeight: 100,
+        height: 74.0,
     },
-    Thumb: {
-        width: '25%',
-        // backgroundColor:'aqua'
+    fileIcon: {
+        paddingLeft: 18.0,
+        paddingRight: 12.0,
+        justifyContent: 'center',
+        alignContent: 'center',
     },
     dataContainer: {
-        // backgroundColor:'tomato',
         flex: 1,
         justifyContent: 'space-between',
         paddingVertical: 8,
@@ -66,8 +62,7 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     theButton: {
-        width: '12%',
-        backgroundColor: 'chartreuse',
+        paddingHorizontal: 14.0,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -77,20 +72,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    DirectoryContainer: {
-        backgroundColor: '#f5f6',
-        flex: 1,
-        flexDirection: 'row',
-        // borderBottomColor:'blue',
-        borderBottomWidth: 1,
-        minHeight: 100,
-    }
 });
 
 const File = (props) => {
-    const [showModal, setShowModal] = useState(false);
     const navigation = useNavigation();
-
+    const ext = props.ext;
     const ViewVideo = () => {
         navigation.navigate("Video", {
             url: props.path,
@@ -99,64 +85,67 @@ const File = (props) => {
         })
     }
     return (
-        <Pressable style={styles.FileContainer} onPress={ViewVideo}>
-            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/ddf' }} resizeMode="contain" />
+        <Pressable style={styles.Container} onPress={ViewVideo}>
+            <View style={styles.fileIcon}>
+                {
+                    (
+                        ext.includes('jpg') ||
+                        ext.includes('png') ||
+                        ext.includes('jpeg') ||     // IMAGE EXTENTIONS
+                        ext.includes('gif') ||
+                        ext.includes('webm')
+                    ) ?
+                        <FontAwesomeIcon icon={faFileImage} size={40.0} color={'#ff156f'} />
+                        : (
+
+                            ext.includes('mp4') ||
+                            ext.includes('mov') ||
+                            ext.includes('wmv') ||
+                            ext.includes('avi') ||     // VIDEO EXTENTIONS
+                            ext.includes('flv') ||
+                            ext.includes('mkv') ||
+                            ext.includes('webm')
+
+                        ) ?
+                            <FontAwesomeIcon icon={faFileVideo} size={40.0} color={'dodgerblue'} />
+                            : (
+                                ext.includes('m4a') ||
+                                ext.includes('mp3') ||
+                                ext.includes('wav') ||       // AUDIO EXTENTIONS
+                                ext.includes('wma') ||
+                                ext.includes('aac')
+                            ) ?
+                                <FontAwesomeIcon icon={faFileAudio} size={40.0} color={'#66f'} />
+                                : (ext.includes('pdf')) ?      // PDF EXTENTION
+                                    <FontAwesomeIcon icon={faFilePdf} size={40.0} color={'red'} />
+                                    :
+                                    <FontAwesomeIcon icon={faFileAlt} size={40.0} color={'#b0b0b0'} />
+
+                }
+
+
+            </View>
             <View style={styles.dataContainer}>
-                <Text style={styles.Title} numberOfLines={2}>{props.filename}</Text>
+                <Text style={styles.Title} numberOfLines={1}>{props.filename}</Text>
                 <Text style={styles.SubTitle} numberOfLines={1}>{props.fileSize ? props.fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.ext ? props.ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
             </View>
-            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showModal)}>
-                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
-            </TouchableOpacity>
-
-            <Modal visible={showModal} transparent={true} animationType={"fade"}>
-                <Pressable style={styles.Modal} onPress={() => setShowModal(!showModal)}>
-
-                    <Option
-                        filename={props.filename}
-                        path={props.path}
-                        ext={props.ext}
-                        last_mod={props.date}
-                        size={props.fileSize}
-                    />
-
-                </Pressable>
-            </Modal>
         </Pressable>
     );
 }
 
 const Directory = (props) => {
-    const [showModal, setShowModal] = useState(false);
 
     return (
-
-        <Pressable style={styles.DirectoryContainer}
+        <Pressable style={styles.Container}
             onPress={() => { props.SetThePath(props.path); props.SetTheLoading(true) }}
         >
-            <Image style={styles.Thumb} source={{ uri: 'https://via.placeholder.com/120.png/6f00ff' }} resizeMode="contain" />
+            <View style={styles.fileIcon}>
+                <FontAwesomeIcon icon={faFolder} size={40.0} color={'#fdb900'} />
+            </View>
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={1}>{props.filename}</Text>
-                <Text style={styles.SubTitle} numberOfLines={1}>{props.fileSize ? props.fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;Folder&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
+                <Text style={styles.SubTitle} numberOfLines={1}>Folder&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
             </View>
-            <TouchableOpacity style={styles.theButton} onPress={() => setShowModal(!showModal)}>
-                <FontAwesomeIcon icon={faInfoCircle} size={20} color={'#6f00ff'} />
-            </TouchableOpacity>
-
-            <Modal visible={showModal} transparent={true} animationType={"fade"}>
-                <Pressable style={styles.Modal} onPress={() => setShowModal(!showModal)}>
-
-                    <Option
-                        filename={props.filename}
-                        path={props.path}
-                        ext={props.ext}
-                        last_mod={props.date}
-                        size={props.fileSize}
-                    />
-
-                </Pressable>
-            </Modal>
         </Pressable>
-
     );
 }

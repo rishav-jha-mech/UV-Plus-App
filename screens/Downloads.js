@@ -45,25 +45,24 @@ const Downloads = () => {
             <View style={styles.Path}>
                 {loading ? // So that user does not click 2-3 times on the same button
                     <TouchableOpacity style={styles.backBtn}>
-                        <ActivityIndicator size={20} />
+                        <ActivityIndicator size={20} color={'#66f'} />
                     </TouchableOpacity>
                     : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
-
                         <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true); PreviousPath(); }}>
-                            <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#ff156f"} />
+                            <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#66f"} />
                         </TouchableOpacity>
                 }
                 <Text style={styles.PathText}>
-                    {shownPath}
+                    {shownPath.replace('0','Home')}
                 </Text>
             </View>
             {loading ?
-                <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <ActivityIndicator size={90} color={'#6f00ff'} />
+                <View style={styles.BlankFilePage} >
+                    <ActivityIndicator size={90} color={'#66f'} />
                     <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>Loading Files</Text>
                 </View>
                 : (loading === false && filestats.length === 0) ?
-                    <View style={{ backgroundColor: '#ff56', flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={styles.BlankFilePage} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
                     </View> : 
                     <FlatList 
@@ -85,28 +84,34 @@ export default Downloads
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fcfafa',
         justifyContent: 'center',
     },
     Path: {
-        backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'row',
-        height: 50
+        height: 52.0,
+        borderBottomColor: 'rgba(0,0,0,0.075)',
+        borderBottomWidth: 1.5
     },
     PathText: {
         flex: 1,
-        color: '#ff156f',
-        fontSize: 14,
-        fontWeight: '700',
+        color: '#66f',
+        fontSize: 16.0,
+        fontWeight: '500',
         letterSpacing: 0.5,
         paddingHorizontal: 16.0,
         paddingVertical: 16.0,
         overflow: 'hidden'
     },
     backBtn: {
-        backgroundColor: 'lightblue',
         paddingHorizontal: 16.0,
         paddingVertical: 16.0
     },
+    BlankFilePage:{
+        backgroundColor: '#fcfafa',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })
