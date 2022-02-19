@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, StatusBar, ImageBackground, Pressable } from 'react-native'
 
-const Banner = (params) => {
+const Banner = () => {
     const BANNER = { uri: "https://raw.githubusercontent.com/byprogrammers/LCRN10-cryptocurrency-app-starter/master/assets/images/banner.png" };
     
     const [url, setUrl] = useState("")
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     Input: {
         backgroundColor: '#fff',
         flex: 1,
-        fontSize: 18.0,
+        fontSize: 16.0,
         borderRadius: 50.0,
         padding: 16.0,
         elevation: 12.0,

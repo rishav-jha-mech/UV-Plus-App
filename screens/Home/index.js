@@ -1,19 +1,17 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 import ReadPermission from '../Scripts/ReadPermission';
 import Banner from './Banner'
+import Recent from './Recent';
+
 const Home = () => {
-    ReadPermission()
-        
+    const [perm,setPerm] = useState()
+    ReadPermission().then(res => {setPerm(res);console.log(res)});
     return (
         <>
         <View style={{backgroundColor: '#fcfcfc',flex:1}}>
             <Banner />
-            <View style={styles.Container}>
-                <View style={{ paddingHorizontal: 16.0 }}>
-                    <Text style={{ fontWeight: '700', fontSize: 16 }}>Your Recent Downloads</Text>
-                </View>
-            </View>
+            <Recent perm={perm} />
         </View>
         </>
     );
