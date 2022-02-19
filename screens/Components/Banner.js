@@ -30,8 +30,8 @@ const Banner = (params) => {
                     style={styles.Input}
                     placeholder="Enter url"
                     keyboardType="url"
-                    selectionColor="#333"
                     defaultValue={url}
+                    showSoftInputOnFocus={true}
                     onSubmitEditing={() => PostReq(url)}
                     onChangeText={(url) => setUrl(url)}
                 />
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     Input: {
         backgroundColor: '#fff',
         flex: 1,
+        fontSize: 18.0,
         borderRadius: 50.0,
         padding: 16.0,
         elevation: 12.0,
