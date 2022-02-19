@@ -1,7 +1,8 @@
-//  Called when the file is getting downloaded along with WritePermission
-// Called alone when user want sto check the Downloads folder
+// Didn't knew much about asynchronous programming when i started,
+// so i was not able to use this Promise function
+// Now i feel like God !
 
-import { PermissionsAndroid, Alert } from 'react-native'
+import { PermissionsAndroid } from 'react-native'
 
 const ReadPermission = async () => {
 
@@ -14,10 +15,10 @@ const ReadPermission = async () => {
             });
             if (granted == PermissionsAndroid.RESULTS.GRANTED) {
                 console.log("Storage Read Permission Granted")
-                // return true
+                return true
             }else{
                 console.log("Storage Permission not granted\n Now give the permission in the settings\n or the APP wont work")
-                // return false
+                return false
             }
     } catch (error) {
         console.error(error)
