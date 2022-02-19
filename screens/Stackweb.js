@@ -4,12 +4,12 @@ import WebView from 'react-native-webview'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowLeft, faArrowRight, faAssistiveListeningSystems, faCheckCircle, faCopy, faEllipsisV, faHome, faRedo, faUserAlt, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import validator from 'validator'
-import copyToClipboard from '../Scripts/copyToClipboard'
-import Success from '../Components/Success'
-import toShare from '../Scripts/toShare'
+import copyToClipboard from './Scripts/copyToClipboard'
+import Success from './Components/Success'
+import toShare from './Scripts/toShare'
 
 
-const Web = (props) => {
+const StackWeb = (props) => {
     console.log(props.route.params)
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
     console.log(JSON.stringify(props,0,4))
@@ -170,7 +170,7 @@ const Web = (props) => {
     )
 }
 
-export default Web
+export default StackWeb
 
 const modalStyle = StyleSheet.create({
     Container: {

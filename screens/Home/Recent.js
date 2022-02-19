@@ -1,8 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
 import RNFetchBlob from 'rn-fetch-blob';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
@@ -14,6 +13,7 @@ const Recent = (props) => {
     const PATH = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader';
     const [loading, setLoading] = useState(true);
     const [fileStats, setFileStats] = useState([]);
+    const navigation = useNavigation();
 
     useEffect(() => {
         setLoading(true);
@@ -34,6 +34,9 @@ const Recent = (props) => {
             .catch(err => {
                 console.error(err)
             });
+    }
+    const goToWeb = () => {
+        navigation.navigate("Plain Web",{theUrl: "https://m.youtube.com"})
     }
     return (
         <View style={styles.container}>
@@ -82,7 +85,7 @@ const Recent = (props) => {
                                     style={[styles.card,{justifyContent:'space-between'}]}
                                 >
                                     <Text style={styles.heading}>Want to download more ?</Text>
-                                    <TouchableOpacity style={styles.Btn}>
+                                    <TouchableOpacity style={styles.Btn} onPress={() => goToWeb()}>
                                         <Text style={styles.BtnText}> Download Now</Text>
                                     </TouchableOpacity>
                                 </View>

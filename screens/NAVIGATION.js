@@ -13,11 +13,11 @@ import Results from './Results';
 import Downloads from './Downloads';
 import VideoPlayer from './VideoPlayer';
 import Web from './Web';
-import PlainWeb from './PlainWeb'
+import StackWeb from './Stackweb';
 
 const HomeTabNavigation = () => {
   return (
-      <Tab.Navigator screenOptions={{ headerShown: false,tabBarShowLabel:false, }}>
+      <Tab.Navigator screenOptions={{ headerShown: false,tabBarShowLabel:false, }} backBehavior='none'>
         <Tab.Screen
           name="Home"
           component={Home}
@@ -60,7 +60,7 @@ const NAVIGATION = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
-        <Stack.Screen name="Plain Web" component={PlainWeb} />
+        <Stack.Screen name="Plain Web" component={StackWeb} />
         <Stack.Screen name="Result Tab" component={Results} />
         <Stack.Screen name="Video" component={VideoPlayer} />
       </Stack.Navigator>
