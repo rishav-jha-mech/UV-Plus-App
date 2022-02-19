@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, Text, View, TextInput, StatusBar, ImageBackground, Pressable } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import ReadPermission from './Scripts/ReadPermission';
-import Banner from './Components/Banner'
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import ReadPermission from '../Scripts/ReadPermission';
+import Banner from './Banner'
 const Home = () => {
     ReadPermission()
         
     return (
         <>
         <View style={{backgroundColor: '#fcfcfc',flex:1}}>
-        <Banner />
+            <Banner />
             <View style={styles.Container}>
                 <View style={{ paddingHorizontal: 16.0 }}>
                     <Text style={{ fontWeight: '700', fontSize: 16 }}>Your Recent Downloads</Text>

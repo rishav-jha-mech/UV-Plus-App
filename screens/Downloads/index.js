@@ -1,9 +1,9 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
-import FileList from './Components/FileList';
+import FileList from '../Components/FileList';
 import RNFetchBlob from 'rn-fetch-blob';
-import PermissionNotGiven from './Components/PermissionNotGiven';
+import PermissionNotGiven from '../Components/PermissionNotGiven';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 

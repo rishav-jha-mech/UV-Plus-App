@@ -4,9 +4,9 @@ import WebView from 'react-native-webview'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowLeft, faArrowRight, faAssistiveListeningSystems, faCheckCircle, faCopy, faEllipsisV, faHome, faRedo, faUserAlt, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import validator from 'validator'
-import copyToClipboard from './Scripts/copyToClipboard'
-import Success from './Components/Success'
-import toShare from './Scripts/toShare'
+import copyToClipboard from '../Scripts/copyToClipboard'
+import Success from '../Components/Success'
+import toShare from '../Scripts/toShare'
 
 const HOMEPAGE = "https://www.google.com/"
 
