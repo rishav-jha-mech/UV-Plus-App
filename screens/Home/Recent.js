@@ -36,7 +36,7 @@ const Recent = (props) => {
             });
     }
     const goToWeb = () => {
-        navigation.navigate("Plain Web",{theUrl: "https://m.youtube.com"})
+        navigation.navigate("Stack Web",{theUrl: "https://m.youtube.com"})
     }
     return (
         <View style={styles.container}>

@@ -17,7 +17,7 @@ import StackWeb from './Stackweb';
 
 const HomeTabNavigation = () => {
   return (
-      <Tab.Navigator screenOptions={{ headerShown: false,tabBarShowLabel:false, }} backBehavior='none'>
+      <Tab.Navigator screenOptions={{ headerShown: false,tabBarShowLabel:false, }}>
         <Tab.Screen
           name="Home"
           component={Home}
@@ -60,7 +60,7 @@ const NAVIGATION = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
-        <Stack.Screen name="Plain Web" component={StackWeb} />
+        <Stack.Screen name="Stack Web" component={StackWeb} />
         <Stack.Screen name="Result Tab" component={Results} />
         <Stack.Screen name="Video" component={VideoPlayer} />
       </Stack.Navigator>
