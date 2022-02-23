@@ -19,7 +19,6 @@ const Web = (props) => {
     const [webkey, setWebKey] = useState(0) // Not a very good option, this does a force update on the webview component
     const [showModal, setShowModal] = useState(false)
     const [showCard, setShowCard] = useState(true)
-    const [canGoForward, setCanGoForward] = useState(false)
     const [canGoBackward, setCanGoBackward] = useState(false)
     const webViewRef = useRef();
     const inputRef = useRef();
@@ -166,22 +165,11 @@ const Web = (props) => {
                 allowFileAccessFromFileURLs={true}
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
-                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); setCanGoForward(navState.canGoForward); console.log(navState) }}
+                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); }}
                 renderLoading={true}
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
-            <View style={BotBar.Container}>
-                <TouchableOpacity style={BotBar.Opt} onPress={() => { webViewRef.current.goBack(); }} disabled={!canGoBackward}>
-                    <FontAwesomeIcon icon={faArrowLeft} color={canGoBackward ? '#555' : '#999'} size={25} />
-                </TouchableOpacity>
-                <TouchableOpacity style={BotBar.Opt} onPress={() => { setWebKey(webkey + 1) }}>
-                    <FontAwesomeIcon icon={faRedo} color={'#555'} size={25} />
-                </TouchableOpacity>
-                <TouchableOpacity style={BotBar.Opt} onPress={() => { webViewRef.current.goForward(); }} disabled={!canGoForward}>
-                    <FontAwesomeIcon icon={faArrowRight} color={canGoForward ? '#555' : '#999'} size={25} />
-                </TouchableOpacity>
-            </View>
         </>
     )
 }
@@ -256,21 +244,6 @@ const TopBar = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     }
-})
-
-const BotBar = StyleSheet.create({
-    Container: {
-        flexDirection: "row",
-        paddingHorizontal: 10,
-        justifyContent: "center",
-        alignItems: 'center',
-    },
-    Opt: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 10
-    },
 })
 
 const styles = StyleSheet.create({
