@@ -16,6 +16,8 @@ target 'uv' do
 
   pod 'react-native-background-downloader', :path => '../node_modules/react-native-background-downloader'
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'uvTests' do
     inherit! :complete
     # Pods for testing
