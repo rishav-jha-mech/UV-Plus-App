@@ -30,10 +30,9 @@ const Web = (props) => {
     const [text, setText] = useState("")
     const [foteco, setFoteco] = useState("#4bb543")
 
-
+     
     const isDownloadable = () =>{
-
-        if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)){
+   if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)){
             setDownloadable(true);
         }else{
             setDownloadable(false);
@@ -56,7 +55,6 @@ const Web = (props) => {
         "hardwareBackPress",
         backAction
     );
-    
     // Function to set Card props
     const showOtherCard = (bg, font, text, foteco) => {
         setShowCard(false);
