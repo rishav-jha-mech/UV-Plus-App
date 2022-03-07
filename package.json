@@ -21,18 +21,13 @@
     "axios": "^0.23.0",
     "react": "17.0.2",
     "react-native": "^0.66.1",
-    "react-native-config": "^1.4.5",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-media-controls": "^2.3.0",
-    "react-native-progress": "^5.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
     "react-native-slider": "^0.11.0",
     "react-native-svg": "^12.1.1",
-    "react-native-video": "^5.2.0",
     "react-native-webview": "^11.14.2",
     "rn-fetch-blob": "^0.12.0",
-    "rn-range-slider": "^2.1.1",
     "validator": "^13.7.0"
   },
   "devDependencies": {

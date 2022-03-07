@@ -1,7 +1,7 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
-import FileList from '../Components/FileList';
+import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
 import RNFetchBlob from 'rn-fetch-blob';
 import PermissionNotGiven from '../Components/PermissionNotGiven';

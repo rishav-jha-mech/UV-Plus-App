@@ -11,7 +11,6 @@ const Tab = createBottomTabNavigator();
 import Home from './Home';
 import Results from './Results';
 import Downloads from './Downloads';
-import VideoPlayer from './VideoPlayer';
 import Web from './Web';
 import StackWeb from './Stackweb';
 
@@ -62,7 +61,6 @@ const NAVIGATION = () => {
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
         <Stack.Screen name="Stack Web" component={StackWeb} />
         <Stack.Screen name="Result Tab" component={Results} />
-        <Stack.Screen name="Video" component={VideoPlayer} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faFolder } from '@fortawesome/free-solid-svg-icons'
@@ -6,7 +6,7 @@ import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import { useNavigation } from '@react-navigation/native';
-import FileIcon from './FileIcon'
+import FileIcon from '../Components/FileIcon'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -77,11 +77,7 @@ const styles = StyleSheet.create({
 const File = (props) => {
     const navigation = useNavigation();
     const ViewVideo = () => {
-        navigation.navigate("Video", {
-            url: props.path,
-            name: props.filename,
-            size: props.fileSize,
-        })
+        console.warn('deprecated rishav !!!!!!!!!!!!')
     }
     return (
         <Pressable style={styles.Container} onPress={ViewVideo}>
