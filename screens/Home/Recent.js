@@ -86,7 +86,7 @@ const Recent = (props) => {
                                 >
                                     <Text style={styles.heading}>Want to download more ?</Text>
                                     <TouchableOpacity style={styles.Btn} onPress={() => goToWeb()}>
-                                        <Text style={styles.BtnText}> Download Now</Text>
+                                        <Text style={styles.BtnText}> Download More</Text>
                                     </TouchableOpacity>
                                 </View>
                             </>

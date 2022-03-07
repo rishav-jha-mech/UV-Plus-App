@@ -1,7 +1,8 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
+import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import FileList from '../Components/FileList';
+import { useNavigation } from '@react-navigation/native';
 import RNFetchBlob from 'rn-fetch-blob';
 import PermissionNotGiven from '../Components/PermissionNotGiven';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -11,9 +12,11 @@ const Downloads = () => {
 
     var FILEPATH = RNFetchBlob.fs.dirs.DownloadDir;
     const [filestats, setFileStats] = useState([]);
+    const navigation = useNavigation();
     const [readPerm, setReadPerm] = useState(true);
     const [path, setPath] = useState((FILEPATH + '/UV Downloader'));
     const [loading, setLoading] = useState(true);
+    const [canGoBackward, setCanGoBackward] = useState(true);
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) });
 
     useEffect(() => {
@@ -23,26 +26,47 @@ const Downloads = () => {
 
     const ReadFiles = () => {
         RNFetchBlob.fs.lstat(path).then(files => {
-            var y = [... files].reverse(); // Reversed the array 
+            var y = [...files].reverse(); // Reversed the array 
             // console.log(JSON.stringify(y,0,4))
             setFileStats(y)
             setLoading(false)
         })
-        .catch(err => {
-            // Making the App Downloads folder if it doesnt exist
-            RNFetchBlob.fs.mkdir(path)
-            .then(() => { ReadFiles(); })
-            .catch((err) => { console.error(err) })
-        });
+            .catch(err => {
+                // Making the App Downloads folder if it doesnt exist
+                RNFetchBlob.fs.mkdir(path)
+                    .then(() => { ReadFiles(); })
+                    .catch((err) => { console.error(err) })
+            });
     }
     const PreviousPath = () => { // Implementing the previous folder file system
         var local = path;
         local = local.slice(0, local.lastIndexOf('/'))
         setPath(local)
+
     }
     var shownPath = path
     shownPath = shownPath.slice((shownPath.indexOf(0)), shownPath.length)
 
+
+    // Backhandlers
+    const backAction = () => {
+        if (shownPath === '0'){ // In  future this will be applied to android directory too so that the app doesnt crash
+            navigation.navigate('Home')
+            return true;
+        }
+        if (canGoBackward) {
+            setLoading(true);
+            PreviousPath();
+        }
+        return true;
+    };
+    BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+    );
+
+// Here if the user is on the root directory the back button is hidden so it wont work, lso if the user clicks on hardware back btn
+// her will be forwarded to home
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
@@ -56,7 +80,7 @@ const Downloads = () => {
                         </TouchableOpacity>
                 }
                 <Text style={styles.PathText}>
-                    {shownPath.replace('0','Home')}
+                    {shownPath.replace('0', 'Home')}
                 </Text>
             </View>
             {loading ?
@@ -67,8 +91,8 @@ const Downloads = () => {
                 : (loading === false && filestats.length === 0) ?
                     <View style={styles.BlankFilePage} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
-                    </View> : 
-                    <FlatList 
+                    </View> :
+                    <FlatList
                         data={filestats}
                         renderItem={(info) => {
                             return (
@@ -111,7 +135,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16.0,
         paddingVertical: 16.0
     },
-    BlankFilePage:{
+    BlankFilePage: {
         backgroundColor: '#fcfafa',
         flex: 1,
         justifyContent: 'center',
