@@ -1,8 +1,10 @@
 # OSX
 #
 .DS_Store
+
 #
 screens/env.js
+
 # Xcode
 #
 build/
