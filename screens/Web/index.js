@@ -3,12 +3,12 @@ import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, 
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowLeft, faArrowRight, faCheckCircle, faEllipsisV, faHome, faRedo, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faArrowDown, faEllipsisV, faHome, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import validator from 'validator'
 import copyToClipboard from '../Scripts/copyToClipboard'
 import Success from '../Components/Success'
 import toShare from '../Scripts/toShare'
-
+import { ARP,SAGO,SHWE } from '../env';
 
 const Web = (props) => {
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
@@ -20,6 +20,7 @@ const Web = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [showCard, setShowCard] = useState(true)
     const [canGoBackward, setCanGoBackward] = useState(false)
+    const [downloadable,setDownloadable] = useState(false)
     const webViewRef = useRef();
     const inputRef = useRef();
 
@@ -28,6 +29,16 @@ const Web = (props) => {
     const [font, setFont] = useState()
     const [text, setText] = useState("")
     const [foteco, setFoteco] = useState("#4bb543")
+
+
+    const isDownloadable = () =>{
+
+        if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)){
+            setDownloadable(true);
+        }else{
+            setDownloadable(false);
+        }
+    }
 
     // Backaction defined here, if the user cant go back he will go to home tab
     const backAction = () => {
@@ -45,8 +56,7 @@ const Web = (props) => {
         "hardwareBackPress",
         backAction
     );
-    //
-
+    
     // Function to set Card props
     const showOtherCard = (bg, font, text, foteco) => {
         setShowCard(false);
@@ -165,11 +175,16 @@ const Web = (props) => {
                 allowFileAccessFromFileURLs={true}
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
-                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); }}
+                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); isDownloadable();}}
                 renderLoading={true}
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
+             {downloadable ?
+                <TouchableOpacity style={styles.down}>
+                    <FontAwesomeIcon icon={faArrowDown} size={28} color={'#fff'} />
+                </TouchableOpacity>
+            :<></>}
         </>
     )
 }
@@ -250,4 +265,13 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
     },
+    down:{
+        position:'absolute',
+        padding:12.0,
+        borderRadius: 1000.0,
+        bottom: 35.0,
+        right: 15.0,
+        backgroundColor: '#ff156f',
+        elevation: 10.0
+    }
 })
