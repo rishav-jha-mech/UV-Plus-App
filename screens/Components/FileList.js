@@ -20,7 +20,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
         var fileSize = data.data.size
         var date = data.data.lastModified
     }
-    console.log(JSON.stringify(data.data, null, 4))
+    // console.log(JSON.stringify(data.data, null, 4))
 
     fileSize = (bytesConverter(data.data.size))
     date = (TimeStampToDate(data.data.lastModified))

@@ -2,8 +2,8 @@
 #
 .DS_Store
 
-#ENV
-.env 
+#
+screens/env.js
 
 # Xcode
 #

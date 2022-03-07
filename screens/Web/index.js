@@ -3,12 +3,14 @@ import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, 
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDown, faArrowLeft, faArrowRight, faCheckCircle, faEllipsisV, faHome, faRedo, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faArrowDown, faEllipsisV, faHome, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+
 import validator from 'validator'
 import copyToClipboard from '../Scripts/copyToClipboard'
 import Success from '../Components/Success'
 import toShare from '../Scripts/toShare'
-import Config from 'react-native-config'
+
+import { ARP,SAGO,SHWE } from '../env';
 
 const Web = (props) => {
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
@@ -30,17 +32,15 @@ const Web = (props) => {
     const [text, setText] = useState("")
     const [foteco, setFoteco] = useState("#4bb543")
 
+     
     const isDownloadable = () =>{
-        console.log(Config.StringARP)
-        console.log(Config.StringSAGO)
-        console.log(Config.StringSHWE)
-        if (URL.includes(Config.StringARP) || URL.includes(Config.StringSAGO) || URL.includes(Config.StringSHWE)){
+   if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)){
             setDownloadable(true);
         }else{
             setDownloadable(false);
         }
     }
-    
+
     // Backaction defined here, if the user cant go back he will go to home tab
     const backAction = () => {
         if (canGoBackward){
@@ -55,7 +55,6 @@ const Web = (props) => {
         "hardwareBackPress",
         backAction
     );
-
     // Function to set Card props
     const showOtherCard = (bg, font, text, foteco) => {
         setShowCard(false);
@@ -179,7 +178,8 @@ const Web = (props) => {
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
-            {downloadable ?
+
+             {downloadable ?
                 <TouchableOpacity style={styles.down}>
                     <FontAwesomeIcon icon={faArrowDown} size={28} color={'#fff'} />
                 </TouchableOpacity>
