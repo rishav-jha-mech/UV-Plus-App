@@ -3,7 +3,8 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import RNFetchBlob from 'rn-fetch-blob'
-import WritePermission from '../Scripts/WritePermission'
+import {ARP, SHWE, SAGO} from '../env';
+
 
 const VideoList = ({ title, info, source }) => {
 
@@ -68,9 +69,9 @@ const VideoList = ({ title, info, source }) => {
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         else if (source == 'facebook') { setFacebook(true); Facebook(info); }
         else if (source == 'Instagram') { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
-        else if (source == '') { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
-        else if (source == '') { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
-        else if (source == '') { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
+        else if (source == ARP) { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
+        else if (source == SAGO) { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
+        else if (source == SHWE) { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else { setUnknown(true) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
@@ -201,18 +202,16 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginVertical: 1.0
     },
     TheText: {
         flex: 1,
-        marginVertical: 3,
-        backgroundColor: "#ff56",
+        backgroundColor: "#fff0f5",
         textAlign: 'center',
-        paddingHorizontal: 12,
-        paddingVertical: 12,
+        paddingVertical: 16.0,
     },
     format: {
         textTransform: 'capitalize',
-        textAlign: 'left'
     },
     nf: {
         color: '#fff',

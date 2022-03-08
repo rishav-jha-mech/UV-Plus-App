@@ -5,7 +5,6 @@ import { faFolder } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
-import { useNavigation } from '@react-navigation/native';
 import FileIcon from '../Components/FileIcon'
 import OpenFile from '../Components/OpenFile';
 

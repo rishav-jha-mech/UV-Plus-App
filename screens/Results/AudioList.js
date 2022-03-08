@@ -25,7 +25,6 @@ const AudioList = ({ title, info, source }) => {
         if (WritePermission()) {
             const { config, fs } = RNFetchBlob
             let options = {
-                fileCache: true,
                 addAndroidDownloads: {
                     title: (title + '.' + ext),
                     useDownloadManager: true,
@@ -34,18 +33,18 @@ const AudioList = ({ title, info, source }) => {
                     description: 'Media',
                 },
             }
-            config(options).fetch('GET', url, { 'Cache-Control': 'no-store', 'Transfer-Encoding': 'Chunked' })
+            config(options).fetch('GET', url)
                 .then(res => {
                     console.log('response -> ', JSON.stringify(res, null, 4))
                     alert("Media Downloaded Successfully")
                     navigation.navigate("Home")
                 })
-                .catch(error => { // Smartest Decision Till Date 😂😎😎😎😎
+                .catch(error => {
                     alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
-                    navigation.navigate("Plain Web", {
+                    navigation.navigate("Stack Web", {
                         url: url
                     })
-                    console.log(error) // if i dont print this then i will get a unhandled promise error
+                    console.log(error)
                 })
         }
     }
@@ -118,20 +117,17 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginVertical: 1.0
     },
     TheText: {
         flex: 1,
-        marginVertical: 3,
-        backgroundColor: "#ff56",
+        backgroundColor: "#fff0f5",
         textAlign: 'center',
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        textAlignVertical:'center'
+        paddingVertical: 16.0,
     },
     format: {
         textTransform: 'capitalize',
-        textAlign: 'left'
     },
     nf:{
         fontSize:20,
