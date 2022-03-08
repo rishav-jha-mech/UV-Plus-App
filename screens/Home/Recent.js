@@ -32,6 +32,8 @@ const Recent = (props) => {
             setLoading(false);
         })
             .catch(err => {
+                // When the app loads for the first time
+                setLoading(false);
                 console.error(err)
             });
     }

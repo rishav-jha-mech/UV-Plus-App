@@ -27,7 +27,7 @@ const VideoList = ({ title, info, source }) => {
                 addAndroidDownloads: {
                     title: (title + '.' + ext),
                     useDownloadManager: true,
-                    notification: false, // Need to use a hook here, sometimes you want to see download progress, sometimes you dont so....
+                    notification: true,
                     description: 'Media',
                     path: (SAVE_FILE_TO + FileName),
                 },
