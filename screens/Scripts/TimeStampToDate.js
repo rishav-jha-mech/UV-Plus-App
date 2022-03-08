@@ -9,7 +9,7 @@ const TimeStampToDate = (date) => {
     var timestamp = parseInt(date) // Its a string we have to parse it as a int or we will get error :)
     var Localdate = new Date(timestamp); // This is an OBJECT
     // console.log(`TimeStamp => ${Localdate}`)
-    LocalDateString = `${Localdate.getFullYear()}-${ModTime(Localdate.getMonth())}-${ModTime(Localdate.getDate())}`
+    LocalDateString = `${ModTime(Localdate.getDate())}-${ ModTime(parseInt(Localdate.getMonth())+1) }-${Localdate.getFullYear()} `
     return LocalDateString
 }
 
