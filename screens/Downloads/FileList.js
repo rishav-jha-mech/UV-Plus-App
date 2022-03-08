@@ -7,6 +7,7 @@ import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import { useNavigation } from '@react-navigation/native';
 import FileIcon from '../Components/FileIcon'
+import FileViewer from "react-native-file-viewer";
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -77,7 +78,14 @@ const styles = StyleSheet.create({
 const File = (props) => {
     const navigation = useNavigation();
     const ViewVideo = () => {
-        console.warn('deprecated rishav !!!!!!!!!!!!')
+        console.log(props.path);
+        FileViewer.open(props.path, { showOpenWithDialog: false,displayName: true })
+        .then(() => {
+            // console.log('Do nothing');
+        })
+        .catch((error) => {
+            alert('You dont have any app to open files of this type');
+        });
     }
     return (
         <Pressable style={styles.Container} onPress={ViewVideo}>
