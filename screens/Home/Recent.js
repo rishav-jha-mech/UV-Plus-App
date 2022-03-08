@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
+import OpenFile from '../Components/OpenFile'
 
 const Recent = (props) => {
     if (props.perm === false) {
@@ -70,6 +71,7 @@ const Recent = (props) => {
                                             activeOpacity={0.25}
                                             key={index}
                                             style={styles.card}
+                                            onPress={() => OpenFile(data.path)}
                                         >
                                             <View style={styles.iconContainer}>
                                                 <FileIcon ext={ext} size={50.0} />
