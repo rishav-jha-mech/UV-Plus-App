@@ -24,7 +24,7 @@ const Results = ({ route }) => {
     }, []);
 
     const ReqData = (url) => {
-        axios.post('http://127.0.0.1:6969/', {
+        axios.post('http://192.168.0.106:8000/', {
             uri: url,
         })
             .then((response) => handleRes(response.data))

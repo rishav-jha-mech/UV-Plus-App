@@ -1,6 +1,6 @@
 // react-native-media-thumbnail may be used in future commits
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -16,7 +16,7 @@ const Downloads = () => {
     const [readPerm, setReadPerm] = useState(true);
     const [path, setPath] = useState((FILEPATH + '/UV Downloader'));
     const [loading, setLoading] = useState(true);
-    const [canGoBackward, setCanGoBackward] = useState(true);
+    const canGoBackward = true;
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(res => { setReadPerm(res) });
 
     useEffect(() => {
@@ -47,10 +47,9 @@ const Downloads = () => {
     var shownPath = path
     shownPath = shownPath.slice((shownPath.indexOf(0)), shownPath.length)
 
-
     // Backhandlers
     const backAction = () => {
-        if (shownPath === '0'){ // In  future this will be applied to android directory too so that the app doesnt crash
+        if (shownPath === '0') { // In  future this will be applied to android directory too so that the app doesnt crash
             navigation.navigate('Home')
             return true;
         }
@@ -65,8 +64,8 @@ const Downloads = () => {
         backAction
     );
 
-// Here if the user is on the root directory the back button is hidden so it wont work, lso if the user clicks on hardware back btn
-// her will be forwarded to home
+    // Here if the user is on the root directory the back button is hidden so it wont work, lso if the user clicks on hardware back btn
+    // her will be forwarded to home
     return readPerm ? (
         <View style={styles.Container}>
             <View style={styles.Path}>
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
     Path: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
         height: 52.0,
         borderBottomColor: 'rgba(0,0,0,0.075)',
         borderBottomWidth: 1.5
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
         paddingHorizontal: 16.0,
         paddingVertical: 16.0,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        height: 52.0
     },
     backBtn: {
         paddingHorizontal: 16.0,

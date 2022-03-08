@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import React, { useState } from 'react';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, TextInput, StatusBar, ImageBackground, Pressable } from 'react-native'
+import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import isURL from 'validator/lib/isURL';
 
 const Banner = () => {
     const BANNER = { uri: "https://raw.githubusercontent.com/byprogrammers/LCRN10-cryptocurrency-app-starter/master/assets/images/banner.png" };
-    
+
     const [url, setUrl] = useState("")
     const navigation = useNavigation();
     const PostReq = (url) => {
-        console.log('I am Callled')
-        navigation.navigate('Result Tab', {
-            url: url,
-        });
+
+        if (isURL(url)) {
+            navigation.navigate('Result Tab', {
+                url: url,
+            });
+        } else {
+            alert("Please enter a valid URL");
+        }
+
     }
     return (<>
-        <StatusBar
-            animated={true}
-            backgroundColor="#6E55F7"
-        />
         <View style={styles.Banner}>
             <ImageBackground source={BANNER} style={styles.BannerImageBG} resizeMode={"cover"} >
                 <Text style={styles.NavbarText}>Universal Downloader</Text>
@@ -37,7 +39,7 @@ const Banner = () => {
                 />
                 <Pressable
                     style={styles.Search}
-                    onPress={() => PostReq(url) }
+                    onPress={() => PostReq(url)}
                 >
                     <FontAwesomeIcon
                         icon={faSearch}
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#66f',
-        marginBottom:50
+        marginBottom: 50
     },
     BannerImageBG: {
         flex: 1,

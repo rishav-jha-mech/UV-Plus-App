@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, StatusBar } from 'react-native'
 import ReadPermission from '../Scripts/ReadPermission';
-import Banner from './Banner'
+import Banner from './Banner';                                 // Every thing happens here !
 import Recent from './Recent';
 
 const Home = () => {
@@ -9,8 +9,12 @@ const Home = () => {
     ReadPermission().then(res => {setPerm(res);console.log(res)});
     return (
         <>
+        <StatusBar
+            animated={true}
+            backgroundColor="#202020"
+        />
         <View style={{backgroundColor: '#fcfcfc',flex:1}}>
-            <Banner />
+            <Banner />                                          
             <Recent perm={perm} />
         </View>
         </>
