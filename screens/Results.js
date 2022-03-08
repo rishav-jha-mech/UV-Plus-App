@@ -24,14 +24,14 @@ const Results = ({ route }) => {
     }, []);
 
     const ReqData = (url) => {
-        axios.post('http://192.168.0.106:8000/', {
+        axios.post('http://localhost:8000/', {
             uri: url,
         })
-            .then((response) => handleRes(response.data))
+            .then((res) => handleRes(res.data))
             .catch((error) => {
-                console.log(error)
-                setLoading(false)
-                setError(true)
+                console.log(error);
+                setLoading(false);
+                setError(true);
             });
     }
     const handleRes = (data) => {
@@ -59,7 +59,7 @@ const Results = ({ route }) => {
                     {present ?
                     <View>
                         <ScrollView>
-                            {formats.map((data, index) => { // CalBack Function's second Param is the index
+                            {formats.map((data, index) => {
                                 return (<AudioList title={thedata.title} source={source} key={index} info={data} />)
 
                             })}
@@ -70,7 +70,7 @@ const Results = ({ route }) => {
                     {present ?
                     <View>
                         <ScrollView>
-                            {formats.map((data, index) => { // CalBack Function's second Param is the index
+                            {formats.map((data, index) => {
                                 return (<VideoList title={thedata.title} source={source} key={index} info={data} />)
                             })}
                         </ScrollView>

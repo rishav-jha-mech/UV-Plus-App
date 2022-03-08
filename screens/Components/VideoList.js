@@ -22,32 +22,30 @@ const VideoList = ({ title, info, source }) => {
 
         if (platform == "fb") { FileName = `Facebook Media.${ext}` }
 
-        if (WritePermission()) {
-            const { config, fs } = RNFetchBlob
-            let options = {
+        let options = {
                 fileCache: true,
                 addAndroidDownloads: {
                     title: (title + '.' + ext),
                     useDownloadManager: true,
-                    notification: true,
-                    path: (SAVE_FILE_TO + FileName),
+                    notification: false, // Need to use a hook here, sometimes you want to see download progress, sometimes you dont so....
                     description: 'Media',
+                    path: (SAVE_FILE_TO + FileName),
                 },
-            }
-            config(options).fetch('GET', url, { 'Cache-Control': 'no-store', 'Transfer-Encoding': 'Chunked' })
-                .then(res => {
-                    console.log('response -> ', JSON.stringify(res, null, 4))
-                    alert("Media Downloaded Successfully")
-                    navigation.navigate("Home")
-                })
-                .catch(error => { // Smartest Decision Till Date 😂😎😎😎😎
-                    alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
-                    navigation.navigate("Plain Web", {
-                        url: url
-                    })
-                    console.log(error) // if i dont print this then i will get a unhandled promise error
-                })
         }
+        RNFetchBlob.config(options)
+            .fetch('GET', url)
+            .then(res => {
+                console.log('response -> ', JSON.stringify(res, null, 4))
+                alert("Media Downloaded Successfully")
+                navigation.navigate("Home")
+            })
+            .catch(error => {
+                alert("Can't download the File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
+                navigation.navigate("Stack Web", {
+                    theUrl: url
+                })
+                console.error(error)
+            })
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
