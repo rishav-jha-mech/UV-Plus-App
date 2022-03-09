@@ -56,7 +56,7 @@ export default Banner;
 
 const styles = StyleSheet.create({
     Banner: {
-        height: 225,
+        height: 250,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',

@@ -69,10 +69,8 @@ const Recent = (props) => {
                     {
                         fileStats.length === 0 ?
                             <Text
-                                style={{
-                                    paddingVertical: 24.0,
-                                    textAlign: 'center',
-                                }}>
+                                style={styles.none}
+                            >
                                 No recent downloads.
                             </Text>
                             :
@@ -95,10 +93,8 @@ const Recent = (props) => {
                     {
                         videoStats.length === 0 ?
                             <Text
-                                style={{
-                                    paddingVertical: 24.0,
-                                    textAlign: 'center',
-                                }}>
+                                style={styles.none}
+                            >
                                 No recent videos.
                             </Text>
                             :
@@ -121,10 +117,8 @@ const Recent = (props) => {
                     {
                         audioStats.length === 0 ?
                             <Text
-                                style={{
-                                    paddingVertical: 24.0,
-                                    textAlign: 'center',
-                                }}>
+                                style={styles.none}
+                            >
                                 No recent audios.
                             </Text>
                             :
@@ -181,6 +175,11 @@ const styles = StyleSheet.create({
         fontSize: 19.0,
         lineHeight: 25.0,
         textAlign: 'center'
+    },
+    none: {
+        paddingVertical: 24.0,
+        height: 100.0,
+        textAlign: 'center',
     }
 })
 
@@ -204,7 +203,7 @@ const Permi = () => {
 }
 const Loading = () => {
     return (
-        <View style={{ height: 150.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={'#66f'} /></View>
+        <View style={{ height: 190.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={'#66f'} /></View>
     );
 }
 
