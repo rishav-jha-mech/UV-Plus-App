@@ -52,7 +52,7 @@ const Results = ({ route }) => {
     ) : (
         <View style={styles.Container}>
             <ScrollView>
-                <Image style={styles.Thumbnail} source={{ uri: thedata.thumbnail }} resizeMode={'cover'} />
+                <Image style={styles.Thumbnail} source={{ uri: thedata.thumbnail }} resizeMode={'contain'} />
                 <Text style={styles.Title} numberOfLines={3}>{thedata.title}</Text>
                 <Text style={styles.DurationHead} numberOfLines={1}>Duration : {duration}</Text>
                 <Text style={styles.Heading}>Audio Streams</Text>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     Thumbnail: {
         width: '100%',
-        minHeight: 275,
+        minHeight: 220.0
     },
     Title: {
         fontSize: 18,

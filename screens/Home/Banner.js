@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
@@ -11,16 +11,21 @@ const Banner = () => {
 
     const [url, setUrl] = useState("")
     const navigation = useNavigation();
+    const inputRef = useRef();
     const PostReq = (url) => {
-
+        
         if (isURL(url)) {
             navigation.navigate('Result Tab', {
                 url: url,
             });
         } else {
-            alert("Please enter a valid URL");
+            // What's the point of annoying the users by alerting them their url is incorrect ?, instead redirect them to Google
+            // So if url is okay then send them to my server
+            // Else if its not event a url send it to Google Search
+            navigation.navigate('Stack Web',{
+                theUrl: `https://www.google.com/search?q=${url}`
+            })
         }
-
     }
     return (<>
         <View style={styles.Banner}>
@@ -30,10 +35,13 @@ const Banner = () => {
             <View style={styles.urlContainer}>
                 <TextInput
                     style={styles.Input}
+                    ref={inputRef}
                     placeholder="Enter url"
                     keyboardType="url"
                     defaultValue={url}
                     showSoftInputOnFocus={true}
+                    onPressIn={() => { inputRef.current.focus() }}
+                    selectTextOnFocus={true}
                     onSubmitEditing={() => PostReq(url)}
                     onChangeText={(url) => setUrl(url)}
                 />
