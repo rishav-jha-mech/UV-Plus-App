@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
-import OpenFile from '../Components/OpenFile';
+import OpenFile from '../Scripts/OpenFile';
 
 const Recent = (props) => {
     if (props.perm === false) {

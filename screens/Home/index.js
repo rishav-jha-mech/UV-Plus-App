@@ -37,17 +37,9 @@ const Home = () => {
                                             console.log('Progress => ' + ((res.bytesWritten/res.contentLength)*100));
                                         },
                                 }
-                                RNFS.downloadFile(options)
-                                .promise
-                                .then(res =>{
-                                    console.log(res)
-                                }).catch(err => {
-                                    console.error(err);
-                                }
-                                )
-                                // navigator.navigate('Stack Web',{
-                                //     theUrl: 'https://m.youtube.com'
-                                // })
+                                navigator.navigate('Stack Web',{
+                                    theUrl: 'https://m.youtube.com'
+                                })
                             }}
                         >
                             <Text style={{color:'#fff'}}>Download More</Text>

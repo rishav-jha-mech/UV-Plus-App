@@ -6,7 +6,7 @@ import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import FileIcon from '../Components/FileIcon'
-import OpenFile from '../Components/OpenFile';
+import OpenFile from '../Scripts/OpenFile';
 
 const FileList = (data) => { // By default it is sorted by recent old order
 

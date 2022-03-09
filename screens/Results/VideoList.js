@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
-import RNFetchBlob from 'rn-fetch-blob'
 import { ARP, SHWE, SAGO } from '../env';
 import RNFS from 'react-native-fs';
 
@@ -12,12 +11,9 @@ const VideoList = ({ title, info, source }) => {
 
     // The Future is here
 
-    const startDownloading = (url, ext, platform) => {
-        DownloadScript(url, title, ext, platform)
+    const startDownloading = (url, title, ext) => {
+        
         alert("Download Started Check Notification For Progress");
-    }
-    const DownloadScript = (url, title, ext, platform) => {
-
         // Title was having some file sanitization issues so yeah fixed it here !
 
         title = title.replace(/[/\\?%*:|"<>]/g, '-');
