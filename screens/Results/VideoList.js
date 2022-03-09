@@ -3,8 +3,8 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import RNFetchBlob from 'rn-fetch-blob'
-import {ARP, SHWE, SAGO} from '../env';
-
+import { ARP, SHWE, SAGO } from '../env';
+import RNFS from 'react-native-fs';
 
 const VideoList = ({ title, info, source }) => {
 
@@ -18,35 +18,31 @@ const VideoList = ({ title, info, source }) => {
     }
     const DownloadScript = (url, title, ext, platform) => {
 
-        const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
-        var FileName = `${title}.${ext}`
+        // Title was having some file sanitization issues so yeah fixed it here !
 
-        if (platform == "fb") { FileName = `Facebook Media.${ext}` }
+        title = title.replace(/[/\\?%*:|"<>]/g, '-');
+        const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${title}.${ext}`
 
-        let options = {
-                fileCache: true,
-                addAndroidDownloads: {
-                    title: (title + '.' + ext),
-                    useDownloadManager: true,
-                    notification: true,
-                    description: 'Media',
-                    path: (SAVE_FILE_TO + FileName),
-                },
-        }
-        RNFetchBlob.config(options)
-            .fetch('GET', url)
-            .then(res => {
-                console.log('response -> ', JSON.stringify(res, null, 4))
-                alert("Media Downloaded Successfully")
-                navigation.navigate("Home")
-            })
-            .catch(error => {
-                alert("Can't download the File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
-                navigation.navigate("Stack Web", {
-                    theUrl: url
-                })
-                console.error(error)
-            })
+        let DownloadFileOptions = {
+            fromUrl: url,
+            toFile: SAVE_FILE_TO,
+            progressInterval: 500,
+            progressDivider: 1,
+            begin: (res) => { console.log('DOWNLOAFD STARTED => ', res) },
+            progress: (res) => { 
+                console.log('Progress => ' + ((res.bytesWritten/res.contentLength)*100));
+             },
+        };
+        RNFS.downloadFile(DownloadFileOptions,(res)=>{
+            console.log('RESULT')
+            console.log(res);
+        }).promise
+        .then(res =>{
+            console.log(res);
+        }).catch(err =>{
+            console.error(err)
+        })
+   
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
