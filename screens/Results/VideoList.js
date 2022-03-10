@@ -3,42 +3,19 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../env';
-import RNFS from 'react-native-fs';
 
 const VideoList = ({ title, info, source }) => {
 
-    const navigation = useNavigation(); // This is a hook and cannot be used as a scripts file
+    const navigation = useNavigation();
 
     // The Future is here
-
-    const startDownloading = (url, title, ext) => {
-        
-        alert("Download Started Check Notification For Progress");
-        // Title was having some file sanitization issues so yeah fixed it here !
-
-        title = title.replace(/[/\\?%*:|"<>]/g, '-');
-        const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${title}.${ext}`
-
-        let DownloadFileOptions = {
-            fromUrl: url,
-            toFile: SAVE_FILE_TO,
-            progressInterval: 500,
-            progressDivider: 1,
-            begin: (res) => { console.log('DOWNLOAFD STARTED => ', res) },
-            progress: (res) => { 
-                console.log('Progress => ' + ((res.bytesWritten/res.contentLength)*100));
-             },
-        };
-        RNFS.downloadFile(DownloadFileOptions,(res)=>{
-            console.log('RESULT')
-            console.log(res);
-        }).promise
-        .then(res =>{
-            console.log(res);
-        }).catch(err =>{
-            console.error(err)
+    
+    const startDownloading = (url, ext) => {
+        let filename = `${title}.${ext}`
+        navigation.navigate('Downloading',{
+            url: url,
+            filename: filename
         })
-   
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
