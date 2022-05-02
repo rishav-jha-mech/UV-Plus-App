@@ -1,48 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import Downcomp from './Downcomp';
-import RNFS from 'react-native-fs';
+import { AppContext } from '../CONTEXT';
 
 const Downloading = (props) => {
 
-  const [DownloadList, setDownloadList] = useState([]);
+  const { DownloadList } = useContext(AppContext);
 
-  useEffect(() => {
-    Supervisor()
-  }, [])
-
-  const Supervisor = () => {
-
-    if (props.route.params !== undefined) {
-      console.log('SUPERVISOR CALLED filename => ', props.route.params.filename);
-
-      const { url, filename } = props.route.params;
-      console.log('Path recieved => ', filename);
-      const date = new Date();
-      const id = date.toISOString();
-
-      const PATH = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`
-      RNFS.exists(PATH)
-        .then((exists) => {
-          console.log('RNFS RAN')
-          if (exists) {
-            console.log('This does exists & the path is => ', PATH);
-            return
-          }
-          // Here we were setting the download list after checking that if the file already exists or not AGAIN !
-          // But now nothing such will happen, the only thing we will dop here, is , check using useContext if there something geting dowloaded in the bg,
-          // Then removing it, will not happen from here, it will happen directly from the child !
-          // setDownloadList(prevValue => [...prevValue, { id: id, url: url, filename: filename },]);
-
-          console.log('SET THE DOWNLOAD LIST')
-        });
-    }
-  }
-  const removeFromDownloads = (id) => {
-    const newArray = DownloadList.filter(items => items.taskid == id);
-    setDownloadList(newArray);
-  }
-
+  // Here we were setting the download list after checking that if the file already exists or not AGAIN !
+  // But now nothing such will happen, the only thing we will dop here, is , check using useContext if there something geting dowloaded in the bg,
+  // Then removing it, will not happen from here, it will happen directly from the child !
+  // setDownloadList(prevValue => [...prevValue, { id: id, url: url, filename: filename },]);
 
   return (
     <View style={styles.Container}>
@@ -57,7 +25,7 @@ const Downloading = (props) => {
           //   <Text>URL : {data.item.filename}</Text>
           //   <Text>Task id: {data.item.id}</Text>
           // </>);
-          return <Downcomp data={data.item} removeFromDownloads={(id) => removeFromDownloads(id)} />
+          return <Downcomp key={index} data={data.item} />
         }} />
       }
 

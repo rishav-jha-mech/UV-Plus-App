@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import bytesConverter from '../Scripts/bytesConverter';
 import RNFS from 'react-native-fs';
+import { AppContext } from '../CONTEXT';
 
 const Downcomp = (props) => {
+    const { dispatchDownloadEvent } = useContext(AppContext);
 
     let { id, url, filename } = props.data
     const [progress, setProgress] = useState(0);
     const [totalsize, setTotal] = useState(0);
-    const [downloadedSize,setDownloadedSize] = useState(0);
+    const [downloadedSize, setDownloadedSize] = useState(0);
 
     useEffect(() => {
-        if (progress === 0){
+        if (progress === 0) {
             StartDownload();
         }
     }, [progress])
@@ -50,10 +52,12 @@ const Downcomp = (props) => {
                 alert(filename + ' Was Downloaded Successfully')
                 setProgress(1.0);
                 setDownloadedSize(bytesConverter(totalsize));
-                props.removeFromDownloads(id);
+                dispatchDownloadEvent('DOWNLOADED_SUCCESSFULLY', {
+                    id: id
+                })
             }).catch(err => {
                 console.error(err);
-                alert('Error occured while downloading'+ filename)
+                alert('Error occured while downloading' + filename)
             });
     }
     return (
@@ -62,7 +66,7 @@ const Downcomp = (props) => {
                 <Circle
                     size={60}
                     progress={progress}
-                    color={(progress < 1) ? 'dodgerblue': '#4BB543'}
+                    color={(progress < 1) ? 'dodgerblue' : '#4BB543'}
                     endAngle={1.0}
                     thickness={3}
                     showsText={true}
@@ -92,30 +96,30 @@ export default Downcomp
 
 const baby = StyleSheet.create({
     Container: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingHorizontal: 2.0,
-      paddingVertical: 12.0,
-      marginVertical: 1,
-      borderBottomWidth: 1,
-      borderBottomColor: 'rgba(0,0,0,0.05)',
-      height: 90.0
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 2.0,
+        paddingVertical: 12.0,
+        marginVertical: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0,0,0,0.05)',
+        height: 90.0
     },
-    CircleContainer:{
+    CircleContainer: {
 
     },
     textContainer: {
-      flex: 1,
-      height: '100%',
-      paddingHorizontal: 10.0,
-      paddingVertical: 2.0,
-      justifyContent: 'space-between'
+        flex: 1,
+        height: '100%',
+        paddingHorizontal: 10.0,
+        paddingVertical: 2.0,
+        justifyContent: 'space-between'
     },
     bigText: {
-      color: '#333'
+        color: '#333'
     },
     smolText: {
-      fontSize: 12.0
+        fontSize: 12.0
     }
 });

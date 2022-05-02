@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../env';
 import RNFS from 'react-native-fs';
 import { TabActions } from '@react-navigation/native';
+import { AppContext } from '../CONTEXT';
 
 const VideoList = ({ title, info, source }) => {
 
+    const { dispatchDownloadEvent } = useContext(AppContext);
     const navigation = useNavigation();
 
     // The Future is here
@@ -15,9 +17,11 @@ const VideoList = ({ title, info, source }) => {
     const startDownloading = (url, ext) => {
         let filename = `${title}.${ext}`
         filename = filename.replace(/[/\\?%*:|"<>]/g, '-');
-        console.log('FILENAME => '+filename)
+        console.log('FILENAME => ' + filename)
+        console.log('PATH => ' + PATH)
+        const time = new Date();
+        const id = time.toISOString();
         const PATH = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`
-        console.log('PATH => '+ PATH)
 
         RNFS.exists(PATH)
             .then((exists) => {
@@ -27,7 +31,13 @@ const VideoList = ({ title, info, source }) => {
                     // now here instead of sending the url and file name to downloading screen
                     // We will use context api and code it such that the downloading state remains constant throughout the app
                     // And it does not gets changed
-                    
+                    dispatchDownloadEvent('START_DOWNLOADING', {
+                        id: id, // DATEISOSTRING which helps to stay as an unique id
+                        url: url,   // Download URL
+                        filename: filename // Purified Filename which does not throws error
+                    });
+                    // After starting the download we will send the user to there only
+                    navigation.navigate('Downloading');
                 }
             });
     }
