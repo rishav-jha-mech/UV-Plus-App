@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faBars, faCloudDownloadAlt, faDownload, faFileDownload, faLevelDownAlt, faLongArrowAltDown, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import isURL from 'validator/lib/isURL';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Banner = () => {
     const BANNER = { uri: "https://raw.githubusercontent.com/byprogrammers/LCRN10-cryptocurrency-app-starter/master/assets/images/banner.png" };
@@ -13,7 +14,7 @@ const Banner = () => {
     const navigation = useNavigation();
     const inputRef = useRef();
     const PostReq = (url) => {
-        
+
         if (isURL(url)) {
             navigation.navigate('Result Tab', {
                 url: url,
@@ -22,13 +23,33 @@ const Banner = () => {
             // What's the point of annoying the users by alerting them their url is incorrect ?, instead redirect them to Google
             // So if url is okay then send them to my server
             // Else if its not event a url send it to Google Search
-            navigation.navigate('Stack Web',{
+            navigation.navigate('Stack Web', {
                 theUrl: `https://www.google.com/search?q=${url}`
             })
         }
     }
     return (<>
         <View style={styles.Banner}>
+            <View style={styles.TopIcons}>
+                <TouchableOpacity activeOpacity={0.6}>
+                    <FontAwesomeIcon
+                        icon={faBars}
+                        size={24}
+                        color={'#fff'}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={{elevation: 10000,zIndex: 10000000}}
+                    onPress={ () => navigation.navigate('Downloading')}
+                >
+                    <FontAwesomeIcon
+                        style={{elevation: 10000,zIndex: 10000000}}
+                        icon={faDownload}
+                        size={24}
+                        color={'#fff'}
+                    />
+                </TouchableOpacity>
+            </View>
             <ImageBackground source={BANNER} style={styles.BannerImageBG} resizeMode={"cover"} >
                 <Text style={styles.NavbarText}>Universal Downloader</Text>
             </ImageBackground>
@@ -76,6 +97,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center',
         width: "100%",
+    },
+    TopIcons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#f56',
+        width: '100%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
     },
     NavbarText: {
         fontSize: 32.0,

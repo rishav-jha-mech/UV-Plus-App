@@ -24,16 +24,10 @@ const VideoList = ({ title, info, source }) => {
                 if (exists) {
                     alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
                 } else {
-
-                    const jumpToAction = TabActions.jumpTo('Downloading', {
-                        url: url,
-                        filename: filename
-                    });
-                    navigation.dispatch(jumpToAction);
-                    navigation.navigate('Downloading', {
-                        url: url,
-                        filename: filename
-                    })
+                    // now here instead of sending the url and file name to downloading screen
+                    // We will use context api and code it such that the downloading state remains constant throughout the app
+                    // And it does not gets changed
+                    
                 }
             });
     }

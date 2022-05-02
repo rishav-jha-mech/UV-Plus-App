@@ -1,26 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native';
 import Downcomp from './Downcomp';
 import RNFS from 'react-native-fs';
-import { useNavigation } from '@react-navigation/native';
 
 const Downloading = (props) => {
 
   const [DownloadList, setDownloadList] = useState([]);
 
   useEffect(() => {
-
     Supervisor()
   }, [])
-
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     Supervisor();
-  //     console.log(JSON.stringify(props, null, 4));
-  //   }, [])
-  // );
 
   const Supervisor = () => {
 
@@ -40,7 +29,11 @@ const Downloading = (props) => {
             console.log('This does exists & the path is => ', PATH);
             return
           }
-          setDownloadList(prevValue => [...prevValue, { id: id, url: url, filename: filename },]);
+          // Here we were setting the download list after checking that if the file already exists or not AGAIN !
+          // But now nothing such will happen, the only thing we will dop here, is , check using useContext if there something geting dowloaded in the bg,
+          // Then removing it, will not happen from here, it will happen directly from the child !
+          // setDownloadList(prevValue => [...prevValue, { id: id, url: url, filename: filename },]);
+
           console.log('SET THE DOWNLOAD LIST')
         });
     }
