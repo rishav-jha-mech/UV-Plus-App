@@ -2,58 +2,74 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native';
 import Downcomp from './Downcomp';
-
+import RNFS from 'react-native-fs';
+import { useNavigation } from '@react-navigation/native';
 
 const Downloading = (props) => {
 
   const [DownloadList, setDownloadList] = useState([]);
 
-  useFocusEffect(
-    useCallback(() => {
-      Supervisor();
-    }, [])
-  );
+  useEffect(() => {
+
+    Supervisor()
+  }, [])
+
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     Supervisor();
+  //     console.log(JSON.stringify(props, null, 4));
+  //   }, [])
+  // );
 
   const Supervisor = () => {
-    console.log('SUPERVISOR CALLED');
+
     if (props.route.params !== undefined) {
+      console.log('SUPERVISOR CALLED filename => ', props.route.params.filename);
+
       const { url, filename } = props.route.params;
+      console.log('Path recieved => ', filename);
       const date = new Date();
       const id = date.toISOString();
 
-      console.log('url => ' + url);
-      console.log('filename => ' + filename);
-      console.log('id => ' + id);
-
-      setDownloadList(prevValue => [...prevValue, { id: id,url: url,filename: filename },]);
-      console.log('SET THE DOWNLOAD LIST')
+      const PATH = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`
+      RNFS.exists(PATH)
+        .then((exists) => {
+          console.log('RNFS RAN')
+          if (exists) {
+            console.log('This does exists & the path is => ', PATH);
+            return
+          }
+          setDownloadList(prevValue => [...prevValue, { id: id, url: url, filename: filename },]);
+          console.log('SET THE DOWNLOAD LIST')
+        });
     }
   }
-  const removeFromDownloads = (id) =>{
+  const removeFromDownloads = (id) => {
     const newArray = DownloadList.filter(items => items.taskid == id);
     setDownloadList(newArray);
   }
 
 
   return (
-      <View style={styles.Container}>
-        <Text style={styles.topHeading}>Downloading</Text>
+    <View style={styles.Container}>
+      <Text style={styles.topHeading}>Downloading</Text>
 
-        {(DownloadList.length === 0) ?
-          <NoDownloading />
-          : <FlatList data={DownloadList} renderItem={(data,index) =>{
-            console.log(data.item)
-            // return (<>
-            //   <Text>Filename : {data.item.filename}</Text>
-            //   <Text>URL : {data.item.filename}</Text>
-            //   <Text>Task id: {data.item.id}</Text>
-            // </>);
-            return <Downcomp data={data.item} removeFromDownloads={(id)=> removeFromDownloads(id)} />
-          }}/>
-        }
+      {(DownloadList.length === 0) ?
+        <NoDownloading />
+        : <FlatList data={DownloadList} renderItem={(data, index) => {
+          console.log(data.item)
+          // return (<>
+          //   <Text>Filename : {data.item.filename}</Text>
+          //   <Text>URL : {data.item.filename}</Text>
+          //   <Text>Task id: {data.item.id}</Text>
+          // </>);
+          return <Downcomp data={data.item} removeFromDownloads={(id) => removeFromDownloads(id)} />
+        }} />
+      }
 
 
-      </View>
+    </View>
   )
 }
 

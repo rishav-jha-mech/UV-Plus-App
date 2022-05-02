@@ -3,20 +3,41 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../env';
+import RNFS from 'react-native-fs';
+import { TabActions } from '@react-navigation/native';
 
 const VideoList = ({ title, info, source }) => {
 
     const navigation = useNavigation();
 
     // The Future is here
-    
+
     const startDownloading = (url, ext) => {
         let filename = `${title}.${ext}`
-        navigation.navigate('Downloading',{
-            url: url,
-            filename: filename
-        })
+        filename = filename.replace(/[/\\?%*:|"<>]/g, '-');
+        console.log('FILENAME => '+filename)
+        const PATH = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`
+        console.log('PATH => '+ PATH)
+
+        RNFS.exists(PATH)
+            .then((exists) => {
+                if (exists) {
+                    alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
+                } else {
+
+                    const jumpToAction = TabActions.jumpTo('Downloading', {
+                        url: url,
+                        filename: filename
+                    });
+                    navigation.dispatch(jumpToAction);
+                    navigation.navigate('Downloading', {
+                        url: url,
+                        filename: filename
+                    })
+                }
+            });
     }
+
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
     const [ext, setExt] = useState()

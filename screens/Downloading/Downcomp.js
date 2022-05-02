@@ -22,32 +22,31 @@ const Downcomp = (props) => {
     function StartDownload() {
         alert("Download Started Check Notification For Progress");
 
-        filename = filename.replace(/[/\\?%*:|"<>]/g, '-');
         const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`;
 
         let DownloadFileOptions = {
             fromUrl: url,
             toFile: SAVE_FILE_TO,
-            progressInterval: 1000,
+            progressInterval: 100,
             progressDivider: 1,
             // background: true,
             begin: (res) => {
                 console.log('DOWNLOAD STARTED => ');
                 setTotal(bytesConverter(res.contentLength))
-                console.log(JSON.stringify(res, null, 4));
+                // console.log(JSON.stringify(res, null, 4));
             },
             progress: (res) => {
-                console.log('Progress => ' + ((res.bytesWritten / res.contentLength) * 100));
+                // console.log('Progress => ' + ((res.bytesWritten / res.contentLength) * 100));
                 setProgress(res.bytesWritten / res.contentLength);
                 setDownloadedSize(bytesConverter(res.bytesWritten))
             },
         };
         RNFS.downloadFile(DownloadFileOptions, (res) => {
             console.log('RESULT');
-            console.log(res);
+            // console.log(res);
         }).promise
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 alert(filename + ' Was Downloaded Successfully')
                 setProgress(1.0);
                 setDownloadedSize(bytesConverter(totalsize));
