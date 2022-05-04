@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import WebView from 'react-native-webview'
@@ -9,6 +9,7 @@ const StackWeb = (props) => {
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
 
     const [URL, setURL] = useState(HOMEPAGE)
+    const [title, setTitle] = useState('')
     const webViewRef = useRef();
     const [downloadable, setDownloadable] = useState(false)
 
@@ -22,6 +23,9 @@ const StackWeb = (props) => {
     }
     return (
         <>
+            <View style={styles.header}>
+                <Text style={styles.headerText} numberOfLines={1}>{title}</Text>
+            </View>
             <WebView
                 source={{ uri: URL }}
                 ref={(ref) => webViewRef.current = ref}
@@ -30,7 +34,13 @@ const StackWeb = (props) => {
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
                 renderLoading={true}
-                onNavigationStateChange={(navState) => { setURL(navState.url); isDownloadable(); }}
+                onNavigationStateChange={
+                    (navState) => {
+                        setURL(navState.url);
+                        isDownloadable();
+                        setTitle(navState.title)
+                    }
+                }
             />
             {downloadable ?
                 <TouchableOpacity style={styles.down}>
@@ -55,5 +65,18 @@ const styles = StyleSheet.create({
         right: 15.0,
         backgroundColor: '#ff156f',
         elevation: 10.0
+    },
+    header:{
+        elevation: 2,
+        backgroundColor: '#66f',
+        paddingHorizontal: 8,
+        paddingVertical: 14,
+        flexDirection : 'row',
+        alignItems: 'center',
+    },
+    headerText:{
+        color: '#fff',
+        fontSize: 16,
+        letterSpacing: 1,
     }
 })
