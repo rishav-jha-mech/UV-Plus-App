@@ -3,70 +3,28 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import bytesConverter from '../Scripts/bytesConverter';
-import RNFS from 'react-native-fs';
 import { AppContext } from '../CONTEXT';
+import bytesConverter from '../Scripts/bytesConverter';
 
 const Downcomp = (props) => {
+
+    const { id, filename, fileSize, downSize } = props.data
+    const [progress, setProgress] = useState(0);
     const { dispatchDownloadEvent } = useContext(AppContext);
 
-    let { id, url, filename } = props.data
-    const [progress, setProgress] = useState(0);
-    const [totalsize, setTotal] = useState(0);
-    const [downloadedSize, setDownloadedSize] = useState(0);
-
     useEffect(() => {
-        if (progress === 0) {
-            StartDownload();
+        if (downSize > 0) {
+            setProgress((downSize / fileSize))
         }
-    }, [progress])
+    }, [downSize])
 
-    function StartDownload() {
-        alert("Download Started Check Notification For Progress");
-
-        const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`;
-
-        let DownloadFileOptions = {
-            fromUrl: url,
-            toFile: SAVE_FILE_TO,
-            progressInterval: 100,
-            progressDivider: 1,
-            // background: true,
-            begin: (res) => {
-                console.log('DOWNLOAD STARTED => ');
-                setTotal(bytesConverter(res.contentLength))
-                // console.log(JSON.stringify(res, null, 4));
-            },
-            progress: (res) => {
-                // console.log('Progress => ' + ((res.bytesWritten / res.contentLength) * 100));
-                setProgress(res.bytesWritten / res.contentLength);
-                setDownloadedSize(bytesConverter(res.bytesWritten))
-            },
-        };
-        RNFS.downloadFile(DownloadFileOptions, (res) => {
-            console.log('RESULT');
-            // console.log(res);
-        }).promise
-            .then(res => {
-                // console.log(res);
-                alert(filename + ' Was Downloaded Successfully')
-                setProgress(1.0);
-                setDownloadedSize(bytesConverter(totalsize));
-                dispatchDownloadEvent('DOWNLOADED_SUCCESSFULLY', {
-                    id: id
-                })
-            }).catch(err => {
-                console.error(err);
-                alert('Error occured while downloading' + filename)
-            });
-    }
     return (
         <Pressable style={baby.Container}>
             <View style={baby.CircleContainer}>
                 <Circle
                     size={60}
                     progress={progress}
-                    color={(progress < 1) ? 'dodgerblue' : '#4BB543'}
+                    color={'dodgerblue'}
                     endAngle={1.0}
                     thickness={3}
                     showsText={true}
@@ -79,11 +37,16 @@ const Downcomp = (props) => {
                     {filename}
                 </Text>
                 <Text style={baby.smolText} numberOfLines={1}>
-                    {downloadedSize}/{totalsize}
+                    {bytesConverter(downSize)}/{bytesConverter(fileSize)}
+                </Text>
+                <Text>
+                    {(downSize/fileSize).toString()}
                 </Text>
             </View>
             <View style={baby.eliipBtn}>
-                <Pressable>
+                <Pressable onPress={() => dispatchDownloadEvent('REMOVE_FROM_DOWNLOAD', {
+                    id: id
+                })}>
                     <FontAwesomeIcon icon={faEllipsisV} totalsize={23} color={'#333'} />
                 </Pressable>
             </View>

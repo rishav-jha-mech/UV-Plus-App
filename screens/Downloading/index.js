@@ -7,6 +7,8 @@ const Downloading = (props) => {
 
   const { DownloadList } = useContext(AppContext);
 
+  // console.log(JSON.stringify(DownloadList,null,4))
+
   // Here we were setting the download list after checking that if the file already exists or not AGAIN !
   // But now nothing such will happen, the only thing we will dop here, is , check using useContext if there something geting dowloaded in the bg,
   // Then removing it, will not happen from here, it will happen directly from the child !
@@ -19,7 +21,6 @@ const Downloading = (props) => {
       {(DownloadList.length === 0) ?
         <NoDownloading />
         : <FlatList data={DownloadList} renderItem={(data, index) => {
-          console.log(data.item)
           // return (<>
           //   <Text>Filename : {data.item.filename}</Text>
           //   <Text>URL : {data.item.filename}</Text>
