@@ -39,9 +39,6 @@ const Downcomp = (props) => {
                 <Text style={baby.smolText} numberOfLines={1}>
                     {bytesConverter(downSize)}/{bytesConverter(fileSize)}
                 </Text>
-                <Text>
-                    {(downSize/fileSize).toString()}
-                </Text>
             </View>
             <View style={baby.eliipBtn}>
                 <Pressable onPress={() => dispatchDownloadEvent('REMOVE_FROM_DOWNLOAD', {

@@ -17,7 +17,7 @@ const App = () => {
 
   const SuperVisor = () =>{
     DownloadList.map((payload)=>{
-      if (payload.startDownloading === true) {
+      if (payload.startDownloading === true && payload.completed === false) {
         function StartDownload() {
           alert("Download Started Check Notification For Progress");
     
@@ -26,7 +26,7 @@ const App = () => {
           let DownloadFileOptions = {
             fromUrl: payload.url,
             toFile: SAVE_FILE_TO,
-            progressInterval: 100,
+            progressInterval: 800,
             progressDivider: 1,
             begin: (res) => {
               dispatchDownloadEvent('SET_FILE_SIZE', {
@@ -71,6 +71,7 @@ const App = () => {
           url: payload.url,
           filename: payload.filename,
           startDownloading: true,
+          completed: false,
           fileSize: 0,
           downSize: 0,
         };
@@ -87,6 +88,11 @@ const App = () => {
         // ---------------------------------------------------------------------------------------------------------------- //
         return;
       case 'DOWNLOADED_SUCCESSFULLY':
+        var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
+        var updatedDownloads = [...DownloadList];
+        updatedDownloads[downloadIndex].downSize = updatedDownloads[downloadIndex].fileSize;
+        updatedDownloads[downloadIndex].completed = true;
+        setDownloadList(updatedDownloads);
         const newArray = DownloadList.filter(items => items.id !== payload.id);
         setDownloadList(newArray);
         return;

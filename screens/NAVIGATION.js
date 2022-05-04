@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFolder, faGlobe, faHome, } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faFolder, faGlobe, faHome, } from '@fortawesome/free-solid-svg-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createStackNavigator();
@@ -56,6 +56,18 @@ const HomeTabNavigation = () => {
           tabBarInactiveTintColor: '#999',
         }}
       />
+      
+      <Tab.Screen
+        name="Downloading"
+        component={Downloading}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesomeIcon icon={faDownload} color={color} size={size} />
+          ),
+          tabBarActiveTintColor: '#66f',
+          tabBarInactiveTintColor: '#999',
+        }}
+      />
     </Tab.Navigator>
   )
 }
@@ -71,7 +83,6 @@ const NAVIGATION = () => {
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
         <Stack.Screen name="Stack Web" component={StackWeb} />
         <Stack.Screen name="Result Tab" component={Results} />
-        <Stack.Screen name="Downloading" component={Downloading} />
       </Stack.Navigator>
     </NavigationContainer>
   )

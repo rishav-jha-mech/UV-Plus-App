@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState,useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import Downcomp from './Downcomp';
 import { AppContext } from '../CONTEXT';
@@ -6,6 +6,12 @@ import { AppContext } from '../CONTEXT';
 const Downloading = (props) => {
 
   const { DownloadList } = useContext(AppContext);
+  const [List, setList] = useState(DownloadList)
+
+  useEffect(() => {
+    setList(DownloadList)
+  }, [DownloadList])
+
 
   // console.log(JSON.stringify(DownloadList,null,4))
 
@@ -20,7 +26,7 @@ const Downloading = (props) => {
 
       {(DownloadList.length === 0) ?
         <NoDownloading />
-        : <FlatList data={DownloadList} renderItem={(data, index) => {
+        : <FlatList data={List} renderItem={(data, index) => {
           // return (<>
           //   <Text>Filename : {data.item.filename}</Text>
           //   <Text>URL : {data.item.filename}</Text>
