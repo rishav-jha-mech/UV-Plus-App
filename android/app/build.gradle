@@ -194,6 +194,8 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // React native file system
     implementation project(':react-native-fs')
+    // React Native LinearGradient
+    implementation project(':react-native-linear-gradient')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

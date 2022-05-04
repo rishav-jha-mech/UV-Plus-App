@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.rnfs.RNFSPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

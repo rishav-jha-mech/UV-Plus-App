@@ -1,3 +1,5 @@
+import { faFacebook, faFacebookF, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
@@ -6,6 +8,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
 import OpenFile from '../Scripts/OpenFile';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const Recent = (props) => {
     if (props.perm === false) {
@@ -17,6 +20,42 @@ const Recent = (props) => {
     const [videoStats, setVideoStats] = useState([]);
     const [audioStats, setaudioStats] = useState([]);
     const navigation = useNavigation();
+
+    const supWebsites = [
+        {
+            name: 'Youtube',
+            url: 'https://youtube.com',
+            icon: faYoutube,
+            size: 35,
+            colors: ['#FF0000', 'red'],
+            color: '#fff'
+        },
+        {
+            name: 'Facebook',
+            url: 'https://facebook.com',
+            icon: faFacebook,
+            size: 35,
+            colors: ['#3b5998', '#3b5998'],
+            color: '#fff'
+
+        },
+        {
+            name: 'Instagram',
+            url: 'https://instagram.com',
+            icon: faInstagram,
+            size: 35,
+            colors: ['#feda75', '#fa7e1e', '#d62976', '#962fbf', '#4f5bd5'],
+            color: '#fff'
+        },
+        {
+            name: 'Twitter',
+            url: 'https://twitter.com',
+            icon: faTwitter,
+            size: 35,
+            colors: ['#1DA1F2', '#1DA1F2'],
+            color: '#fff'
+        },
+    ];
 
     useEffect(() => {
         setLoading(true);
@@ -132,6 +171,35 @@ const Recent = (props) => {
                     }
                 </ScrollView>
             }
+            <Text style={styles.header}>Download Media From</Text>
+            <ScrollView
+                style={styles.cardContainer}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+            >
+                {supWebsites.map((data, index) => {
+                    const { name, icon, url, colors, color, size } = data
+                    return <LinearGradient
+                        key={index}
+                        opac
+                        colors={colors}
+                        angle={4}
+                        angleCenter={{ x: 0.5, y: 0.5 }}
+                        useAngle={true}
+                        style={styles.static}
+                    >
+                        <TouchableOpacity activeOpacity={0.4}
+                            onPress={() => {
+                                navigation.navigate('Stack Web',{
+                                    'theUrl': url
+                                });
+                            }}
+                        >
+                            <FontAwesomeIcon icon={icon} size={size} color={color} />
+                        </TouchableOpacity>
+                    </LinearGradient>
+                })}
+            </ScrollView>
         </View>
     )
 }
@@ -180,6 +248,15 @@ const styles = StyleSheet.create({
         paddingVertical: 24.0,
         height: 100.0,
         textAlign: 'center',
+    },
+    static: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 100,
+        width: 80,
+        borderRadius: 16,
+        marginHorizontal: 7,
+        marginVertical: 20
     }
 })
 
@@ -208,21 +285,22 @@ const Loading = () => {
 }
 
 const FileIconCard = (props) => {
+    const { index, path, ext, filename } = props
     return (
         <TouchableOpacity
-            key={props.index}
+            key={index}
             activeOpacity={0.85}
             style={styles.card}
-            onPress={() => OpenFile(props.path)}
+            onPress={() => OpenFile(path)}
         >
             <View style={styles.iconContainer}>
-                <FileIcon ext={props.ext} size={50.0} />
+                <FileIcon ext={ext} size={50.0} />
             </View>
             <Text
                 numberOfLines={2}
                 style={styles.cardFileName}
             >
-                {props.filename}
+                {filename}
             </Text>
         </TouchableOpacity>
     );

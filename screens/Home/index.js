@@ -14,7 +14,7 @@ const Home = () => {
                 animated={true}
                 backgroundColor="#202020"
             />
-            <ScrollView >
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ backgroundColor: '#fcfcfc', flex: 1 }}>
                     <Banner />
                     <Recent perm={perm} />
