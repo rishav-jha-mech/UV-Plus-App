@@ -40,13 +40,6 @@ const Downcomp = (props) => {
                     {bytesConverter(downSize)}/{bytesConverter(fileSize)}
                 </Text>
             </View>
-            <View style={baby.eliipBtn}>
-                <Pressable onPress={() => dispatchDownloadEvent('REMOVE_FROM_DOWNLOAD', {
-                    id: id
-                })}>
-                    <FontAwesomeIcon icon={faEllipsisV} totalsize={23} color={'#333'} />
-                </Pressable>
-            </View>
         </Pressable>
     )
 
