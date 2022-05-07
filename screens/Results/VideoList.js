@@ -5,7 +5,7 @@ import bytesConverter from '../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../env';
 import RNFS from 'react-native-fs';
 import { useDispatch } from 'react-redux';
-import { startDownloading } from '../REDUX/actions'
+import { startDownloading, downloadedSuccessfully, setDownloadedFileSize, setFilesize } from '../REDUX/actions'
 
 
 const VideoList = ({ title, info, source }) => {
@@ -27,15 +27,50 @@ const VideoList = ({ title, info, source }) => {
                 if (exists) {
                     alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
                 } else {
-                    // now here instead of sending the url and file name to downloading screen
-                    // We will use context api and code it such that the downloading state remains constant throughout the app
-                    // And it does not gets changed
-                    dispatch(startDownloading({
-                        url: url,   // Download URL
-                        filename: filename // Purified Filename which does not throws error
-                    }));
 
-                    // After starting the download we will send the user to there only
+                    const time = new Date();
+                    const id = time.toISOString();
+                    dispatch(startDownloading({
+                        id: id,
+                        url: url,
+                        filename: filename
+                    }));
+                    function StartDownload() {
+                        alert("Download Started Check Notification For Progress");
+
+                        const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`;
+
+                        let DownloadFileOptions = {
+                            fromUrl: url,
+                            toFile: SAVE_FILE_TO,
+                            progressInterval: 100,
+                            progressDivider: 1,
+                            begin: (res) => {
+                                dispatch(setFilesize({
+                                    id: id,
+                                    fileSize: res.contentLength,
+                                }));
+                            },
+                            progress: (res) => {
+                                dispatch(setDownloadedFileSize({
+                                    id: id,
+                                    downSize: res.bytesWritten
+                                }));
+                            },
+                        };
+                        RNFS.downloadFile(DownloadFileOptions, (res) => {
+                        }).promise
+                            .then(res => {
+                                alert(filename + ' Was Downloaded Successfully')
+                                dispatch(downloadedSuccessfully({
+                                    id: id
+                                }));
+                            }).catch(err => {
+                                console.error(err);
+                                alert('Error occured while downloading' + filename)
+                            });
+                    }
+                    StartDownload();
                     navigation.navigate('Downloading');
                 }
             });
