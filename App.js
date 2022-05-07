@@ -59,8 +59,6 @@ const App = () => {
     })
   }
 
-
-
   const dispatchDownloadEvent = (actionType, payload) => {
     switch (actionType) {
       case 'START_DOWNLOADING':
@@ -149,4 +147,8 @@ export default App
 // And even if the user is not on the Downloading screen this function will keep running, which is adding unneccessary load
 // because on our phones, so yeah, we will store it raw, in bytes
 
-// One fiule can be downloaded at a time, you can download more than one but the screen will flicker.
+// One file can be downloaded at a time, you can download more than one but the screen will flicker.
+
+
+// I tried to do many optimisations, but none of them were capable enough to stop the flickering of the screen
+// Just yesterday i tried react-redux and now i think its time for me to use it, again in a new seperate branch
