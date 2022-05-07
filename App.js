@@ -15,18 +15,18 @@ const App = () => {
   }, [DownloadList])
 
 
-  const SuperVisor = () =>{
-    DownloadList.map((payload)=>{
+  const SuperVisor = () => {
+    DownloadList.map((payload) => {
       if (payload.startDownloading === true && payload.completed === false) {
         function StartDownload() {
           alert("Download Started Check Notification For Progress");
-    
+
           const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${payload.filename}`;
-    
+
           let DownloadFileOptions = {
             fromUrl: payload.url,
             toFile: SAVE_FILE_TO,
-            progressInterval: 800,
+            progressInterval: 100,
             progressDivider: 1,
             begin: (res) => {
               dispatchDownloadEvent('SET_FILE_SIZE', {
@@ -45,7 +45,6 @@ const App = () => {
           RNFS.downloadFile(DownloadFileOptions, (res) => {
           }).promise
             .then(res => {
-              // console.log(res);
               alert(payload.filename + ' Was Downloaded Successfully')
               dispatchDownloadEvent('DOWNLOADED_SUCCESSFULLY', {
                 id: payload.id
@@ -54,7 +53,7 @@ const App = () => {
               console.error(err);
               alert('Error occured while downloading' + payload.filename)
             });
-        }  
+        }
         StartDownload();
       }
     })
@@ -93,8 +92,6 @@ const App = () => {
         updatedDownloads[downloadIndex].downSize = updatedDownloads[downloadIndex].fileSize;
         updatedDownloads[downloadIndex].completed = true;
         setDownloadList(updatedDownloads);
-        const newArray = DownloadList.filter(items => items.id !== payload.id);
-        setDownloadList(newArray);
         return;
       case 'SET_FILE_SIZE':
         try {
@@ -118,12 +115,7 @@ const App = () => {
         } catch (error) {
           console.error(error);
           console.error('ERROR OCCURED WHILE SETTING DOWNSIZE');
-      }
-      // case 'REMOVE_FROM_DOWNLOAD':
-      //   console.log('REMOVE_FROM_DOWNLOAD');
-      //   const remove = DownloadList.filter(items => items.id !== payload.id);
-      //   setDownloadList(remove);
-      //   return;
+        }
       default:
         return;
     }
@@ -156,3 +148,5 @@ export default App
 //  I was converting the bytes to kilobytes and mbs and all over here only but then how would i show the progress ? huh ?
 // And even if the user is not on the Downloading screen this function will keep running, which is adding unneccessary load
 // because on our phones, so yeah, we will store it raw, in bytes
+
+// One fiule can be downloaded at a time, you can download more than one but the screen will flicker.

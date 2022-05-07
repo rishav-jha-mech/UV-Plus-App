@@ -24,7 +24,7 @@ const Results = ({ route }) => {
     }, []);
 
     const ReqData = (url) => {
-        axios.post('http://localhost:8000/', {
+        axios.post('https://uv-plus.herokuapp.com/', {
             uri: url,
         })
             .then((res) => handleRes(res.data))

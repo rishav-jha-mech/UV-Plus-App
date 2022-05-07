@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { AppContext } from '../CONTEXT';
 import bytesConverter from '../Scripts/bytesConverter';
 
@@ -24,7 +22,7 @@ const Downcomp = (props) => {
                 <Circle
                     size={60}
                     progress={progress}
-                    color={'dodgerblue'}
+                    color={(progress != 1) ? 'dodgerblue' : '#2DA44E'}
                     endAngle={1.0}
                     thickness={3}
                     showsText={true}

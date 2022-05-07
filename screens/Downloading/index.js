@@ -6,12 +6,6 @@ import { AppContext } from '../CONTEXT';
 const Downloading = (props) => {
 
   const { DownloadList } = useContext(AppContext);
-  const [List, setList] = useState(DownloadList)
-
-  useEffect(() => {
-    setList(DownloadList)
-  }, [DownloadList])
-
 
   // console.log(JSON.stringify(DownloadList,null,4))
 
@@ -26,7 +20,7 @@ const Downloading = (props) => {
 
       {(DownloadList.length === 0) ?
         <NoDownloading />
-        : <FlatList data={List} renderItem={(data, index) => {
+        : <FlatList data={DownloadList} renderItem={(data, index) => {
           // return (<>
           //   <Text>Filename : {data.item.filename}</Text>
           //   <Text>URL : {data.item.filename}</Text>
