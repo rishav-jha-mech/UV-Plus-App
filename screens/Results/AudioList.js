@@ -1,52 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, Pressable } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
-import bytesConverter from '../Scripts/bytesConverter'
-import RNFetchBlob from 'rn-fetch-blob'
-import WritePermission from '../Scripts/WritePermission'
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import bytesConverter from '../Scripts/bytesConverter';
+import RNFS from 'react-native-fs';
+import { useDispatch } from 'react-redux';
+import { startDownloading } from '../REDUX/actions';
+import { AppContext } from '../CONTEXT';
 
 const AudioList = ({ title, info, source }) => {
-    
+
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { StartDownload } = useContext(AppContext);
 
-    const startDownloading = (url,ext,platform) =>{
-        DownloadScript(url,title,ext,platform)
-        alert("Download Started Check Notification For Progress");
-        navigation.navigate("Home")
+    const StartDownloading = (url, ext) => {
+        const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
 
-    }
-    const DownloadScript = (url, title, ext, platform) => {
-
-        const SAVE_FILE_TO = RNFetchBlob.fs.dirs.DownloadDir + "/UV Downloader/"
-        var FileName = `${title}.${ext}`
-
-        if (platform == "fb") { FileName = `Facebook Media.${ext}` }
-
-        if (WritePermission()) {
-            const { config, fs } = RNFetchBlob
-            let options = {
-                addAndroidDownloads: {
-                    title: (title + '.' + ext),
-                    useDownloadManager: true,
-                    notification: true,
-                    path: (SAVE_FILE_TO + FileName),
-                    description: 'Media',
-                },
-            }
-            config(options).fetch('GET', url)
-                .then(res => {
-                    console.log('response -> ', JSON.stringify(res, null, 4))
-                    alert("Media Downloaded Successfully")
-                    navigation.navigate("Home")
-                })
-                .catch(error => {
-                    alert("Can't download th File directly, click on the three dots button to download the file.\n\nThe file will be stored in the Downloads Folder of your device")
-                    navigation.navigate("Stack Web", {
-                        url: url
-                    })
-                    console.log(error)
-                })
-        }
+        RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
+            .then((exists) => {
+                if (exists) {
+                    alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
+                } else {
+                    const time = new Date();
+                    const id = time.toISOString();
+                    const params = {
+                        id: id,
+                        url: url,
+                        filename: filename
+                    };
+                    dispatch(startDownloading(params));
+                    StartDownload(params);
+                    navigation.navigate('Downloading');
+                }
+            });
     }
     const [filesize, setFilesize] = useState(0)
     const [format, setFormat] = useState()
@@ -64,7 +50,7 @@ const AudioList = ({ title, info, source }) => {
         // Checking the source of the audio file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         if (source == 'facebook') { setFacebook(true); Facebook(info) }
-        if (source == 'Instagram') { setInstagram(true);}
+        if (source == 'Instagram') { setInstagram(true); }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -91,7 +77,7 @@ const AudioList = ({ title, info, source }) => {
     return (youtube && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.url,info.ext) }}
+            onPress={() => { StartDownloading(info.url, info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
@@ -100,13 +86,13 @@ const AudioList = ({ title, info, source }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.url,info.ext,"fb") }}
+            onPress={() => { StartDownloading(info.url, info.ext, "fb") }}
         >
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
         </Pressable>
-    ) : (instagram) ?(
-            <Text style={styles.nf}>We Dont Do That Here</Text>
+    ) : (instagram) ? (
+        <Text style={styles.nf}>We Dont Do That Here</Text>
     ) : (<></>)
 }
 
@@ -129,12 +115,12 @@ const styles = StyleSheet.create({
     format: {
         textTransform: 'capitalize',
     },
-    nf:{
-        fontSize:20,
-        paddingVertical:10,
-        backgroundColor:'orangered',
-        color:'white',
-        fontWeight:'800',
-        textAlign:'center'
+    nf: {
+        fontSize: 20,
+        paddingVertical: 10,
+        backgroundColor: 'orangered',
+        color: 'white',
+        fontWeight: '800',
+        textAlign: 'center'
     }
 })
