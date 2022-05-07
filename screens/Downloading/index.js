@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import Downcomp from './Downcomp';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,6 @@ const Downloading = (props) => {
   return (
     <View style={styles.Container}>
       <Text style={styles.topHeading}>Downloading</Text>
-
       {(DownloadList.length === 0) ?
         <NoDownloading />
         : <FlatList data={DownloadList} renderItem={(data, index) => {

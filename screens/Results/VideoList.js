@@ -4,7 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../env';
 import RNFS from 'react-native-fs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { startDownloading } from '../REDUX/actions'
 
 
 const VideoList = ({ title, info, source }) => {
@@ -14,7 +15,7 @@ const VideoList = ({ title, info, source }) => {
 
     // The Future is here
 
-    const startDownloading = (url, ext) => {
+    const StartDownloading = (url, ext) => {
         let filename = `${title}.${ext}`
         filename = filename.replace(/[/\\?%*:|"<>]/g, '-');
         console.log('FILENAME => ' + filename)
@@ -29,10 +30,11 @@ const VideoList = ({ title, info, source }) => {
                     // now here instead of sending the url and file name to downloading screen
                     // We will use context api and code it such that the downloading state remains constant throughout the app
                     // And it does not gets changed
-                    dispatchDownloadEvent('START_DOWNLOADING', {
+                    dispatch(startDownloading({
                         url: url,   // Download URL
                         filename: filename // Purified Filename which does not throws error
-                    });
+                    }));
+
                     // After starting the download we will send the user to there only
                     navigation.navigate('Downloading');
                 }
@@ -122,7 +124,7 @@ const VideoList = ({ title, info, source }) => {
     return (youtube && video) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { startDownloading(info.url, info.ext) }}
+            onPress={() => { StartDownloading(info.url, info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={styles.TheText}> {ext}</Text>
@@ -132,7 +134,7 @@ const VideoList = ({ title, info, source }) => {
         (facebook && video) ? (
             <Pressable
                 style={styles.Container}
-                onPress={() => { startDownloading(info.url, info.ext, "fb") }}
+                onPress={() => { StartDownloading(info.url, info.ext, "fb") }}
             >
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>
@@ -141,7 +143,7 @@ const VideoList = ({ title, info, source }) => {
             (instagram) ? (
                 <Pressable
                     style={styles.Container}
-                    onPress={() => { startDownloading(info.url, info.ext) }}
+                    onPress={() => { StartDownloading(info.url, info.ext) }}
                 >
                     <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
                     <Text style={styles.TheText}> {info.ext}</Text>
@@ -150,7 +152,7 @@ const VideoList = ({ title, info, source }) => {
                 (arp && video) ? (
                     <Pressable
                         style={styles.Container}
-                        onPress={() => { startDownloading(info.url, info.ext) }}
+                        onPress={() => { StartDownloading(info.url, info.ext) }}
                     >
                         <Text style={[styles.TheText, styles.format]}> {format} </Text>
                         <Text style={styles.TheText}> {info.ext} </Text>
@@ -159,7 +161,7 @@ const VideoList = ({ title, info, source }) => {
                     (sago && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { startDownloading(info.url, info.ext) }}
+                            onPress={() => { StartDownloading(info.url, info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -167,7 +169,7 @@ const VideoList = ({ title, info, source }) => {
                     ) : (shwe && video) ? (
                         <Pressable
                             style={styles.Container}
-                            onPress={() => { startDownloading(info.url, info.ext) }}
+                            onPress={() => { StartDownloading(info.url, info.ext) }}
                         >
                             <Text style={[styles.TheText, styles.format]}> {format} </Text>
                             <Text style={styles.TheText}> {info.ext} </Text>
@@ -176,7 +178,7 @@ const VideoList = ({ title, info, source }) => {
                         (unknown) ? (
                             <Pressable
                                 style={styles.Container}
-                                onPress={() => { startDownloading(info.url, info.ext) }}
+                                onPress={() => { StartDownloading(info.url, info.ext) }}
                             >
                                 <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
                                 <Text style={styles.TheText}> {info.ext} </Text>

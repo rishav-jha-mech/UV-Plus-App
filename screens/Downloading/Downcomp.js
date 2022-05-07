@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
-import { AppContext } from '../CONTEXT';
 import bytesConverter from '../Scripts/bytesConverter';
 
 const Downcomp = (props) => {
 
     const { id, filename, fileSize, downSize } = props.data
     const [progress, setProgress] = useState(0);
-    const { dispatchDownloadEvent } = useContext(AppContext);
 
     useEffect(() => {
         if (downSize > 0) {
