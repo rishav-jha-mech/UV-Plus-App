@@ -98,7 +98,10 @@ const UV = () => {
   function StartDownload(payload) {
     alert("Download Started Check Notification For Progress");
     const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${payload.filename}`;
-
+    const errorParams = {
+      id: payload.id,
+      filename: payload.filename
+    };
     let DownloadFileOptions = {
       fromUrl: payload.url,
       toFile: SAVE_FILE_TO,
@@ -120,21 +123,26 @@ const UV = () => {
     RNFS.downloadFile(DownloadFileOptions, (res) => {
     }).promise
       .then(res => {
-        alert(payload.filename + ' Was Downloaded Successfully')
-        console.log(JSON.stringify(res,null,4));
-        dispatch(downloadedSuccessfully({
-          id: payload.id
-        }));
+        // Check the comments below
+        if (res.statusCode == 200){
+          alert(payload.filename + ' Was Downloaded Successfully')
+          dispatch(downloadedSuccessfully({
+            id: payload.id
+          }));
+        }else{
+          raiseError(errorParams);
+        }
       }).catch(err => {
         console.error(err);
-        dispatch(errorDownloading({
-          id: payload.id
-        }));
-        alert('Error occured while downloading' + payload.filename);
+          raiseError(errorParams);
       });
-
   }
-
+function raiseError(params) {
+    dispatch(errorDownloading({
+      id: params.id
+    }));
+    alert('Error occured while downloading' + params.filename);
+}
   return (
     <AppContext.Provider value={{ StartDownload }}>
       <NAVIGATION />
@@ -143,3 +151,20 @@ const UV = () => {
 }
 
 export default UV
+
+/*
+So logically the response for download file should have some error, because the status code is 403,
+but it does not throws an error thats why, while downloading files some files were getting downloaded without
+any change in their filesize, and progress. this is fixed in this commit.
+{
+    "bytesWritten": 41777937,
+    "statusCode": 200,
+    "jobId": 1
+}
+{
+    "bytesWritten": 0,
+    "statusCode": 403,
+    "jobId": 2
+}
+
+*/
