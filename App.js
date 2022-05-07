@@ -1,127 +1,118 @@
-import React, { useState, useEffect } from 'react'
-
+import React from 'react'
 import NAVIGATION from './screens/NAVIGATION'
-import { AppContext } from './screens/CONTEXT'
-import RNFS from 'react-native-fs';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { allReducers } from './screens/REDUX/reducers';
 
+const store = createStore(allReducers);
 
 const App = () => {
-  const [DownloadList, setDownloadList] = useState([]);
-
-  useEffect(() => {
-    // console.log('LIST HAS BEEN CHANGED');
-    // console.log(JSON.stringify(DownloadList, null, 4));
-    SuperVisor();
-  }, [DownloadList])
+  // useEffect(() => {
+  //   // console.log('LIST HAS BEEN CHANGED');
+  //   // console.log(JSON.stringify(DownloadList, null, 4));
+  //   // SuperVisor();
+  // }, [DownloadList])
 
 
-  const SuperVisor = () => {
-    DownloadList.map((payload) => {
-      if (payload.startDownloading === true && payload.completed === false) {
-        function StartDownload() {
-          alert("Download Started Check Notification For Progress");
+  // const SuperVisor = () => {
+  //   DownloadList.map((payload) => {
+  //     if (payload.startDownloading === true && payload.completed === false) {
+  //       function StartDownload() {
+  //         alert("Download Started Check Notification For Progress");
 
-          const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${payload.filename}`;
+  //         const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${payload.filename}`;
 
-          let DownloadFileOptions = {
-            fromUrl: payload.url,
-            toFile: SAVE_FILE_TO,
-            progressInterval: 100,
-            progressDivider: 1,
-            begin: (res) => {
-              dispatchDownloadEvent('SET_FILE_SIZE', {
-                id: payload.id,
-                fileSize: res.contentLength,
-                startDownloading: false
-              })
-            },
-            progress: (res) => {
-              dispatchDownloadEvent('SET_DOWLOADED_FILE_SIZE', {
-                id: payload.id,
-                downSize: res.bytesWritten
-              })
-            },
-          };
-          RNFS.downloadFile(DownloadFileOptions, (res) => {
-          }).promise
-            .then(res => {
-              alert(payload.filename + ' Was Downloaded Successfully')
-              dispatchDownloadEvent('DOWNLOADED_SUCCESSFULLY', {
-                id: payload.id
-              })
-            }).catch(err => {
-              console.error(err);
-              alert('Error occured while downloading' + payload.filename)
-            });
-        }
-        StartDownload();
-      }
-    })
-  }
+  //         let DownloadFileOptions = {
+  //           fromUrl: payload.url,
+  //           toFile: SAVE_FILE_TO,
+  //           progressInterval: 100,
+  //           progressDivider: 1,
+  //           begin: (res) => {
+  //             dispatchDownloadEvent('SET_FILE_SIZE', {
+  //               id: payload.id,
+  //               fileSize: res.contentLength,
+  //               startDownloading: false
+  //             })
+  //           },
+  //           progress: (res) => {
+  //             dispatchDownloadEvent('SET_DOWLOADED_FILE_SIZE', {
+  //               id: payload.id,
+  //               downSize: res.bytesWritten
+  //             })
+  //           },
+  //         };
+  //         RNFS.downloadFile(DownloadFileOptions, (res) => {
+  //         }).promise
+  //           .then(res => {
+  //             alert(payload.filename + ' Was Downloaded Successfully')
+  //             dispatchDownloadEvent('DOWNLOADED_SUCCESSFULLY', {
+  //               id: payload.id
+  //             })
+  //           }).catch(err => {
+  //             console.error(err);
+  //             alert('Error occured while downloading' + payload.filename)
+  //           });
+  //       }
+  //       StartDownload();
+  //     }
+  //   })
+  // }
 
-  const dispatchDownloadEvent = (actionType, payload) => {
-    switch (actionType) {
-      case 'START_DOWNLOADING':
-        // ---------------------------------------------------------------------------------------------------------------- //
-        const params = {
-          id: payload.id,
-          url: payload.url,
-          filename: payload.filename,
-          startDownloading: true,
-          completed: false,
-          fileSize: 0,
-          downSize: 0,
-        };
-        if (DownloadList.length === 0) {
-          setDownloadList(prevValue => [...prevValue, params,]);
-        } else {
-          DownloadList.map((data) => {
-            if (data.filename === payload.filename) {
-              return
-            }
-          })
-          setDownloadList(prevValue => [...prevValue, params,]);
-        }
-        // ---------------------------------------------------------------------------------------------------------------- //
-        return;
-      case 'DOWNLOADED_SUCCESSFULLY':
-        var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
-        var updatedDownloads = [...DownloadList];
-        updatedDownloads[downloadIndex].downSize = updatedDownloads[downloadIndex].fileSize;
-        updatedDownloads[downloadIndex].completed = true;
-        setDownloadList(updatedDownloads);
-        return;
-      case 'SET_FILE_SIZE':
-        try {
-          var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
-          var updatedDownloads = [...DownloadList];
-          updatedDownloads[downloadIndex].fileSize = payload.fileSize;
-          updatedDownloads[downloadIndex].startDownloading = payload.startDownloading;
-          setDownloadList(updatedDownloads);
-        } catch (error) {
-          console.error(error);
-          // console.error('ERROR SETTING FILE SIZE')
-        }
-        return;
-      case 'SET_DOWLOADED_FILE_SIZE':
-        // console.log('SET_DOWLOADED_FILE_SIZE => ',payload.downSize)
-        try {
-          var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
-          var updatedDownloads = [...DownloadList];
-          updatedDownloads[downloadIndex].downSize = payload.downSize
-          setDownloadList(updatedDownloads);
-        } catch (error) {
-          console.error(error);
-          console.error('ERROR OCCURED WHILE SETTING DOWNSIZE');
-        }
-      default:
-        return;
-    }
-  };
+  // const dispatchDownloadEvent = (actionType, payload) => {
+  //   switch (actionType) {
+  //     case 'START_DOWNLOADING':
+  //       // ---------------------------------------------------------------------------------------------------------------- //
+
+  //       if (DownloadList.length === 0) {
+  //         setDownloadList(prevValue => [...prevValue, params,]);
+  //       } else {
+  //         DownloadList.map((data) => {
+  //           if (data.filename === payload.filename) {
+  //             return
+  //           }
+  //         })
+  //         setDownloadList(prevValue => [...prevValue, params,]);
+  //       }
+  //       // ---------------------------------------------------------------------------------------------------------------- //
+  //       return;
+  //     case 'DOWNLOADED_SUCCESSFULLY':
+  //       var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
+  //       var updatedDownloads = [...DownloadList];
+  //       updatedDownloads[downloadIndex].downSize = updatedDownloads[downloadIndex].fileSize;
+  //       updatedDownloads[downloadIndex].completed = true;
+  //       setDownloadList(updatedDownloads);
+  //       return;
+  //     case 'SET_FILE_SIZE':
+  //       try {
+  //         var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
+  //         var updatedDownloads = [...DownloadList];
+  //         updatedDownloads[downloadIndex].fileSize = payload.fileSize;
+  //         updatedDownloads[downloadIndex].startDownloading = payload.startDownloading;
+  //         setDownloadList(updatedDownloads);
+  //       } catch (error) {
+  //         console.error(error);
+  //         // console.error('ERROR SETTING FILE SIZE')
+  //       }
+  //       return;
+  //     case 'SET_DOWLOADED_FILE_SIZE':
+  //       // console.log('SET_DOWLOADED_FILE_SIZE => ',payload.downSize)
+  //       try {
+  //         var downloadIndex = DownloadList.findIndex((obj => obj.id == payload.id));
+  //         var updatedDownloads = [...DownloadList];
+  //         updatedDownloads[downloadIndex].downSize = payload.downSize
+  //         setDownloadList(updatedDownloads);
+  //       } catch (error) {
+  //         console.error(error);
+  //         console.error('ERROR OCCURED WHILE SETTING DOWNSIZE');
+  //       }
+  //     default:
+  //       return;
+  //   }
+  // };
   return (
-    <AppContext.Provider value={{ DownloadList, dispatchDownloadEvent }}>
+    <Provider store={store}>
       <NAVIGATION />
-    </AppContext.Provider>
+    </Provider>
   )
 }
 

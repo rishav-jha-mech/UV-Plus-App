@@ -1,11 +1,11 @@
 import React, { useState,useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import Downcomp from './Downcomp';
-import { AppContext } from '../CONTEXT';
+import { useSelector } from 'react-redux';
 
 const Downloading = (props) => {
 
-  const { DownloadList } = useContext(AppContext);
+  const DownloadList = useSelector((state) => state.downloadReducer);
 
   // console.log(JSON.stringify(DownloadList,null,4))
 
@@ -21,11 +21,6 @@ const Downloading = (props) => {
       {(DownloadList.length === 0) ?
         <NoDownloading />
         : <FlatList data={DownloadList} renderItem={(data, index) => {
-          // return (<>
-          //   <Text>Filename : {data.item.filename}</Text>
-          //   <Text>URL : {data.item.filename}</Text>
-          //   <Text>Task id: {data.item.id}</Text>
-          // </>);
           return <Downcomp key={index} data={data.item} />
         }} />
       }
