@@ -19,11 +19,11 @@ const VideoList = ({ title, info, source }) => {
     const StartDownloading = (url, ext) => {
         const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
 
-        RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
-            .then((exists) => {
-                if (exists) {
-                    alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
-                } else {
+        // RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
+        //     .then((exists) => {
+        //         if (exists) {
+        //             alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
+        //         } else {
                     const time = new Date();
                     const id = time.toISOString();
                     const params =  {
@@ -34,8 +34,8 @@ const VideoList = ({ title, info, source }) => {
                     dispatch(startDownloading(params));
                     StartDownload(params);
                     navigation.navigate('Downloading');
-                }
-            });
+                // }
+            // });
     }
 
     const [filesize, setFilesize] = useState(0)

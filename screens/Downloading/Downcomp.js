@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
 import bytesConverter from '../Scripts/bytesConverter';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck, faCheckCircle, faCheckDouble, faCheckSquare, faExclamationTriangle, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import { kBlueColor, kGreenColor, kRedColor } from '../constants';
+import OpenFile from '../Scripts/OpenFile';
+import RNFS from 'react-native-fs';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Downcomp = (props) => {
 
@@ -15,17 +17,24 @@ const Downcomp = (props) => {
             setProgress((downSize / fileSize))
         }
     }, [downSize])
-
+    const ext = filename.toString().slice(filename.toString().lastIndexOf('.') + 1, filename.toString().length);
     return (
-        <Pressable style={baby.Container}>
+        <TouchableOpacity
+            style={baby.Container}
+            activeOpacity={status == 1 ? 0.5 : 1}
+            onPress={() => {
+                status == 1 ?
+                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`) : null;
+            }}
+        >
             <View style={baby.CircleContainer}>
                 <Circle
                     size={60}
                     progress={progress}
                     color={
-                        status == 0 ? 'dodgerblue'
-                            : status == 1 ? 'green'
-                                : 'red'
+                        status == 0 ? kBlueColor
+                            : status == 1 ? kGreenColor
+                                : kRedColor
                     }
                     endAngle={1.0}
                     thickness={3}
@@ -38,26 +47,26 @@ const Downcomp = (props) => {
                 <Text style={baby.bigText} numberOfLines={1}>
                     {filename}
                 </Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={baby.smolText} numberOfLines={1}>
-                        {bytesConverter(downSize)}/{bytesConverter(fileSize)}
-                    </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View>
+                        <Text style={baby.smolText} numberOfLines={1}>
+                            {bytesConverter(downSize)}/{bytesConverter(fileSize)} | {ext}
+                        </Text>
+                    </View>
                     {status == 0
-                        ? <Text>Downloading</Text> :
+                        ? <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Downloading</Text> :
                         status == 1 ?
-                            <Text style={{ justifyContent: 'center' }}>
-                                <FontAwesomeIcon icon={faCheckCircle} color={'green'} />
-                                Completed
+                            <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Completed</Text>
                             </Text>
                             :
-                            <Text>
-                                <FontAwesomeIcon icon={faExclamationTriangle} color={'red'} />
-                                Error Downloading
+                            <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 12, color: kRedColor, fontWeight: '600' }}>Error Downloading</Text>
                             </Text>
                     }
                 </View>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 
 }
