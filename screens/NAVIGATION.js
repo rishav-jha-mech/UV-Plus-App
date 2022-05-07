@@ -124,25 +124,25 @@ const UV = () => {
     }).promise
       .then(res => {
         // Check the comments below
-        if (res.statusCode == 200){
+        if (res.statusCode == 200) {
           alert(payload.filename + ' Was Downloaded Successfully')
           dispatch(downloadedSuccessfully({
             id: payload.id
           }));
-        }else{
+        } else {
           raiseError(errorParams);
         }
       }).catch(err => {
         console.error(err);
-          raiseError(errorParams);
+        raiseError(errorParams);
       });
   }
-function raiseError(params) {
+  function raiseError(params) {
     dispatch(errorDownloading({
       id: params.id
     }));
     alert('Error occured while downloading' + params.filename);
-}
+  }
   return (
     <AppContext.Provider value={{ StartDownload }}>
       <NAVIGATION />

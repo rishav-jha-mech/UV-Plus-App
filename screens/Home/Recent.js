@@ -9,6 +9,7 @@ import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
 import OpenFile from '../Scripts/OpenFile';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const Recent = (props) => {
     if (props.perm === false) {
@@ -179,25 +180,31 @@ const Recent = (props) => {
             >
                 {supWebsites.map((data, index) => {
                     const { name, icon, url, colors, color, size } = data
-                    return <LinearGradient
-                        key={index}
-                        opac
-                        colors={colors}
-                        angle={4}
-                        angleCenter={{ x: 0.5, y: 0.5 }}
-                        useAngle={true}
-                        style={styles.static}
-                    >
-                        <TouchableOpacity activeOpacity={0.4}
-                            onPress={() => {
-                                navigation.navigate('Stack Web',{
-                                    'theUrl': url
-                                });
-                            }}
+                    return <Pressable
+                        onPress={() => {
+                            navigation.navigate('Stack Web', {
+                                'theUrl': url
+                            });
+                        }}>
+                        <LinearGradient
+                            key={index}
+                            opac
+                            colors={colors}
+                            angle={4}
+                            angleCenter={{ x: 0.5, y: 0.5 }}
+                            useAngle={true}
+                            style={styles.static}
                         >
-                            <FontAwesomeIcon icon={icon} size={size} color={color} />
-                        </TouchableOpacity>
-                    </LinearGradient>
+                            <TouchableOpacity activeOpacity={0.4}
+                                onPress={() => {
+                                    navigation.navigate('Stack Web', {
+                                        'theUrl': url
+                                    });
+                                }}
+                            >
+                                <FontAwesomeIcon icon={icon} size={size} color={color} />
+                            </TouchableOpacity>
+                        </LinearGradient></Pressable>
                 })}
             </ScrollView>
         </View>
