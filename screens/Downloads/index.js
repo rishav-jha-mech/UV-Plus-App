@@ -22,12 +22,11 @@ const Downloads = () => {
     useEffect(() => {
         setLoading(true);
         ReadFiles();
-    }, [path]) // When path changes component will re render
+    }, [path])
 
     const ReadFiles = () => {
         RNFS.readDir(path).then(files => {
             var y = [...files].reverse(); // Reversed the array 
-            console.log(JSON.stringify(y,0,4))
             setFileStats(y)
             setLoading(false)
         })

@@ -77,8 +77,6 @@ const Recent = (props) => {
                         ext === 'avi' ||
                         ext === 'mkv'
                     ) {
-                        console.log(JSON.stringify(data, null, 4))
-
                         setVideoStats(prevValue => [...prevValue, data])
                     }
                     if (
@@ -295,7 +293,6 @@ const Loading = () => {
 
 const FileIconCard = (props) => {
     const { index, path, ext, filename } = props
-    console.log(ext);
     return (
         <TouchableOpacity
             key={index}

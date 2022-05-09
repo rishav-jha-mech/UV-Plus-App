@@ -6,10 +6,17 @@
 */
 const TimeStampToDate = (date) => {
 
-    var timestamp = parseInt(date) // Its a string we have to parse it as a int or we will get error :)
-    var Localdate = new Date(timestamp); // This is an OBJECT
-    // console.log(`TimeStamp => ${Localdate}`)
-    LocalDateString = `${ModTime(Localdate.getDate())}-${ ModTime(parseInt(Localdate.getMonth())+1) }-${Localdate.getFullYear()} `
+    var Localdate = new Date(date); // This is an OBJECT
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    const strTime = hours + ':' + minutes + ' ' + ampm;
+
+    const LocalDateString = `${ModTime(Localdate.getDate())}-${ ModTime(parseInt(Localdate.getMonth())+1) }-${Localdate.getFullYear()}  ${strTime}`
+
     return LocalDateString
 }
 
@@ -17,4 +24,4 @@ const ModTime = (anytime) => { // This function will add zeroes to the starting 
     if (anytime.toString().length <= 1)  { return ("0"+anytime) } else {return anytime}
 }
 
-export default TimeStampToDate 
+export default TimeStampToDate;
