@@ -95,7 +95,7 @@ const Downloads = () => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={loading}
-                                onRefresh={()=> {
+                                onRefresh={() => {
                                     setLoading(true);
                                     ReadFiles();
                                 }}
@@ -103,7 +103,7 @@ const Downloads = () => {
                         }
                         renderItem={(info) => {
                             return (
-                                <FileList key={info.index} data={info.item} reload={() => ReadFiles()} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />
+                                <FileList key={info.index} data={info.item} reload={() => { ReadFiles(); setLoading(true) }} setthepath={(path) => {setPath(path); setLoading(true)}} />
                             );
                         }}
                     />
