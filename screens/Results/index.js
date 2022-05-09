@@ -4,7 +4,7 @@ import axios from 'axios'
 import Loading from '../Components/Loading';
 import AudioList from './AudioList';
 import VideoList from './VideoList';
-import timeConverter from '../Scripts/timeConverter';
+import timeConverter from '../Scripts/duration';
 import ErrorWrongURl from '../Components/ErrorWrongURl';
 
 

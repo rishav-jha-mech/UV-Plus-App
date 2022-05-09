@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text, View, Pressable } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEllipsisV, faFolder, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
@@ -7,9 +7,9 @@ import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import FileIcon from '../Components/FileIcon'
 import OpenFile from '../Scripts/OpenFile';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
-import deleteFile from '../Scripts/deleteFile'
 import { kBlueColor, kRedColor } from '../constants'
+import deleteFileDialog from '../Components/deleteFileDialog'
+import toShare from '../Scripts/toShare'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fcfafa',
         flex: 1,
         flexDirection: 'row',
-        height: 100.0,
+        height: 95.0,
     },
     fileIcon: {
         paddingLeft: 18.0,
@@ -127,20 +127,8 @@ const File = (props) => {
                     <TouchableOpacity
                         style={styles.dropdownbtn}
                         activeOpacity={0.65}
-                    >
-                        <Text>
-                            <View style={styles.iconContainer}>
-                                <FontAwesomeIcon icon={faPen} size={12} color={kBlueColor} />
-                            </View>
-                            Rename File
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.dropdownbtn}
-                        activeOpacity={0.65}
                         onPress={() => {
-                            deleteFile(path);
-                            reload();
+                            deleteFileDialog({name: name,path: path,reload: reload});
                         }
                         }
                     >

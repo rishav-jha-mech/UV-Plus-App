@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
+import { kPrimaryColor } from '../constants';
 import ReadPermission from '../Scripts/ReadPermission';
 import Banner from './Banner';                                 // Every thing happens here !
 import Recent from './Recent';
@@ -12,7 +13,7 @@ const Home = () => {
         <>
             <StatusBar
                 animated={true}
-                backgroundColor="#202020"
+                backgroundColor={kPrimaryColor}
             />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ backgroundColor: '#fcfcfc', flex: 1 }}>
