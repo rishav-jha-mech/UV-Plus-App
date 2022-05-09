@@ -12,6 +12,7 @@ const Results = ({ route }) => {
     const [thedata, setTheData] = useState([''])
     const [formats, setFormats] = useState([''])
     const [loading, setLoading] = useState(true)
+    const [message,setMessage] = useState('')
     const [source, setSource] = useState()
     const [duration, setDuration] = useState(0)
     const [error, setError] = useState(true) // # Pessimism
@@ -29,7 +30,7 @@ const Results = ({ route }) => {
         })
             .then((res) => handleRes(res.data))
             .catch((error) => {
-                console.log(error);
+                setMessage(error.message)
                 setLoading(false);
                 setError(true);
             });
@@ -48,7 +49,7 @@ const Results = ({ route }) => {
             <Loading />
         </View>
     ) : (error) ? (
-        <ErrorWrongURl />
+        <ErrorWrongURl message={message} />
     ) : (
         <View style={styles.Container}>
             <ScrollView>
