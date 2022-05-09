@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { kPrimaryColor } from '../constants'
 
 const ErrorWrongURl = () => {
     return (
@@ -18,7 +19,7 @@ export default ErrorWrongURl
 const styles = StyleSheet.create({
     Container:{
         flex:1,
-        backgroundColor:'#6f00ff', //00ff6f
+        backgroundColor: kPrimaryColor,
         justifyContent:'center',
         alignItems:'center'
     },

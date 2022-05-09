@@ -9,7 +9,7 @@ import FileIcon from '../Components/FileIcon'
 import OpenFile from '../Scripts/OpenFile';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import deleteFile from '../Scripts/deleteFile'
-import { kBlueColor, kGreenColor, kPrimaryColor, kRedColor } from '../constants'
+import { kBlueColor, kRedColor } from '../constants'
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -37,8 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fcfafa',
         flex: 1,
         flexDirection: 'row',
-        height: 90.0,
-        paddingVertical: 4.0,
+        height: 100.0,
     },
     fileIcon: {
         paddingLeft: 18.0,
@@ -75,8 +74,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 8.0,
-        borderLeftWidth: 0.2,
-        borderLeftColor: kPrimaryColor,
     },
     dropdown: {
         backgroundColor: '#fff',
@@ -85,7 +82,8 @@ const styles = StyleSheet.create({
         bottom: 6.0,
         right: 36.0,
         borderRadius: 6.0,
-        paddingVertical: 4.0
+        paddingVertical: 4.0,
+        minWidth: 140.0
     },
     dropdownbtn: {
         paddingVertical: 10.0,
@@ -112,7 +110,7 @@ const File = (props) => {
                     <FileIcon size={40.0} ext={ext} />
                 </View>
                 <View style={styles.dataContainer}>
-                    <Text style={styles.Title} numberOfLines={1}>{name}</Text>
+                    <Text style={styles.Title} numberOfLines={2}>{name}</Text>
                     <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{ext ? ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
                 </View>
                 <Pressable
@@ -121,13 +119,13 @@ const File = (props) => {
                         setShowOptions(!showOptions);
                     }}
                 >
-                    <FontAwesomeIcon icon={faEllipsisV} />
+                    <FontAwesomeIcon icon={faEllipsisV} color={'#666'} />
                 </Pressable>
             </TouchableOpacity>
             {showOptions ?
                 <View style={styles.dropdown}>
                     <TouchableOpacity
-                        style={[styles.dropdownbtn, { borderBottomColor: kPrimaryColor, borderBottomWidth: 0.2 }]}
+                        style={styles.dropdownbtn}
                         activeOpacity={0.65}
                     >
                         <Text>
