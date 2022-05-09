@@ -1,15 +1,16 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faFolder } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV, faFolder } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
 import FileIcon from '../Components/FileIcon'
 import OpenFile from '../Scripts/OpenFile';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
+import deleteFile from '../Scripts/deleteFile'
 
 const FileList = (data) => { // By default it is sorted by recent old order
-
     if (data.data.type == "file") {
         var filename = (formatFormatter(data.data.filename)).FILENAME
         var ext = (formatFormatter(data.data.filename)).EXTENSION;
@@ -23,7 +24,7 @@ const FileList = (data) => { // By default it is sorted by recent old order
 
     return (data.data.type == "file") ? (
 
-        <File filename={filename} fileSize={fileSize} date={date} ext={ext} path={data.data.path} />
+        <File filename={filename} fileSize={fileSize} date={date} ext={ext} path={data.data.path} reload={()=> data.reload()} />
     ) : (
         <Directory filename={filename} fileSize={fileSize} date={date} path={data.data.path} SetThePath={(path) => data.setthepath(path)} SetTheLoading={(state) => data.settheloading(state)} />
     );
@@ -69,10 +70,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    elipsi:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 8.0,
+        backgroundColor: '#f56'
+    }
 });
 
 const File = (props) => {
-
+    console.log(props);
     return (
         <TouchableOpacity style={styles.Container} onPress={() =>OpenFile(props.path)}>
             <View style={styles.fileIcon}>
@@ -82,6 +89,15 @@ const File = (props) => {
                 <Text style={styles.Title} numberOfLines={1}>{props.filename}</Text>
                 <Text style={styles.SubTitle} numberOfLines={1}>{props.fileSize ? props.fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.ext ? props.ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{props.date ? props.date : 'Unknown'}</Text>
             </View>
+            <Pressable 
+                style={styles.elipsi}
+                onPress={() =>{
+                    deleteFile(props.path);
+                    props.reload;
+                }}
+                >
+                <FontAwesomeIcon icon={faEllipsisV} />
+            </Pressable>
         </TouchableOpacity>
     );
 }

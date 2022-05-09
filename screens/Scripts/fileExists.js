@@ -1,20 +1,19 @@
-import RNFetchBlob from "rn-fetch-blob"
-
-var result = false; // Global Var
+import RNFS from 'react-native-fs';
 
 const fileExists = (path) => {
 
-    RNFetchBlob.fs.exists(path)
-        .then((exist) => {
-            console.log(`File ${exist ? '' : 'not'} exists at `, path)
-            exist ? result = true : result = false
+    RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
+        .then((exists) => {
+            if (exists) { 
+                return true;
+            }else{
+                return false;
+            }
+        }).catch(err => {
+            console.error(err);
+            return false;
         })
-        .catch(() => {
-            console.log("Sent Error")
-            console.log("Wrong Path Given => ", path)
-        })
-
-    return result;
+    
 }
 
 export default fileExists

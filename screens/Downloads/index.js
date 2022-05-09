@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpacity, ActivityIndicator, FlatList, RefreshControl } from 'react-native';
 import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFS from 'react-native-fs';
 import PermissionNotGiven from '../Components/PermissionNotGiven';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Downloads = () => {
 
-    var FILEPATH = RNFetchBlob.fs.dirs.DownloadDir;
+    const FILEPATH = RNFS.DownloadDirectoryPath;
     const [filestats, setFileStats] = useState([]);
     const navigation = useNavigation();
     const [readPerm, setReadPerm] = useState(true);
@@ -25,15 +25,15 @@ const Downloads = () => {
     }, [path]) // When path changes component will re render
 
     const ReadFiles = () => {
-        RNFetchBlob.fs.lstat(path).then(files => {
+        RNFS.readDir(path).then(files => {
             var y = [...files].reverse(); // Reversed the array 
-            // console.log(JSON.stringify(y,0,4))
+            console.log(JSON.stringify(y,0,4))
             setFileStats(y)
             setLoading(false)
         })
             .catch(err => {
                 // Making the App Downloads folder if it doesnt exist
-                RNFetchBlob.fs.mkdir(path)
+                RNFS.mkdir(path)
                     .then(() => { ReadFiles(); })
                     .catch((err) => { console.error(err) })
             });
@@ -104,7 +104,7 @@ const Downloads = () => {
                         }
                         renderItem={(info) => {
                             return (
-                                <FileList key={info.index} data={info.item} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />
+                                <FileList key={info.index} data={info.item} reload={() => ReadFiles()} setthepath={(path) => setPath(path)} settheloading={(bools) => setLoading(bools)} />
                             );
                         }}
                     />

@@ -1,21 +1,21 @@
-import { faFacebook, faFacebookF, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
+
+import { faFacebook, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Pressable } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFS from 'react-native-fs';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
 import OpenFile from '../Scripts/OpenFile';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const Recent = (props) => {
     if (props.perm === false) {
         return <Permi />
     }
-    const PATH = RNFetchBlob.fs.dirs.DownloadDir + '/UV Downloader';
+    const PATH = RNFS.DownloadDirectoryPath + '/UV Downloader';
     const [loading, setLoading] = useState(true);
     const [fileStats, setFileStats] = useState([]);
     const [videoStats, setVideoStats] = useState([]);
@@ -64,19 +64,21 @@ const Recent = (props) => {
     }, [PATH]) // When PATH changes component will re render
 
     const ReadFiles = () => {
-        RNFetchBlob.fs.lstat(PATH).then(files => {
-            var y = [...files].reverse(); // Reversed the array
-            var x = y.slice(0, 8);        // 100 Times more performant
+        RNFS.readDir(PATH).then(files => {
+            const y = [...files].reverse(); // Reversed the array
+            const x = y.slice(0, 8);        // 100 Times more performant
             x.map((data, index) => {
-                if (data.type !== "directory") {
+                if (data.isFile()) {
                     setFileStats(prevValue => [...prevValue, data])
-                    let ext = (formatFormatter(data.filename)).EXTENSION;
+                    let ext = (formatFormatter(data.name));
                     if (
                         ext === 'mp4' ||
                         ext === 'webm' ||
                         ext === 'avi' ||
                         ext === 'mkv'
                     ) {
+                        console.log(JSON.stringify(data, null, 4))
+
                         setVideoStats(prevValue => [...prevValue, data])
                     }
                     if (
@@ -116,8 +118,8 @@ const Recent = (props) => {
                             :
                             <>
                                 {fileStats.map((data, index) => {
-                                    const ext = (formatFormatter(data.filename)).EXTENSION;
-                                    return <FileIconCard key={index} filename={data.filename} path={data.path} ext={ext} />
+                                    const ext = formatFormatter(data.name);
+                                    return <FileIconCard key={index} filename={data.name} path={data.path} ext={ext} />
                                 })}
                             </>
                     }
@@ -140,8 +142,8 @@ const Recent = (props) => {
                             :
                             <>
                                 {videoStats.map((data, index) => {
-                                    const ext = (formatFormatter(data.filename)).EXTENSION;
-                                    return <FileIconCard key={index} filename={data.filename} path={data.path} ext={ext} />
+                                    const ext = formatFormatter(data.name);
+                                    return <FileIconCard key={index} filename={data.name} path={data.path} ext={ext} />
                                 })}
                             </>
                     }
@@ -165,8 +167,8 @@ const Recent = (props) => {
                             <>
                                 {audioStats.map((data, index) => {
 
-                                    const ext = (formatFormatter(data.filename)).EXTENSION;
-                                    return <FileIconCard key={index} filename={data.filename} path={data.path} ext={ext} />
+                                    const ext = formatFormatter(data.name);
+                                    return <FileIconCard key={index} filename={data.name} path={data.path} ext={ext} />
                                 })}
                             </>
                     }
@@ -181,13 +183,13 @@ const Recent = (props) => {
                 {supWebsites.map((data, index) => {
                     const { name, icon, url, colors, color, size } = data
                     return <Pressable
+                        key={index}
                         onPress={() => {
                             navigation.navigate('Stack Web', {
                                 'theUrl': url
                             });
                         }}>
                         <LinearGradient
-                            key={index}
                             opac
                             colors={colors}
                             angle={4}
@@ -293,6 +295,7 @@ const Loading = () => {
 
 const FileIconCard = (props) => {
     const { index, path, ext, filename } = props
+    console.log(ext);
     return (
         <TouchableOpacity
             key={index}
