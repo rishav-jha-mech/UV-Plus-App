@@ -17,3 +17,10 @@ export type DownloadingParams = {
     downSize: number,
     status: number
 }
+
+export type CardStateParams = {
+    bg: string,
+    text: string,
+    iconName: string,
+    fontColor: string,
+}

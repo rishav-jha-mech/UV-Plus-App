@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, createRef } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, BackHandler } from 'react-native'
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
@@ -8,64 +8,65 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import validator from 'validator'
 import copyToClipboard from '../../Scripts/copyToClipboard'
-import Success from '../../Components/Success'
+import ModalCard from '../../Components/ModalCard';
 import toShare from '../../Scripts/toShare'
-import { ARP,SAGO,SHWE } from '../../env';
+import { ARP, SAGO, SHWE } from '../../env';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AppParamList } from '../../NAVIGATION';
+import { CardStateParams } from '../../types';
 
-const Web = (props) => {
-    const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
+type webProps = StackNavigationProp<AppParamList, 'Web'>;
+
+const Web: React.FC<webProps> = () => {
+    const route = useRoute<RouteProp<AppParamList, 'WebStack'>>();
+    const HOMEPAGE = (route.params == undefined) ? "https://www.google.com/" : route.params.url;
 
     const navigation = useNavigation();
-    const [URL, setURL] = useState(HOMEPAGE)
-    const [tempURL, setTempURL] = useState(URL)
-    const [webkey, setWebKey] = useState(0) // Not a very good option, this does a force update on the webview component
-    const [showModal, setShowModal] = useState(false)
-    const [showCard, setShowCard] = useState(true)
-    const [canGoBackward, setCanGoBackward] = useState(false)
-    const [downloadable,setDownloadable] = useState(false)
-    const webViewRef = useRef();
-    const inputRef = useRef();
+    const [URL, setURL] = useState<string>(HOMEPAGE)
+    const [tempURL, setTempURL] = useState<string>(URL)
+    const [webkey, setWebKey] = useState<number>(0) // Not a very good option, this does a force update on the webview component
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [showCard, setShowCard] = useState<boolean>(true)
+    const [canGoBackward, setCanGoBackward] = useState<boolean>(false)
+    const [downloadable, setDownloadable] = useState<boolean>(false)
+    const webViewRef = useRef<any>();
+    const inputRef = createRef<TextInput>();
 
-    // Hooks for Success Card
-    const [bg, setBg] = useState('#fff')
-    const [font, setFont] = useState()
-    const [text, setText] = useState("")
-    const [foteco, setFoteco] = useState("#4bb543")
+    // Hook for ModalCard  
+    const [cardState, setCardState] = useState<CardStateParams>({
+        bg: "#fff",
+        text: "",
+        fontColor: "#4bb543",
+        iconName: ""
+    })
 
-     
-    const isDownloadable = () =>{
-   if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)){
+
+    const isDownloadable = () => {
+        if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)) {
             setDownloadable(true);
-        }else{
+        } else {
             setDownloadable(false);
         }
     }
 
     // Backaction defined here, if the user cant go back he will go to home tab
     const backAction = () => {
-        if (canGoBackward){
+        if (canGoBackward) {
             console.log('simon go bavk')
             webViewRef.current.goBack();
-        }else { 
+        } else {
             console.log('simon contgo')
-            navigation.navigate('Home')
+            navigation.goBack();
         }
         return true;
     };
-  
+
     BackHandler.addEventListener(
         "hardwareBackPress",
         backAction
     );
-    // Function to set Card props
-    const showOtherCard = (bg, font, text, foteco) => {
-        setShowCard(false);
-        setFont(font);
-        setText(text);
-        if (bg == null) { setBg("#fff"); } else { setBg(bg); }
-        if (foteco == null) { setFoteco("#4bb543"); } else { setFoteco(foteco); }
-    }
-    const Validate = (text) => { // If the input isnt a url then it will go to GoogleIt function will be called.
+    const Validate = (text: string): void => { // If the input isnt a url then it will go to GoogleIt function will be called.
         if (validator.isURL(text)) {
             setURL(text)
             setTempURL(text)
@@ -73,13 +74,13 @@ const Web = (props) => {
             GoogleIt(text)
         }
     }
-    const GoogleIt = (searchParam) => {
+    const GoogleIt = (searchParam: string): void => {
         var searchURL = HOMEPAGE + "search?q=" + searchParam
         setURL(searchURL)
         setTempURL(searchURL)
     }
     const eraseInput = () => {
-        inputRef.current.focus();
+        inputRef.current?.focus();
         setTempURL('');
     }
     return (
@@ -95,12 +96,12 @@ const Web = (props) => {
                         placeholder="Search or type web address"
                         placeholderTextColor={"#666"}
                         value={tempURL}
-                        onPressIn={() => { inputRef.current.focus() }}
+                        onPressIn={() => { inputRef.current?.focus() }}
                         textAlign="left"
                         selectTextOnFocus={true}
                         onChangeText={setTempURL}
                         autoCorrect={false}  // Disables the red line
-                        onSubmitEditing={({ nativeEvent: { text, eventCount, target } }) => { Validate(text) }}
+                        onSubmitEditing={({ nativeEvent: { text } }) => { Validate(text) }}
                     />
                     <View style={TopBar.removeIcon}>
                         <TouchableOpacity onPress={() => eraseInput()}>
@@ -119,7 +120,15 @@ const Web = (props) => {
                         <Pressable style={modalStyle.Card}>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { copyToClipboard(tempURL); showOtherCard("#fff", 'check-circle', "Link Copied To Clipboard", "green") }}
+                                onPress={() => {
+                                    setShowCard(false);
+                                    copyToClipboard(tempURL); setCardState({
+                                        bg: "#fff",
+                                        iconName: 'check-circle',
+                                        text: "Link Copied To Clipboard",
+                                        fontColor: "green"
+                                    })
+                                }}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Copy Link
@@ -143,7 +152,12 @@ const Web = (props) => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { webViewRef.current.clearCache(true); showOtherCard("#fff", 'faCheckCircle', "Cache Cleared", "dodgerblue") }}
+                                onPress={() => { webViewRef.current.clearCache(true);setShowCard(false); setCardState({
+                                    bg: "#fff",
+                                    iconName: 'check-circle',
+                                    text: "Cache Cleared",
+                                    fontColor: "dodgerblue"
+                                })}}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear Cache
@@ -151,7 +165,16 @@ const Web = (props) => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { webViewRef.current.clearHistory(true) }} // Working
+                                onPress={() => { 
+                                    webViewRef.current.clearHistory(true) 
+                                    setShowCard(false);
+                                    setCardState({
+                                        bg: "#fff",
+                                        iconName: 'check-circle',
+                                        text: "History Cleared",
+                                        fontColor: "dodgerblue"
+                                    })
+                                }} // Working
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear History (Forward/Back)
@@ -159,9 +182,7 @@ const Web = (props) => {
                             </TouchableOpacity>
                         </Pressable>
                         :
-
-                        <Success bg={bg} font={font} text={text} foteco={foteco} />
-
+                        <ModalCard cardState={cardState} />
                     }
                 </Pressable>
             </Modal>
@@ -175,16 +196,16 @@ const Web = (props) => {
                 allowFileAccessFromFileURLs={true}
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
-                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); isDownloadable();}}
-                renderLoading={true}
+                onNavigationStateChange={(navState) => { setURL(navState.url); setTempURL(navState.url); setCanGoBackward(navState.canGoBack); isDownloadable(); }}
+                // renderLoading={true}
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
-             {downloadable ?
+            {downloadable ?
                 <TouchableOpacity style={styles.down}>
                     <FeatherIcon name='ellipsis-vertical' size={28} color={'#fff'} />
                 </TouchableOpacity>
-            :<></>}
+                : <></>}
         </>
     )
 }
@@ -265,9 +286,9 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
     },
-    down:{
-        position:'absolute',
-        padding:12.0,
+    down: {
+        position: 'absolute',
+        padding: 12.0,
         borderRadius: 1000.0,
         bottom: 35.0,
         right: 15.0,
