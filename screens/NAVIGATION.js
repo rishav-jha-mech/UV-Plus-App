@@ -11,13 +11,13 @@ import RNFS from 'react-native-fs';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-import Home from './Home';
-import Results from './Results';
-import Downloads from './Downloads';
-import Downloading from './Downloading'
-import Web from './Web';
-import StackWeb from './Stackweb';
-import { AppContext } from './CONTEXT';
+import Home from './TabScreens/Home';
+import Results from './StackScreens/Results';
+import Downloads from './TabScreens/Downloads';
+import Downloading from './TabScreens/Downloading'
+import Web from './TabScreens/Web';
+import StackWeb from './StackScreens/Stackweb';
+import { AppContext } from './context';
 import { setFilesize, setDownloadedFileSize, downloadedSuccessfully, errorDownloading } from './REDUX/actions';
 
 const HomeTabNavigation = () => {

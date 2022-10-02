@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import bytesConverter from '../Scripts/bytesConverter';
+import bytesConverter from '../../Scripts/bytesConverter';
 import RNFS from 'react-native-fs';
 import { useDispatch } from 'react-redux';
-import { startDownloading } from '../REDUX/actions';
-import { AppContext } from '../CONTEXT';
+import { startDownloading } from '../../REDUX/actions';
+import { AppContext } from '../../context';
 
 const AudioList = ({ title, info, source }) => {
 

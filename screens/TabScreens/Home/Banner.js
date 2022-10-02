@@ -4,9 +4,9 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import isURL from 'validator/lib/isURL';
+import { aBannerImage } from '../../constants';
 
 const Banner = () => {
-    const BANNER = { uri: "https://raw.githubusercontent.com/byprogrammers/LCRN10-cryptocurrency-app-starter/master/assets/images/banner.png" };
 
     const [url, setUrl] = useState("")
     const navigation = useNavigation();
@@ -28,7 +28,7 @@ const Banner = () => {
     }
     return (<>
         <View style={styles.Banner}>
-            <ImageBackground source={BANNER} style={styles.BannerImageBG} resizeMode={"cover"} >
+            <ImageBackground source={aBannerImage} style={styles.BannerImageBG} resizeMode={"cover"} >
                 <Text style={styles.NavbarText}>Universal Downloader</Text>
             </ImageBackground>
             <View style={styles.urlContainer}>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native'
 import axios from 'axios'
-import Loading from '../Components/Loading';
+import Loading from '../../Components/Loading';
 import AudioList from './AudioList';
 import VideoList from './VideoList';
-import timeConverter from '../Scripts/duration';
-import ErrorWrongURl from '../Components/ErrorWrongURl';
+import timeConverter from '../../Scripts/duration';
+import ErrorWrongURl from '../../Components/ErrorWrongURl';
 
 
 const Results = ({ route }) => {
@@ -40,7 +40,7 @@ const Results = ({ route }) => {
         setFormats(data.formats)
         setSource(data.source)
         setDuration(timeConverter(data.duration))
-        setLoading(false)
+        // setLoading(false)
         if (data.formats.length < 0) { setPresent(false) }
         setError(false)
     }

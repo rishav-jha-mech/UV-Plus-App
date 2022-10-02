@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, Text, View, Pressable } from 'react-native'
-import bytesConverter from '../Scripts/bytesConverter'
-import TimeStampToDate from '../Scripts/TimeStampToDate';
-import formatFormatter from '../Scripts/formatFormatter'
-import FileIcon from '../Components/FileIcon'
-import OpenFile from '../Scripts/OpenFile';
-import { kBlueColor, kRedColor } from '../constants'
-import deleteFileDialog from '../Components/deleteFileDialog'
-import toShare from '../Scripts/toShare'
+import bytesConverter from '../../Scripts/bytesConverter'
+import TimeStampToDate from '../../Scripts/TimeStampToDate';
+import formatFormatter from '../../Scripts/formatFormatter'
+import OpenFile from '../../Scripts/OpenFile';
+import FileIcon from '../../Components/FileIcon'
+import { kBlueColor, kRedColor } from '../../constants'
+import deleteFileDialog from '../../Components/deleteFileDialog'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const FileList = (data) => { // By default it is sorted by recent old order

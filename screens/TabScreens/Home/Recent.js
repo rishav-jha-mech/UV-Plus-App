@@ -5,9 +5,9 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Pressable } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import RNFS from 'react-native-fs';
-import FileIcon from '../Components/FileIcon';
-import formatFormatter from '../Scripts/formatFormatter';
-import OpenFile from '../Scripts/OpenFile';
+import FileIcon from '../../Components/FileIcon';
+import formatFormatter from '../../Scripts/formatFormatter';
+import OpenFile from '../../Scripts/OpenFile';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 
 const Recent = (props) => {

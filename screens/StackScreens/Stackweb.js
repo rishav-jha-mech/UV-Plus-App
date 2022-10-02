@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import WebView from 'react-native-webview'
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { ARP, SAGO, SHWE } from './env';
+import { ARP, SAGO, SHWE } from '../env';
 
 
 const StackWeb = (props) => {

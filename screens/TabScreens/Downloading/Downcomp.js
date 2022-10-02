@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Circle } from 'react-native-progress';
-import bytesConverter from '../Scripts/bytesConverter';
-import { kBlueColor, kGreenColor, kRedColor } from '../constants';
-import OpenFile from '../Scripts/OpenFile';
+import bytesConverter from '../../Scripts/bytesConverter';
+import { kBlueColor, kGreenColor, kRedColor } from '../../constants';
+import OpenFile from '../../Scripts/OpenFile';
 import RNFS from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 

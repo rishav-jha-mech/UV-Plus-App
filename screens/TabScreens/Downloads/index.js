@@ -4,7 +4,7 @@ import { StyleSheet, View, BackHandler, PermissionsAndroid, Text, TouchableOpaci
 import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
-import PermissionNotGiven from '../Components/PermissionNotGiven';
+import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const Downloads = () => {

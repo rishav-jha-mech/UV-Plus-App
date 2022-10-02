@@ -7,10 +7,10 @@ import OctiIcon from 'react-native-vector-icons/Octicons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import validator from 'validator'
-import copyToClipboard from '../Scripts/copyToClipboard'
-import Success from '../Components/Success'
-import toShare from '../Scripts/toShare'
-import { ARP,SAGO,SHWE } from '../env';
+import copyToClipboard from '../../Scripts/copyToClipboard'
+import Success from '../../Components/Success'
+import toShare from '../../Scripts/toShare'
+import { ARP,SAGO,SHWE } from '../../env';
 
 const Web = (props) => {
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
