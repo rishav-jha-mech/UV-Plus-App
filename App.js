@@ -1,15 +1,12 @@
 import React from 'react'
 import NAVIGATION from './screens/NAVIGATION'
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { allReducers } from './screens/REDUX/reducers';
-
-const store = createStore(allReducers);
+import { Store } from './screens/REDUX';
 
 const App = () => {
 
   return (
-    <Provider store={store}>
+    <Provider store={Store}>
       <NAVIGATION />
     </Provider>
   )

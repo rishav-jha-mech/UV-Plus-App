@@ -3,14 +3,14 @@ import { StyleSheet, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import bytesConverter from '../../Scripts/bytesConverter';
 import RNFS from 'react-native-fs';
-import { useDispatch } from 'react-redux';
-import { startDownloading } from '../../REDUX/actions';
 import { AppContext } from '../../context';
+import { useAppDispatch } from '../../hooks';
+import { startDownloading } from '../../REDUX/DownloadSilce';
 
 const AudioList = ({ title, info, source }) => {
 
     const navigation = useNavigation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { StartDownload } = useContext(AppContext);
 
     const StartDownloading = (url, ext) => {
@@ -29,7 +29,7 @@ const AudioList = ({ title, info, source }) => {
                         filename: filename
                     };
                     dispatch(startDownloading(params));
-                    StartDownload(params);
+                    StartDownload(params,dispatch);
                     navigation.navigate('Downloading');
                 }
             });

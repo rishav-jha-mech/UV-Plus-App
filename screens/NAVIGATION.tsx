@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useSelector, useDispatch } from 'react-redux';
 import OctiIcon from 'react-native-vector-icons/Octicons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import RNFS from 'react-native-fs';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -18,11 +16,7 @@ import Downloading from './TabScreens/Downloading'
 import Web from './TabScreens/Web';
 import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
-import { downloadedSuccessfully } from './REDUX/actions';
-import { Alert } from 'react-native';
-import { PayloadParams } from './types';
-import raiseError, { raiseErrorParams } from './Scripts/raiseError';
-import { DownloadFileOptions, SAVE_FILE_TO } from './constants';
+import StartDownload from './Scripts/Download';
 
 const HomeTabNavigation:React.FC = () => {
   return (
@@ -97,36 +91,8 @@ const NAVIGATION:React.FC = () => {
   )
 }
 
-const UV = () => {
+const UV:React.FC = () => {
 
-  const dispatch = useDispatch();
-
-  const StartDownload = (payload: PayloadParams): void => {
-
-    Alert.alert("Download Started Check Notification For Progress");
-    const errorParams: raiseErrorParams = {
-      id: payload.id,
-      filename: payload.filename,
-      dispatch: dispatch
-    };
-    
-    RNFS.downloadFile(DownloadFileOptions(payload,dispatch)).promise
-      .then(res => {
-        // Check the comments below
-        if (res.statusCode == 200) {
-          Alert.alert(payload.filename + ' Was Downloaded Successfully')
-          dispatch(downloadedSuccessfully({
-            id: payload.id
-          }));
-        } else {
-          raiseError(errorParams)
-        }
-      }).catch(err => {
-        console.error(err);
-        raiseError(errorParams)
-      });
-  }
-  
   return (
     <AppContext.Provider value={{ StartDownload }}>
       <NAVIGATION />

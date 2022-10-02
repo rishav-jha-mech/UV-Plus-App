@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
+import { useAppSelector } from '../../hooks';
 import Downcomp from './Downcomp';
-import { useSelector } from 'react-redux';
 
 const Downloading = (props) => {
 
-  const DownloadList = useSelector((state) => state.downloadReducer);
+  const DownloadList = useAppSelector((state) => state.downloadList);
 
   // console.log(JSON.stringify(DownloadList,null,4))
 

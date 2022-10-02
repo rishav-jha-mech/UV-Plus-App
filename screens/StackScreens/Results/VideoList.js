@@ -4,15 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../../env';
 import RNFS from 'react-native-fs';
-import { useDispatch } from 'react-redux';
-import { startDownloading } from '../../REDUX/actions'
 import { AppContext } from '../../context';
+import { useAppDispatch } from '../../hooks';
+import { startDownloading } from '../../REDUX/DownloadSilce';
 
 
 const VideoList = ({ title, info, source }) => {
 
     const navigation = useNavigation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { StartDownload } = useContext(AppContext);
     // The Future is here
 
@@ -32,7 +32,7 @@ const VideoList = ({ title, info, source }) => {
                         filename: filename
                     };
                     dispatch(startDownloading(params));
-                    StartDownload(params);
+                    StartDownload(params,dispatch);
                     navigation.navigate('Downloading');
                 }
             });
