@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
 import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Loading from '../../Components/Loading';
 
 const Downloads = () => {
 
@@ -81,10 +82,7 @@ const Downloads = () => {
                 </Text>
             </View>
             {loading ?
-                <View style={styles.BlankFilePage} >
-                    <ActivityIndicator size={90} color={'#66f'} />
-                    <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>Loading Files</Text>
-                </View>
+                <Loading />
                 : (loading === false && filestats.length === 0) ?
                     <View style={styles.BlankFilePage} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>

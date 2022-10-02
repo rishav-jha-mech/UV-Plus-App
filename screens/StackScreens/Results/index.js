@@ -40,7 +40,7 @@ const Results = ({ route }) => {
         setFormats(data.formats)
         setSource(data.source)
         setDuration(timeConverter(data.duration))
-        // setLoading(false)
+        setLoading(false)
         if (data.formats.length < 0) { setPresent(false) }
         setError(false)
     }
