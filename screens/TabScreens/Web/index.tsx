@@ -15,6 +15,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
 import { CardStateParams } from '../../types';
+import { modalStyle } from '../../constants';
+
 
 type webProps = StackNavigationProp<AppParamList, 'Web'>;
 
@@ -212,37 +214,6 @@ const Web: React.FC<webProps> = () => {
 
 export default Web
 
-const modalStyle = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    Card: {
-        backgroundColor: '#fff',
-        minHeight: '30%',
-        minWidth: '65%',
-        borderRadius: 16,
-        elevation: 8,
-        padding: 16,
-    },
-    Button: {
-        marginVertical: 6,
-        backgroundColor: 'rgba(30, 143, 255,0.15)',
-        paddingVertical: 10,
-        paddingHorizontal: 16,
-        borderRadius: 6,
-        borderWidth: 0.6,
-        borderColor: '#ddd'
-    },
-    ButtonText: {
-        fontSize: 16,
-        fontWeight: '700',
-        textAlign: 'center',
-        color: 'dodgerblue'
-    }
-})
 const TopBar = StyleSheet.create({
     Container: {
         paddingVertical: 10,

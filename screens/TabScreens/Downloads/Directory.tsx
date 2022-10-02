@@ -2,13 +2,25 @@ import React from 'react'
 import { TouchableOpacity, Text, View, Pressable } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';
+import RNFS from 'react-native-fs';
+import TimeStampToDate from '../../Scripts/TimeStampToDate';
 
-const Directory = (props) => {
-    const { SetThePath, name, date, path } = props;
+type DirectoryType = {
+    data: RNFS.ReadDirItem,
+    setPath: Function,
+    setShowModal: Function,
+    setModalText: Function
+}
+
+
+const Directory: React.FC<DirectoryType> = ({ data, setPath }) => {
+
+    const { name, mtime, path } = data;
+    const date = (TimeStampToDate(mtime))
 
     return (
         <TouchableOpacity style={styles.Container}
-            onPress={() => SetThePath(path)}
+            onPress={() => setPath(path)}
         >
             <View style={styles.fileIcon}>
                 <IonIcon name='ios-folder' size={30.0} color={'#fdb900'} />

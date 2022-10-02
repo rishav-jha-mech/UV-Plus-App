@@ -2,14 +2,30 @@ import React, { useState } from 'react'
 import { TouchableOpacity, Text, View, Pressable } from 'react-native'
 import OpenFile from '../../Scripts/OpenFile';
 import FileIcon from '../../Components/FileIcon'
-import { kRedColor } from '../../constants'
+import { kDarkTextColor, kRedColor } from '../../constants'
 import deleteFileDialog from '../../Components/deleteFileDialog'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';
+import RNFS from 'react-native-fs';
+import TimeStampToDate from '../../Scripts/TimeStampToDate';
+import bytesConverter from '../../Scripts/bytesConverter';
+import formatFormatter from '../../Scripts/formatFormatter';
 
+type FileType = {
+    data: RNFS.ReadDirItem,
+    reload: Function,
+    setShowModal: Function,
+    setModalText: Function,
+}
 
-const File = (props) => {
-    const { path, ext, reload, fileSize, date, name } = props;
+const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal }) => {
+
+    const { path, name, mtime, size } = data;
+
+    const ext = formatFormatter(name);
+    const fileSize = (bytesConverter(size))
+    const date = (TimeStampToDate(mtime))
+
     const [showOptions, setShowOptions] = useState(false);
     return (
         <View style={{ overflow: 'visible' }}>
@@ -42,14 +58,14 @@ const File = (props) => {
                         style={styles.dropdownbtn}
                         activeOpacity={0.65}
                         onPress={() => {
-                            deleteFileDialog({name: name,path: path,reload: reload});
+                            deleteFileDialog(name, path, reload, setShowModal, setModalText);
                         }
                         }
                     >
-                        <Text>
-                            <View style={styles.iconContainer}>
-                                <IonIcon name='trash-outline' size={12} color={kRedColor} />
-                            </View>
+                        <View style={styles.iconContainer}>
+                            <IonIcon name='trash-outline' size={20} color={kRedColor} />
+                        </View>
+                        <Text style={{color: kDarkTextColor}}>
                             Delete File
                         </Text>
                     </TouchableOpacity>

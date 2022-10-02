@@ -14,10 +14,10 @@ const ReadPermission = async () => {
                 message : "App needs write access to your storage to download files",
             });
             if (granted == PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("Storage Read Permission Granted")
+                // console.log("Storage Read Permission Granted")
                 return true
             }else{
-                console.log("Storage Permission not granted\n Now give the permission in the settings\n or the APP wont work")
+                // console.log("Storage Permission not granted\n Now give the permission in the settings\n or the APP wont work")
                 return false
             }
     } catch (error) {

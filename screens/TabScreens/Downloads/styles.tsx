@@ -57,6 +57,8 @@ export const styles = StyleSheet.create({
     dropdownbtn: {
         paddingVertical: 10.0,
         paddingHorizontal: 10.0,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     iconContainer: {
         paddingRight: 6.0,
