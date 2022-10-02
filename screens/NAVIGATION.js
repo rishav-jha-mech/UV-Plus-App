@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faDownload, faFolder, faGlobe, faHome, } from '@fortawesome/free-solid-svg-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, useDispatch } from 'react-redux';
+import OctiIcon from 'react-native-vector-icons/Octicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
 import RNFS from 'react-native-fs';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,7 +33,7 @@ const HomeTabNavigation = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faHome} color={color} size={size} />
+            <OctiIcon name='home' color={color} size={size} />
           ),
           tabBarActiveTintColor: '#66f',
           tabBarInactiveTintColor: '#999',
@@ -42,7 +44,7 @@ const HomeTabNavigation = () => {
         component={Web}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faGlobe} color={color} size={size} />
+            <OctiIcon name='globe' color={color} size={size} />
           ),
           tabBarActiveTintColor: '#66f',
           tabBarInactiveTintColor: '#999',
@@ -53,7 +55,7 @@ const HomeTabNavigation = () => {
         component={Downloads}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faFolder} color={color} size={size} />
+            <IonIcon name='ios-folder-outline' color={color} size={size} />
           ),
           tabBarActiveTintColor: '#66f',
           tabBarInactiveTintColor: '#999',
@@ -65,7 +67,7 @@ const HomeTabNavigation = () => {
         component={Downloading}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faDownload} color={color} size={size} />
+            <FeatherIcon name='download' color={color} size={size} />
           ),
           tabBarActiveTintColor: '#66f',
           tabBarInactiveTintColor: '#999',

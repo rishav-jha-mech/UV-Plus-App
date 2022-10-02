@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import WebView from 'react-native-webview'
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import { ARP, SAGO, SHWE } from './env';
+
 
 const StackWeb = (props) => {
     const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
@@ -44,7 +44,7 @@ const StackWeb = (props) => {
             />
             {downloadable ?
                 <TouchableOpacity style={styles.down}>
-                    <FontAwesomeIcon icon={faArrowDown} size={28} color={'#fff'} />
+                    <FeatherIcon name='download' size={28} color={'#fff'} />
                 </TouchableOpacity>
                 : <></>}
         </>

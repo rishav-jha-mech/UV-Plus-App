@@ -1,5 +1,3 @@
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import FeatherIcon from 'react-native-vector-icons/Feather'
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
@@ -49,8 +48,8 @@ const Banner = () => {
                     style={styles.Search}
                     onPress={() => PostReq(url)}
                 >
-                    <FontAwesomeIcon
-                        icon={faSearch}
+                    <FeatherIcon
+                        name='search'
                         size={24}
                         color={"#fff"}
                     />

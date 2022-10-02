@@ -196,6 +196,8 @@ dependencies {
     implementation project(':react-native-fs')
     // React Native LinearGradient
     implementation project(':react-native-linear-gradient')
+    // React Native Vector Icons
+    apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

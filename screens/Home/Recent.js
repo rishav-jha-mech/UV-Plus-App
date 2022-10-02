@@ -1,5 +1,4 @@
 
-import { faFacebook, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
@@ -9,7 +8,7 @@ import RNFS from 'react-native-fs';
 import FileIcon from '../Components/FileIcon';
 import formatFormatter from '../Scripts/formatFormatter';
 import OpenFile from '../Scripts/OpenFile';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 
 const Recent = (props) => {
     if (props.perm === false) {
@@ -26,7 +25,7 @@ const Recent = (props) => {
         {
             name: 'Youtube',
             url: 'https://youtube.com',
-            icon: faYoutube,
+            icon: 'youtube',
             size: 35,
             colors: ['#FF0000', 'red'],
             color: '#fff'
@@ -34,7 +33,7 @@ const Recent = (props) => {
         {
             name: 'Facebook',
             url: 'https://facebook.com',
-            icon: faFacebook,
+            icon: 'facebook',
             size: 35,
             colors: ['#3b5998', '#3b5998'],
             color: '#fff'
@@ -43,7 +42,7 @@ const Recent = (props) => {
         {
             name: 'Instagram',
             url: 'https://instagram.com',
-            icon: faInstagram,
+            icon: 'instagram',
             size: 35,
             colors: ['#feda75', '#fa7e1e', '#d62976', '#962fbf', '#4f5bd5'],
             color: '#fff'
@@ -51,7 +50,7 @@ const Recent = (props) => {
         {
             name: 'Twitter',
             url: 'https://twitter.com',
-            icon: faTwitter,
+            icon: 'twitter',
             size: 35,
             colors: ['#1DA1F2', '#1DA1F2'],
             color: '#fff'
@@ -202,7 +201,7 @@ const Recent = (props) => {
                                     });
                                 }}
                             >
-                                <FontAwesomeIcon icon={icon} size={size} color={color} />
+                                <FontAwesomeIcon name={icon} size={size} color={color} />
                             </TouchableOpacity>
                         </LinearGradient></Pressable>
                 })}

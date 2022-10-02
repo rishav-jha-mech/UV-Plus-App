@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, Text, View, Pressable } from 'react-native'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faEllipsisV, faFolder, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import bytesConverter from '../Scripts/bytesConverter'
 import TimeStampToDate from '../Scripts/TimeStampToDate';
 import formatFormatter from '../Scripts/formatFormatter'
@@ -10,6 +8,7 @@ import OpenFile from '../Scripts/OpenFile';
 import { kBlueColor, kRedColor } from '../constants'
 import deleteFileDialog from '../Components/deleteFileDialog'
 import toShare from '../Scripts/toShare'
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const FileList = (data) => { // By default it is sorted by recent old order
 
@@ -119,7 +118,7 @@ const File = (props) => {
                         setShowOptions(!showOptions);
                     }}
                 >
-                    <FontAwesomeIcon icon={faEllipsisV} color={'#666'} />
+                    <IonIcon name='ellipsis-vertical' color={'#666'} size={20} />
                 </Pressable>
             </TouchableOpacity>
             {showOptions ?
@@ -134,7 +133,7 @@ const File = (props) => {
                     >
                         <Text>
                             <View style={styles.iconContainer}>
-                                <FontAwesomeIcon icon={faTrash} size={12} color={kRedColor} />
+                                <IonIcon name='trash-outline' size={12} color={kRedColor} />
                             </View>
                             Delete File
                         </Text>
@@ -153,7 +152,7 @@ const Directory = (props) => {
             onPress={() => SetThePath(path)}
         >
             <View style={styles.fileIcon}>
-                <FontAwesomeIcon icon={faFolder} size={40.0} color={'#fdb900'} />
+                <IonIcon name='ios-folder-outline' size={30.0} color={'#fdb900'} />
             </View>
             <View style={styles.dataContainer}>
                 <Text style={styles.Title} numberOfLines={1}>{name}</Text>

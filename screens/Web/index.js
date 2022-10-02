@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, BackHandler } from 'react-native'
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCheckCircle, faArrowDown, faEllipsisV, faHome, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import OctiIcon from 'react-native-vector-icons/Octicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import validator from 'validator'
 import copyToClipboard from '../Scripts/copyToClipboard'
 import Success from '../Components/Success'
@@ -84,7 +86,7 @@ const Web = (props) => {
         <>
             <View style={TopBar.Container}>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => setURL(HOMEPAGE)}>
-                    <FontAwesomeIcon icon={faHome} color={'#555'} size={22} />
+                    <OctiIcon name="home" color={'#555'} size={22} />
                 </TouchableOpacity>
                 <View style={TopBar.Row}>
                     <TextInput
@@ -102,12 +104,12 @@ const Web = (props) => {
                     />
                     <View style={TopBar.removeIcon}>
                         <TouchableOpacity onPress={() => eraseInput()}>
-                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={'#333'} />
+                            <FontAwesome5Icon name='times-circle' size={20} color={'#333'} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => { setShowModal(!showModal), setShowCard(true) }}>
-                    <FontAwesomeIcon icon={faEllipsisV} color={'#555'} size={20} />
+                    <IonIcon name='ellipsis-vertical' color={'#555'} size={20} />
                 </TouchableOpacity>
             </View>
 
@@ -117,7 +119,7 @@ const Web = (props) => {
                         <Pressable style={modalStyle.Card}>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { copyToClipboard(tempURL); showOtherCard("#fff", faCheckCircle, "Link Copied To Clipboard", "green") }}
+                                onPress={() => { copyToClipboard(tempURL); showOtherCard("#fff", 'check-circle', "Link Copied To Clipboard", "green") }}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Copy Link
@@ -141,7 +143,7 @@ const Web = (props) => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { webViewRef.current.clearCache(true); showOtherCard("#fff", faCheckCircle, "Cache Cleared", "dodgerblue") }}
+                                onPress={() => { webViewRef.current.clearCache(true); showOtherCard("#fff", 'faCheckCircle', "Cache Cleared", "dodgerblue") }}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear Cache
@@ -180,7 +182,7 @@ const Web = (props) => {
             />
              {downloadable ?
                 <TouchableOpacity style={styles.down}>
-                    <FontAwesomeIcon icon={faArrowDown} size={28} color={'#fff'} />
+                    <FeatherIcon name='ellipsis-vertical' size={28} color={'#fff'} />
                 </TouchableOpacity>
             :<></>}
         </>

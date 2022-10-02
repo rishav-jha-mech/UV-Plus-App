@@ -1,6 +1,6 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faFileAlt, faFileAudio, faFileImage, faFilePdf, faFileVideo, faFolder } from '@fortawesome/free-solid-svg-icons'
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const FileIcon = (props) => {
     const EXT = props.ext;
@@ -11,7 +11,7 @@ const FileIcon = (props) => {
         EXT.includes('gif') ||
         EXT.includes('webm')
     )
-        return <FontAwesomeIcon icon={faFileImage} size={props.size} color={'#ff156f'} />
+        return <FontAwesome5Icon name='file-image' size={props.size} color={'#ff156f'} />
     else if (
 
         EXT.includes('mp4') ||
@@ -22,18 +22,20 @@ const FileIcon = (props) => {
         EXT.includes('mkv') ||
         EXT.includes('webm')
 
-    ) return <FontAwesomeIcon icon={faFileVideo} size={props.size} color={'dodgerblue'} />
+    ) return <FontAwesome5Icon name='file-video' size={props.size} color={'dodgerblue'} />
     else if (
         EXT.includes('m4a') ||
         EXT.includes('mp3') ||
         EXT.includes('wav') ||       // AUDIO EXTENTIONS
         EXT.includes('wma') ||
         EXT.includes('aac')
-    ) return <FontAwesomeIcon icon={faFileAudio} size={props.size} color={'#66f'} />
+    ) return <FontAwesome5Icon name='file-audio' size={props.size} color={'#66f'} />
     else if (EXT.includes('pdf'))      // PDF EXTENTION
-        return <FontAwesomeIcon icon={faFilePdf} size={props.size} color={'red'} />
+        return <FontAwesome5Icon name='file-pdf' size={props.size} color={'red'} />
+    else if (EXT.includes('zip'))      // ZIP EXTENTION
+        return <FontAwesome5Icon name='file-archive' size={props.size} color={'dodgerblue'} />
     else
-        return <FontAwesomeIcon icon={faFileAlt} size={props.size} color={'#b0b0b0'} />
+        return <FeatherIcon name='file' size={props.size} color={'#b0b0b0'} />
 }
 
 export default FileIcon

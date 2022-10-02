@@ -5,8 +5,7 @@ import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
 import PermissionNotGiven from '../Components/PermissionNotGiven';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const Downloads = () => {
 
@@ -74,7 +73,7 @@ const Downloads = () => {
                     </TouchableOpacity>
                     : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
                         <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true); PreviousPath(); }}>
-                            <FontAwesomeIcon icon={faArrowLeft} size={20} color={"#66f"} />
+                            <FontAwesomeIcon name='angle-left' size={20} color={"#66f"} />
                         </TouchableOpacity>
                 }
                 <Text style={styles.PathText}>
