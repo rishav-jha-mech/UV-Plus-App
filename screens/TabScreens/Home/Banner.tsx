@@ -1,28 +1,37 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, createRef } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather'
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import isURL from 'validator/lib/isURL';
 import { aBannerImage } from '../../constants';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AppParamList } from '../../NAVIGATION';
+
+
+type resultStackProps = StackNavigationProp<AppParamList, 'ResultStack'>;
+type webStackProps = StackNavigationProp<AppParamList, 'WebStack'>;
+
 
 const Banner = () => {
 
-    const [url, setUrl] = useState("")
-    const navigation = useNavigation();
-    const inputRef = useRef();
-    const PostReq = (url) => {
+    const [url, setUrl] = useState<string>("")
+    const resultStack = useNavigation<resultStackProps>();
+    const webStack = useNavigation<webStackProps>();
+
+    const inputRef = createRef<TextInput>();
+    const PostReq = (url: string) => {
 
         if (isURL(url)) {
-            navigation.navigate('Result Tab', {
+            resultStack.navigate('ResultStack', {
                 url: url,
             });
         } else {
             // What's the point of annoying the users by alerting them their url is incorrect ?, instead redirect them to Google
             // So if url is okay then send them to my server
             // Else if its not event a url send it to Google Search
-            navigation.navigate('Stack Web', {
-                theUrl: `https://www.google.com/search?q=${url}`
+            webStack.navigate('WebStack', {
+                url: `https://www.google.com/search?q=${url}`
             })
         }
     }
@@ -39,7 +48,7 @@ const Banner = () => {
                     keyboardType="url"
                     defaultValue={url}
                     showSoftInputOnFocus={true}
-                    onPressIn={() => { inputRef.current.focus() }}
+                    onPressIn={() => { inputRef.current?.focus() }}
                     selectTextOnFocus={true}
                     onSubmitEditing={() => PostReq(url)}
                     onChangeText={(url) => setUrl(url)}

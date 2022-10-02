@@ -18,7 +18,19 @@ import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
 import StartDownload from './Scripts/Download';
 
-const HomeTabNavigation:React.FC = () => {
+
+export type AppParamList = {
+  HomeTab: undefined;
+  Web: undefined;
+  Downloads: undefined;
+  Downloading: undefined;
+  ResultStack: { url: string };
+  WebStack: { url: string };
+}
+
+
+
+const HomeTabNavigation:React.FC<AppParamList> = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -84,8 +96,8 @@ const NAVIGATION:React.FC = () => {
           headerShown: false,
         }}>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
-        <Stack.Screen name="Stack Web" component={StackWeb} />
-        <Stack.Screen name="Result Tab" component={Results} />
+        <Stack.Screen name="Web Stack" component={StackWeb} />
+        <Stack.Screen name="Result Stack" component={Results} />
       </Stack.Navigator>
     </NavigationContainer>
   )

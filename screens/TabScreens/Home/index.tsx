@@ -6,9 +6,10 @@ import Banner from './Banner';                                 // Every thing ha
 import Recent from './Recent';
 
 
-const Home = () => {
-    const [perm, setPerm] = useState()
-    ReadPermission().then(res => setPerm(res));
+const Home:React.FC = () => {
+    const [perm, setPerm] = useState<boolean>(false)
+    ReadPermission().then((res:any) => setPerm(res));
+    
     return (
         <>
             <StatusBar

@@ -1,17 +1,21 @@
-import React, { useRef, useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import WebView from 'react-native-webview'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { ARP, SAGO, SHWE } from '../env';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AppParamList } from '../NAVIGATION';
 
 
-const StackWeb = (props) => {
-    const HOMEPAGE = (props.route.params == undefined) ? "https://www.google.com/" : props.route.params.theUrl;
+const StackWeb:React.FC = () => {
+
+    const route = useRoute<RouteProp<AppParamList, 'WebStack'>>();
+    const HOMEPAGE = (route.params.url == undefined) ? "https://www.google.com/" : route.params.url;
 
     const [URL, setURL] = useState(HOMEPAGE)
     const [title, setTitle] = useState('')
-    const webViewRef = useRef();
-    const [downloadable, setDownloadable] = useState(false)
+    const webViewRef = createRef<WebView>();
+    const [downloadable, setDownloadable] = useState<boolean>(false)
 
     const isDownloadable = () => {
 
@@ -28,12 +32,11 @@ const StackWeb = (props) => {
             </View>
             <WebView
                 source={{ uri: URL }}
-                ref={(ref) => webViewRef.current = ref}
+                // ref={(ref) => webViewRef.current = ref}
                 style={styles.Container}
                 domStorageEnabled={true}
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
-                renderLoading={true}
                 onNavigationStateChange={
                     (navState) => {
                         setURL(navState.url);
