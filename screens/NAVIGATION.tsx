@@ -18,9 +18,13 @@ import Downloading from './TabScreens/Downloading'
 import Web from './TabScreens/Web';
 import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
-import { setFilesize, setDownloadedFileSize, downloadedSuccessfully, errorDownloading } from './REDUX/actions';
+import { downloadedSuccessfully } from './REDUX/actions';
+import { Alert } from 'react-native';
+import { PayloadParams } from './types';
+import raiseError, { raiseErrorParams } from './Scripts/raiseError';
+import { DownloadFileOptions, SAVE_FILE_TO } from './constants';
 
-const HomeTabNavigation = () => {
+const HomeTabNavigation:React.FC = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -77,7 +81,7 @@ const HomeTabNavigation = () => {
   )
 }
 
-const NAVIGATION = () => {
+const NAVIGATION:React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -97,54 +101,32 @@ const UV = () => {
 
   const dispatch = useDispatch();
 
-  function StartDownload(payload) {
-    alert("Download Started Check Notification For Progress");
-    const SAVE_FILE_TO = RNFS.DownloadDirectoryPath + `/UV Downloader/${payload.filename}`;
-    const errorParams = {
+  const StartDownload = (payload: PayloadParams): void => {
+
+    Alert.alert("Download Started Check Notification For Progress");
+    const errorParams: raiseErrorParams = {
       id: payload.id,
-      filename: payload.filename
+      filename: payload.filename,
+      dispatch: dispatch
     };
-    let DownloadFileOptions = {
-      fromUrl: payload.url,
-      toFile: SAVE_FILE_TO,
-      progressInterval: 100,
-      progressDivider: 1,
-      begin: (res) => {
-        dispatch(setFilesize({
-          id: payload.id,
-          fileSize: res.contentLength,
-        }));
-      },
-      progress: (res) => {
-        dispatch(setDownloadedFileSize({
-          id: payload.id,
-          downSize: res.bytesWritten
-        }));
-      },
-    };
-    RNFS.downloadFile(DownloadFileOptions, (res) => {
-    }).promise
+    
+    RNFS.downloadFile(DownloadFileOptions(payload,dispatch)).promise
       .then(res => {
         // Check the comments below
         if (res.statusCode == 200) {
-          alert(payload.filename + ' Was Downloaded Successfully')
+          Alert.alert(payload.filename + ' Was Downloaded Successfully')
           dispatch(downloadedSuccessfully({
             id: payload.id
           }));
         } else {
-          raiseError(errorParams);
+          raiseError(errorParams)
         }
       }).catch(err => {
         console.error(err);
-        raiseError(errorParams);
+        raiseError(errorParams)
       });
   }
-  function raiseError(params) {
-    dispatch(errorDownloading({
-      id: params.id
-    }));
-    alert('Error occured while downloading' + params.filename);
-  }
+  
   return (
     <AppContext.Provider value={{ StartDownload }}>
       <NAVIGATION />
