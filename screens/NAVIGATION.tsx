@@ -96,8 +96,8 @@ const NAVIGATION:React.FC = () => {
           headerShown: false,
         }}>
         <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
-        <Stack.Screen name="Web Stack" component={StackWeb} />
-        <Stack.Screen name="Result Stack" component={Results} />
+        <Stack.Screen name="WebStack" component={StackWeb} />
+        <Stack.Screen name="ResultStack" component={Results} />
       </Stack.Navigator>
     </NavigationContainer>
   )

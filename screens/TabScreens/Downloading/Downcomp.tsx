@@ -6,10 +6,15 @@ import { kBlueColor, kGreenColor, kRedColor } from '../../constants';
 import OpenFile from '../../Scripts/OpenFile';
 import RNFS from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { DownloadingParams } from '../../types';
 
-const Downcomp = (props) => {
+type DownCompProp = {
+    data: DownloadingParams
+}
 
-    const { id, filename, fileSize, downSize, status } = props.data
+const Downcomp:React.FC<DownCompProp> = ({ data }) => {
+
+    const { id, filename, fileSize, downSize, status } = data;
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -27,7 +32,7 @@ const Downcomp = (props) => {
                     OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`) : null;
             }}
         >
-            <View style={baby.CircleContainer}>
+            <View>
                 <Circle
                     size={60}
                     progress={progress}
@@ -36,7 +41,6 @@ const Downcomp = (props) => {
                             : status == 1 ? kGreenColor
                                 : kRedColor
                     }
-                    endAngle={1.0}
                     thickness={3}
                     showsText={true}
                     textStyle={{ fontSize: 14.0, fontWeight: '600' }}
