@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TouchableOpacity, Text, View, Pressable } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';

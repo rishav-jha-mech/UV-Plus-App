@@ -7,6 +7,7 @@ import RNFS from 'react-native-fs';
 import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Loading from '../../Components/Loading';
+import { FlashList } from '@shopify/flash-list';
 
 const Downloads = () => {
 
@@ -87,7 +88,7 @@ const Downloads = () => {
                     <View style={styles.BlankFilePage} >
                         <Text style={{ fontSize: 22, marginTop: 30, fontWeight: '700', letterSpacing: 0.7 }}>No Files Present</Text>
                     </View> :
-                    <FlatList
+                    <FlashList
                         data={filestats}
                         refreshControl={
                             <RefreshControl
@@ -98,6 +99,7 @@ const Downloads = () => {
                                 }}
                             />
                         }
+                        estimatedItemSize={100}
                         renderItem={(info) => {
                             return (
                                 <FileList key={info.index} data={info.item} reload={() => { ReadFiles(); setLoading(true) }} setthepath={(path) => {setPath(path); setLoading(true)}} />

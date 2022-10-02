@@ -1,11 +1,9 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import bytesConverter from '../../Scripts/bytesConverter'
 import TimeStampToDate from '../../Scripts/TimeStampToDate';
 import formatFormatter from '../../Scripts/formatFormatter'
 import File from './File';
 import Directory from './Directory';
-import { styles } from './styles';
 
 
 const FileList = (data) => { // By default it is sorted by recent old order
