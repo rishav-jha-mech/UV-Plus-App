@@ -7,7 +7,6 @@ import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import { CreateThumbnail } from '../../Scripts/Thumbnail';
 import { Thumbnail } from 'react-native-create-thumbnail';
-import { pLog, pPrettyPrint } from '../../constants';
 
 type FileIconCardProps = {
     data: RNFS.ReadDirItem
@@ -142,3 +141,7 @@ const videoStyles = StyleSheet.create({
 })
 
 export { FileIconCard, VideoThumbCard, RecentThumbCard };
+
+// FFMPEG
+
+// ffmpeg -i vidmp4.mp4 -i audio.m4a -acodec copy -vcodec copy output.mp4

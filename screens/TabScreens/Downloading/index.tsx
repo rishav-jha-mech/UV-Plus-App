@@ -7,8 +7,6 @@ import Downcomp from './Downcomp';
 const Downloading: React.FC = () => {
 
 	const DownloadList = useAppSelector((state) => state.downloadList);
-	const [loading, setLoading] = React.useState<boolean>(false);
-	const dispatch = useAppDispatch();
 
 	return (
 		<View style={styles.Container}>
