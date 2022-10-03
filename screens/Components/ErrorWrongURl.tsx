@@ -2,7 +2,11 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { kPrimaryColor } from '../constants'
 
-const ErrorWrongURl = ({ message }) => {
+type ErrorWrongURlProps = {
+    message: string
+}
+
+const ErrorWrongURl:React.FC<ErrorWrongURlProps> = ({ message }) => {
     return (
         <View style={styles.Container}>
             <View style={styles.Card}>

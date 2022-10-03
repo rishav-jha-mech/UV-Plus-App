@@ -12,7 +12,7 @@ type DownCompProp = {
     data: DownloadingParams
 }
 
-const Downcomp:React.FC<DownCompProp> = ({ data }) => {
+const Downcomp: React.FC<DownCompProp> = ({ data }) => {
 
     const { id, filename, fileSize, downSize, status } = data;
     const [progress, setProgress] = useState(0);
@@ -29,7 +29,7 @@ const Downcomp:React.FC<DownCompProp> = ({ data }) => {
             activeOpacity={status == 1 ? 0.5 : 1}
             onPress={() => {
                 status == 1 ?
-                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`) : null;
+                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`, filename) : null;
             }}
         >
             <View>

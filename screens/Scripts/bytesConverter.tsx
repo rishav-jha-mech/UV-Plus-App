@@ -1,4 +1,4 @@
-const bytesConverter = (bytes, decimals = 2) => {
+const bytesConverter = (bytes: number, decimals = 2):string => {
     if (bytes === 0) return '0 B';
     if (bytes === null) return 'Unknown'
     const k = 1024;

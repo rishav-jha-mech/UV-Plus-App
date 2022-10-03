@@ -34,7 +34,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal }) 
                 activeOpacity={0.75}
                 onPress={() => {
                     showOptions ? setShowOptions(!showOptions) :
-                        OpenFile(path)
+                        OpenFile(path,name)
                 }}>
                 <View style={styles.fileIcon}>
                     <FileIcon size={40.0} ext={ext} />

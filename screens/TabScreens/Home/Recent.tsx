@@ -87,10 +87,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {fileStats.map((data, index) => {
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {fileStats.map((data, index) => <FileIconCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>
@@ -110,10 +107,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {videoStats.map((data, index) => {
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {videoStats.map((data, index) => <FileIconCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>
@@ -133,11 +127,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {audioStats.map((data, index) => {
-
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {audioStats.map((data, index) => <FileIconCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>

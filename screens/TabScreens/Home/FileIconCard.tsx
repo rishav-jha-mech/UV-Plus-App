@@ -3,20 +3,21 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FileIcon from '../../Components/FileIcon';
 import OpenFile from '../../Scripts/OpenFile';
 import styles from './styles';
+import RNFS from 'react-native-fs';
+import formatFormatter from '../../Scripts/formatFormatter';
 
 type FileIconCardProps = {
-    index: number,
-    DOWNLOAD_PATH: string,
-    ext: string,
-    filename: string,
+    data: RNFS.ReadDirItem
 }
-const FileIconCard:React.FC<FileIconCardProps> = ({index, DOWNLOAD_PATH, ext, filename}) => {
+const FileIconCard: React.FC<FileIconCardProps> = ({ data }) => {
+    const { name, path } = data;
+    const ext = formatFormatter(name);
+
     return (
         <TouchableOpacity
-            key={index}
             activeOpacity={0.85}
             style={styles.card}
-            onPress={() => OpenFile(DOWNLOAD_PATH)}
+            onPress={() => OpenFile(path, name)}
         >
             <View style={styles.iconContainer}>
                 <FileIcon ext={ext} size={50.0} />
@@ -25,7 +26,7 @@ const FileIconCard:React.FC<FileIconCardProps> = ({index, DOWNLOAD_PATH, ext, fi
                 numberOfLines={2}
                 style={styles.cardFileName}
             >
-                {filename}
+                {name}
             </Text>
         </TouchableOpacity>
     );

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { createRef, useEffect, useRef } from 'react';
 import Lottie from 'lottie-react-native';
 import { View, ActivityIndicator, Image } from 'react-native'
 
 const Loading = () => {
 
-    const animationRef = useRef()
+    const animationRef = createRef<Lottie>()
 
     useEffect(() => {
         animationRef.current?.play()
