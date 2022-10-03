@@ -12,7 +12,7 @@ import ReadPermission from '../../Scripts/ReadPermission';
 import { DOWNLOAD_PATH, modalStyle } from '../../constants';
 import Lottie from 'lottie-react-native';
 
-const Downloads = () => {
+const Downloads:React.FC = () => {
 
     const [filestats, setFileStats] = useState<Array<RNFS.ReadDirItem>>([]);
     const navigation = useNavigation();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Text, Pressable, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../../env';
@@ -7,52 +7,62 @@ import RNFS from 'react-native-fs';
 import { AppContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
 import { startDownloading } from '../../REDUX/DownloadSilce';
+import { FormatType, YTDLP_Options } from '../../types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AppParamList } from '../../NAVIGATION';
 
 
-const VideoList = ({ title, info, source }) => {
+type VideoListType = {
+    info: FormatType,
+    source: string,
+    title: string
+}
 
-    const navigation = useNavigation();
+type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
+
+const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
+
+    const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
     const { StartDownload } = useContext(AppContext);
-    // The Future is here
 
-    const StartDownloading = (url, ext) => {
+    const StartDownloading = (url: string, ext: string) => {
         const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
 
         RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
             .then((exists) => {
                 if (exists) {
-                    alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
+                    Alert.alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
                 } else {
                     const time = new Date();
                     const id = time.toISOString();
-                    const params =  {
+                    const params = {
                         id: id,
                         url: url,
                         filename: filename
                     };
                     dispatch(startDownloading(params));
-                    StartDownload(params,dispatch);
+                    StartDownload(params, dispatch);
                     navigation.navigate('Downloading');
                 }
             });
     }
 
-    const [filesize, setFilesize] = useState(0)
-    const [format, setFormat] = useState()
-    const [ext, setExt] = useState()
+    const [filesize, setFilesize] = useState<string>('')
+    const [format, setFormat] = useState<string>('')
+    const [ext, setExt] = useState<string>('')
 
     // Hooks for checking the platform
-    const [youtube, setYoutube] = useState(false)
-    const [facebook, setFacebook] = useState(false)
-    const [instagram, setInstagram] = useState(false)
-    const [arp, setArp] = useState(false)
-    const [sago, setSago] = useState(false)
-    const [shwe, setShwe] = useState(false)
-    const [unknown, setUnknown] = useState(false)
+    const [youtube, setYoutube] = useState<boolean>(false)
+    const [facebook, setFacebook] = useState<boolean>(false)
+    const [instagram, setInstagram] = useState<boolean>(false)
+    const [arp, setArp] = useState<boolean>(false)
+    const [sago, setSago] = useState<boolean>(false)
+    const [shwe, setShwe] = useState<boolean>(false)
+    const [unknown, setUnknown] = useState<boolean>(false)
 
     // Hooks for showing video only
-    const [video, setVideo] = useState(false)
+    const [video, setVideo] = useState<boolean>(false)
 
     useEffect(() => {
         // Checking the source of the video file
@@ -68,11 +78,11 @@ const VideoList = ({ title, info, source }) => {
     }, [info])
 
 
-    const Youtube = (info) => {
+    const Youtube = (info: FormatType) => {
         // Changing the format string
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
-        setFormat(Localformat[1]);
+        setFormat(Localformat![1]);
         // Show Video files only
         // if (info.height != null && info.ext == "mp4" && info.filesize != null) { This will give us all the Videos with or without Audio embeded this will be used when we Begin using FFMPEG in our project
         if (info.abr == 0 && info.asr != null && info.ext != "3gp") { // Only two streams i.e. 360px and 720px with audio are available 😌😥
@@ -81,7 +91,7 @@ const VideoList = ({ title, info, source }) => {
             setFilesize(bytesConverter(info.filesize));
         }
     }
-    const Facebook = (info) => {
+    const Facebook = (info: FormatType) => {
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
         if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
             setVideo(true);
@@ -96,14 +106,14 @@ const VideoList = ({ title, info, source }) => {
             else { setFormat(info.format) }
         }
     }
-    const Arp = (info) => {
+    const Arp = (info: FormatType) => {
         if (info.protocol == "https") {
             setVideo(true);
             if (info.format_id == "mp4-high") { setFormat("high quality") }
             else if (info.format_id == "mp4-low") { setFormat("low quality") }
         }
     }
-    const Sago = (info) => {
+    const Sago = (info: FormatType) => {
         if (!(info.format_id).includes("hls")) {
             setVideo(true)
             var Localformat = info.format
@@ -111,7 +121,7 @@ const VideoList = ({ title, info, source }) => {
             setFormat(Localformat)
         }
     }
-    const Shwe = (info) => {
+    const Shwe = (info: FormatType) => {
         if (info.protocol == "https") {
             setVideo(true);
             if (info.format_id == "high") { setFormat("high quality") }
@@ -131,7 +141,7 @@ const VideoList = ({ title, info, source }) => {
         (facebook && video) ? (
             <Pressable
                 style={styles.Container}
-                onPress={() => { StartDownloading(info.url, info.ext, "fb") }}
+                onPress={() => { StartDownloading(info.url, info.ext) }}
             >
                 <Text style={[styles.TheText, styles.format]}> {format} </Text>
                 <Text style={styles.TheText}> {info.ext}</Text>

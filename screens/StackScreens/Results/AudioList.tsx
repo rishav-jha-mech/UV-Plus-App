@@ -1,25 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, Pressable } from 'react-native';
+import { StyleSheet, Text, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import bytesConverter from '../../Scripts/bytesConverter';
 import RNFS from 'react-native-fs';
 import { AppContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
 import { startDownloading } from '../../REDUX/DownloadSilce';
+import { FormatType } from '../../types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AppParamList } from '../../NAVIGATION';
 
-const AudioList = ({ title, info, source }) => {
+type AudioListType = {
+    info: FormatType,
+    source: string,
+    title: string
+}
 
-    const navigation = useNavigation();
+type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
+
+
+const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
+
+    const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
     const { StartDownload } = useContext(AppContext);
 
-    const StartDownloading = (url, ext) => {
+    const StartDownloading = (url: string, ext: string) => {
         const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
 
         RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
             .then((exists) => {
                 if (exists) {
-                    alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
+                    Alert.alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
                 } else {
                     const time = new Date();
                     const id = time.toISOString();
@@ -29,14 +41,14 @@ const AudioList = ({ title, info, source }) => {
                         filename: filename
                     };
                     dispatch(startDownloading(params));
-                    StartDownload(params,dispatch);
+                    StartDownload(params, dispatch);
                     navigation.navigate('Downloading');
                 }
             });
     }
-    const [filesize, setFilesize] = useState(0)
-    const [format, setFormat] = useState()
-    const [ext, setExt] = useState()
+    const [filesize, setFilesize] = useState<string>('')
+    const [format, setFormat] = useState<string>('')
+    const [ext, setExt] = useState<string>('')
 
     // Hooks for checking the platform
     const [youtube, setYoutube] = useState(false)
@@ -56,11 +68,11 @@ const AudioList = ({ title, info, source }) => {
     }, [info])
 
 
-    const Youtube = (info) => {
+    const Youtube = (info: FormatType) => {
         // Changing the format string
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
-        setFormat(Localformat[1]);
+        setFormat(Localformat![1]);
         // Show Audio files only
         if (info.height == null) {
             setAudio(true);
@@ -68,7 +80,7 @@ const AudioList = ({ title, info, source }) => {
             setFilesize(bytesConverter(info.filesize));
         }
     }
-    const Facebook = (info) => {
+    const Facebook = (info: FormatType) => {
         if (info.format_note == "DASH audio") {
             setAudio(true)
             setFormat("High Quality Audio")
@@ -86,7 +98,7 @@ const AudioList = ({ title, info, source }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={styles.Container}
-            onPress={() => { StartDownloading(info.url, info.ext, "fb") }}
+            onPress={() => { StartDownloading(info.url, info.ext) }}
         >
             <Text style={[styles.TheText, styles.format]}> {format} </Text>
             <Text style={styles.TheText}> {info.ext} </Text>
