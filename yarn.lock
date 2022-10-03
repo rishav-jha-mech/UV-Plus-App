@@ -6161,6 +6161,11 @@
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
+"react-native-create-thumbnail@^1.6.3":
+  "integrity" "sha512-QsIhUBAefXBYq808KUMe0MnvgIokO4ULM43X1jJ2N9xzQX6Zyu/D1VhlE0LjGL0jHoiULmIRa05QdJgnq/2zBA=="
+  "resolved" "https://registry.npmjs.org/react-native-create-thumbnail/-/react-native-create-thumbnail-1.6.3.tgz"
+  "version" "1.6.3"
+
 "react-native-file-viewer@^2.1.5":
   "integrity" "sha512-MGC6sx9jsqHdefhVQ6o0akdsPGpkXgiIbpygb2Sg4g4bh7v6K1cardLV1NwGB9A6u1yICOSDT/MOC//9Ez6EUg=="
   "resolved" "https://registry.npmjs.org/react-native-file-viewer/-/react-native-file-viewer-2.1.5.tgz"
@@ -6257,7 +6262,7 @@
     "escape-string-regexp" "2.0.0"
     "invariant" "2.2.4"
 
-"react-native@*", "react-native@^0.66.1", "react-native@>= 0.30.0", "react-native@>=0.46", "react-native@>=0.47", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.57", "react-native@>=0.57.0", "react-native@>=0.59":
+"react-native@*", "react-native@^0.66.1", "react-native@>= 0.30.0", "react-native@>=0.46", "react-native@>=0.47", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.57", "react-native@>=0.57.0", "react-native@>=0.59", "react-native@>=0.59.0":
   "integrity" "sha512-9vx5dlSfQlKbbDtr8+xMon6qsmSu7jvjdXWZpEKh3XVKpUidbbODv7048gwVKX8YAel1egeR7hN8vzSeI6ssTw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.4.tgz"
   "version" "0.66.4"

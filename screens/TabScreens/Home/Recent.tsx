@@ -8,7 +8,7 @@ import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import { DOWNLOAD_PATH, supWebsites } from '../../constants';
-import FileIconCard from './FileIconCard';
+import { VideoThumbCard, FileIconCard } from './FileIconCard';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
@@ -39,7 +39,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
     const ReadFiles = () => {
         RNFS.readDir(DOWNLOAD_PATH).then(files => {
             const y = [...files].reverse(); // Reversed the array
-            const x = y.slice(0, 8);        // 100 Times more performant
+            const x = y.slice(0, 16);        // 100 Times more performant
             x.map((data: RNFS.ReadDirItem, index) => {
                 if (data.isFile()) {
                     setFileStats(prevValue => [...prevValue, data])
@@ -107,7 +107,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {videoStats.map((data, index) => <FileIconCard key={index} data={data} />)}
+                                {videoStats.map((data, index) => <VideoThumbCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>
