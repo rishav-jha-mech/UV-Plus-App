@@ -8,7 +8,7 @@ import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import { DOWNLOAD_PATH, supWebsites } from '../../constants';
-import { VideoThumbCard, FileIconCard } from './FileIconCard';
+import { VideoThumbCard, FileIconCard, RecentThumbCard } from './FileIconCard';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
@@ -87,7 +87,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {fileStats.map((data, index) => <FileIconCard key={index} data={data} />)}
+                                {fileStats.map((data, index) => <RecentThumbCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>

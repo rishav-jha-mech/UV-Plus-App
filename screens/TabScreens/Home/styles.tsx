@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         elevation: 4.0,
         paddingHorizontal: 6.0,
         paddingVertical: 10.0,
-        borderRadius: 10.0,
+        borderRadius: 6.0,
     },
     cardFileName: {
         fontSize: 12.0,

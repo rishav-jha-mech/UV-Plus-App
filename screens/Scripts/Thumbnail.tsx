@@ -8,6 +8,6 @@ export const CreateThumbnail = async (path: string): Promise<Thumbnail> => {
         // pPrettyPrint(thumb);
         return thumb;
     } catch (e) {
-        pError(e)
+        // pError(e)
     }
 }

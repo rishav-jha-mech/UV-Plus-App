@@ -35,6 +35,48 @@ const FileIconCard: React.FC<FileIconCardProps> = ({ data }) => {
     );
 }
 
+const RecentThumbCard: React.FC<FileIconCardProps> = ({ data }) => {
+    const { name, path } = data;
+    const [loading, setLoading] = useState<boolean>(true);
+    const [thumbPath, setThumbPath] = useState<string>('');
+
+    useEffect(() => {
+        // pPrettyPrint({ name, path });
+        CreateThumbnail(path).then((res: Thumbnail) => {
+            // pPrettyPrint(res.path);
+            setThumbPath(`${res.path}`);
+            setLoading(false);
+        }).catch(() => {
+            setLoading(true);
+        })
+    }, [])
+
+
+    const ext = formatFormatter(name);
+
+    return (
+
+        <TouchableOpacity
+            activeOpacity={0.85}
+            style={loading ? styles.card : videoStyles.card}
+            onPress={() => OpenFile(path, name)}
+        >
+            {loading ?
+                <>
+                    <View style={styles.iconContainer}>
+                        <FileIcon ext={ext} size={50.0} />
+                    </View>
+                    <Text
+                        numberOfLines={2}
+                        style={styles.cardFileName}
+                    >
+                        {name}
+                    </Text>
+                </>
+                : <Image source={{ uri: thumbPath }} style={videoStyles.thumb} />}
+        </TouchableOpacity>
+    );
+}
 
 const VideoThumbCard: React.FC<FileIconCardProps> = ({ data }) => {
     const { name, path } = data;
@@ -45,7 +87,7 @@ const VideoThumbCard: React.FC<FileIconCardProps> = ({ data }) => {
     useEffect(() => {
         // pPrettyPrint({ name, path });
         CreateThumbnail(path).then((res: Thumbnail) => {
-            // pPrettyPrint(res);
+            // pPrettyPrint(res.path);
             setThumbPath(`${res.path}`);
             setLoading(false);
         }).catch(() => {
@@ -99,4 +141,4 @@ const videoStyles = StyleSheet.create({
     }
 })
 
-export { FileIconCard, VideoThumbCard };
+export { FileIconCard, VideoThumbCard, RecentThumbCard };
