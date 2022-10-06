@@ -1,25 +1,33 @@
-import React, { createRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import WebView from 'react-native-webview'
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { ARP, SAGO, SHWE } from '../env';
+import { ARP, SAGO, SHWE, YOUTUBE } from '../env';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../NAVIGATION';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { pLog } from '../constants';
 
 
-const StackWeb:React.FC = () => {
+type resultScreenProps = StackNavigationProp<AppParamList, 'ResultStack'>;
+
+const StackWeb: React.FC = () => {
 
     const route = useRoute<RouteProp<AppParamList, 'WebStack'>>();
+    const navigation = useNavigation<resultScreenProps>();
     const HOMEPAGE = (route.params.url == undefined) ? "https://www.google.com/" : route.params.url;
 
     const [URL, setURL] = useState(HOMEPAGE)
     const [title, setTitle] = useState('')
-    const webViewRef = createRef<WebView>();
+    const webViewRef = useRef();
     const [downloadable, setDownloadable] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
+
 
     const isDownloadable = () => {
-
-        if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)) {
+        pLog(`is Downloadable CALLED !\n${URL}`)
+        if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE) || URL.includes(YOUTUBE)) {
             setDownloadable(true);
         } else {
             setDownloadable(false);
@@ -32,7 +40,7 @@ const StackWeb:React.FC = () => {
             </View>
             <WebView
                 source={{ uri: URL }}
-                // ref={(ref) => webViewRef.current = ref}
+                ref={webViewRef}
                 style={styles.Container}
                 domStorageEnabled={true}
                 pullToRefreshEnabled={true}
@@ -46,7 +54,13 @@ const StackWeb:React.FC = () => {
                 }
             />
             {downloadable ?
-                <TouchableOpacity style={styles.down}>
+                <TouchableOpacity
+                    style={styles.down}
+                    activeOpacity={0.4}
+                    onPress={() => {
+                        navigation.navigate('ResultStack', { url: URL })
+                    }}
+                >
                     <FeatherIcon name='download' size={28} color={'#fff'} />
                 </TouchableOpacity>
                 : <></>}
@@ -62,22 +76,25 @@ const styles = StyleSheet.create({
     },
     down: {
         position: 'absolute',
-        padding: 12.0,
+        height: 55,
+        width: 55,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 1000.0,
-        bottom: 35.0,
-        right: 15.0,
+        bottom: 60.0,
+        right: 12.0,
         backgroundColor: '#ff156f',
-        elevation: 10.0
+        elevation: 1000.0
     },
-    header:{
+    header: {
         elevation: 2,
         backgroundColor: '#66f',
         paddingHorizontal: 8,
         paddingVertical: 14,
-        flexDirection : 'row',
+        flexDirection: 'row',
         alignItems: 'center',
     },
-    headerText:{
+    headerText: {
         color: '#fff',
         fontSize: 16,
         letterSpacing: 1,
