@@ -1,16 +1,25 @@
+import React, { useEffect } from 'react'
 import { FlashList } from '@shopify/flash-list';
-import React from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import StorageLeft from '../../Scripts/storageLeft';
 import Downcomp from './Downcomp';
 
 const Downloading: React.FC = () => {
 
 	const DownloadList = useAppSelector((state) => state.downloadList);
+	const [storageStat, setStorageStat] = React.useState<string>('');
+
+    useEffect(() => {
+        StorageLeft().then((res: string) => setStorageStat(res))
+    }, [])
 
 	return (
 		<View style={styles.Container}>
-			<Text style={styles.topHeading}>Downloading</Text>
+			<View style={styles.topContainer}>
+				<Text style={styles.topHeading}>Downloading</Text>
+				<Text style={styles.space}>{storageStat}</Text>
+			</View>
 			{(DownloadList.length === 0) ?
 				<NoDownloading />
 				: <FlashList
@@ -20,8 +29,6 @@ const Downloading: React.FC = () => {
 						return <Downcomp key={data.index} data={data.item} />
 					}} />
 			}
-
-
 		</View>
 	)
 }
@@ -34,14 +41,24 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		paddingHorizontal: 10.0
 	},
-	topHeading: {
-		fontSize: 22.0,
-		fontWeight: '700',
-		paddingVertical: 16.0,
-		color: '#333',
+	topContainer:{
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 		borderBottomWidth: 1.0,
 		borderBottomColor: 'rgba(0,0,0,0.1)',
-		paddingHorizontal: 6.0
+		paddingVertical: 16.0,
+		paddingHorizontal: 4.0,
+	},
+	topHeading: {
+		fontSize: 20.0,
+		fontWeight: '700',
+		color: '#333',
+	},
+	space:{
+		color: '#333',
+		fontSize: 12.0,
+		fontWeight: '600',
 	},
 	downloadView: {
 		flex: 1,
@@ -51,8 +68,8 @@ const styles = StyleSheet.create({
 
 const NoDownloading = () => {
 	return (
-		<View style={{ height: Dimensions.get('window').height / 1.4, justifyContent: 'center', alignItems: 'center' }}>
-			<Text style={{ color: '#333', fontSize: 16.0 }}>No file is getting downloaded at the moment</Text>
+		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<Text style={{ color: '#333', fontSize: 16.0, marginHorizontal: 16.0, textAlign: "center" }}>No file is getting downloaded at the moment</Text>
 		</View>
 	);
 }

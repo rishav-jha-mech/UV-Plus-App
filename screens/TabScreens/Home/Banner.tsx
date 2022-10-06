@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather'
 
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import isURL from 'validator/lib/isURL';
 import { aBannerImage } from '../../constants';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
+import StorageLeft from '../../Scripts/storageLeft';
 
 
 type resultStackProps = StackNavigationProp<AppParamList, 'ResultStack'>;
@@ -18,10 +19,10 @@ const Banner = () => {
     const [url, setUrl] = useState<string>("")
     const resultStack = useNavigation<resultStackProps>();
     const webStack = useNavigation<webStackProps>();
+    const [storageStat, setStorageStat] = useState<string>('')
 
     const inputRef = createRef<TextInput>();
     const PostReq = (url: string) => {
-
         if (isURL(url)) {
             resultStack.navigate('ResultStack', {
                 url: url,
@@ -35,8 +36,15 @@ const Banner = () => {
             })
         }
     }
+    useEffect(() => {
+        StorageLeft().then((res: string) => setStorageStat(res))
+      return () => {
+      }
+    }, [])
+    
     return (<>
         <View style={styles.Banner}>
+            <Text style={styles.storageStat}>{storageStat}</Text>
             <ImageBackground source={aBannerImage} style={styles.BannerImageBG} resizeMode={"cover"} >
                 <Text style={styles.NavbarText}>Universal Downloader</Text>
             </ImageBackground>
@@ -44,7 +52,7 @@ const Banner = () => {
                 <TextInput
                     style={styles.Input}
                     ref={inputRef}
-                    placeholder="Enter url"
+                    placeholder="Enter url or search"
                     keyboardType="url"
                     defaultValue={url}
                     showSoftInputOnFocus={true}
@@ -72,7 +80,7 @@ export default Banner;
 
 const styles = StyleSheet.create({
     Banner: {
-        height: 250,
+        height: 275,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -88,7 +96,8 @@ const styles = StyleSheet.create({
     NavbarText: {
         fontSize: 32.0,
         fontWeight: '700',
-        color: '#fff'
+        color: '#fff',
+        marginBottom: -16.0
     },
     urlContainer: {
         position: 'absolute',
@@ -116,4 +125,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#66f',
         borderRadius: 25,
     },
+    storageStat:{
+        position: 'absolute',
+        zIndex: 100,
+        top:   6.0,
+        right: 6.0,
+        color: 'rgba(256,256,256,0.8)',
+        fontSize: 13.0,
+    }
 })
