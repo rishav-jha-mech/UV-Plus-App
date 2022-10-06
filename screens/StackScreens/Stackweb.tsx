@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native'
 import WebView from 'react-native-webview'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { ARP, SAGO, SHWE, YOUTUBE } from '../env';
@@ -20,13 +20,30 @@ const StackWeb: React.FC = () => {
 
     const [URL, setURL] = useState(HOMEPAGE)
     const [title, setTitle] = useState('')
-    const webViewRef = useRef();
+    const webViewRef = useRef<any>();
+    const [canGoBack, setCanGoBack] = useState(false)
     const [downloadable, setDownloadable] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
+
+    
+
+    // Backaction defined here, if the user cant go back he will go to home tab
+    const backAction = () => {
+        if (canGoBack) {
+            webViewRef.current.goBack();
+        } else {
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
+            navigation.goBack();
+        }
+        return true;
+    };
 
 
+    BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+    );
+    
     const isDownloadable = () => {
-        pLog(`${URL}`)
         if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE) || URL.includes(YOUTUBE)) {
             setDownloadable(true);
         } else {
@@ -52,6 +69,7 @@ const StackWeb: React.FC = () => {
                         setURL(navState.url);
                         isDownloadable();
                         setTitle(navState.title)
+                        navState.canGoBack ? setCanGoBack(true) : setCanGoBack(false)
                     }
                 }
             />
@@ -85,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 60.0,
         right: 12.0,
-        backgroundColor: '#ff156f',
+        backgroundColor: '#66f',
         elevation: 1000.0
     },
     header: {

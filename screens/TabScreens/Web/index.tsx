@@ -46,7 +46,6 @@ const Web: React.FC<webProps> = () => {
 
 
     const isDownloadable = () => {
-        // pLog(URL)
         if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)) {
             setDownloadable(true);
         } else {
@@ -278,7 +277,7 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 8.0,
         right: 10.0,
-        backgroundColor: '#ff156f',
+        backgroundColor: '#66f',
         elevation: 1000.0
     }
 })
