@@ -59,6 +59,28 @@ export const modalStyle = StyleSheet.create({
         fontWeight: '400',
         textAlign: 'center',
         paddingVertical: 16
+    },
+    Input:{
+        borderColor: kPrimaryColor,
+        borderWidth: 1,
+        width: '100%',
+        borderRadius: 8.0,
+        paddingHorizontal: 12,
+    },
+    h1:{
+        color: kDarkTextColor,
+        fontSize: 24,
+        fontWeight: '700',
+        marginBottom: 24
+    },
+    smolBtn:{
+        paddingVertical: 8.0,
+        paddingHorizontal: 12.0,
+        marginTop: 14
+    },
+    smolBtnText:{
+        fontWeight: '600',
+        color: 'dodgerblue'
     }
 })
 
