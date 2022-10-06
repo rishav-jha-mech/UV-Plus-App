@@ -1,7 +1,6 @@
 import { Alert } from 'react-native'
 import { pError, pLog } from '../constants';
 import RNFS from 'react-native-fs';
-import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
 
 
 const  deleteFileDialog = async (name: string, path: string, reload: Function,setShowModal: Function, setModalText: Function) => {

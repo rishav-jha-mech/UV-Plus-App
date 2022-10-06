@@ -1,6 +1,6 @@
 // react-native-media-thumbnail may be used in future commits
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, BackHandler, Modal, Pressable, Text, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
+import { StyleSheet, View, BackHandler, Modal, Pressable, Text, TouchableOpacity, ActivityIndicator, RefreshControl, TextInput, Keyboard } from 'react-native';
 import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
@@ -11,8 +11,9 @@ import { FlashList } from '@shopify/flash-list';
 import ReadPermission from '../../Scripts/ReadPermission';
 import { DOWNLOAD_PATH, modalStyle } from '../../constants';
 import Lottie from 'lottie-react-native';
+import RenameFile from '../../Components/renameFileDialog';
 
-const Downloads:React.FC = () => {
+const Downloads: React.FC = () => {
 
     const [filestats, setFileStats] = useState<Array<RNFS.ReadDirItem>>([]);
     const navigation = useNavigation();
@@ -22,15 +23,20 @@ const Downloads:React.FC = () => {
     const canGoBackward = true;
     ReadPermission().then((res: any) => setReadPerm(res));
 
-
+    // Delete File Modal
     const [showModal, setShowModal] = useState<boolean>(false);
     const [modalText, setModalText] = useState<string>('');
     const animationRef = useRef<any>()
 
+    // Rename File Modal
+    const [showRenameModal, setShowRenameModal] = useState<boolean>(false);
+    const [renameModalPath, setRenameModalPath] = useState<string>('');
+    const [newFileName, setNewFileName] = useState<string>('');
+
     useEffect(() => {
         ReadFiles();
     }, [path])
-    
+
     useEffect(() => {
         animationRef.current?.play()
     }, [showModal])
@@ -75,10 +81,10 @@ const Downloads:React.FC = () => {
         backAction
     );
 
-    // Here if the user is on the root directory the back button is hidden so it wont work, lso if the user clicks on hardware back btn
-    // her will be forwarded to home
     return readPerm ? (
         <>
+            {/* Flies and Directories */}
+
             <View style={styles.Container}>
                 <View style={styles.Path}>
                     {loading ? // So that user does not click 2-3 times on the same button
@@ -118,20 +124,57 @@ const Downloads:React.FC = () => {
                                         setLoading={ReadFiles}
                                         setShowModal={setShowModal}
                                         setModalText={setModalText}
+                                        setRenameModalPath={setRenameModalPath}
+                                        setNewFileName={setNewFileName}
+                                        setShowRenameModal={setShowRenameModal}
                                     />
                                 );
                             }}
                         />
                 }
             </View>
+
+            {/* Deleting Animation Modal */}
+
             <Modal style={{ flex: 1 }} visible={showModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container}>
                     <View style={modalStyle.CardGeneric}>
-                        <Lottie style={{height: 200}} ref={animationRef} source={require('../../assets/lottie/trash.json')} />
+                        <Lottie style={{ height: 200 }} ref={animationRef} source={require('../../assets/lottie/trash.json')} />
                         <Text style={modalStyle.CardText}>{modalText}</Text>
                     </View>
                 </Pressable>
             </Modal>
+
+            {/* Rename Modal */}
+
+            <Modal style={{ flex: 1 }} visible={showRenameModal} transparent={true} animationType={'fade'}>
+                <Pressable style={modalStyle.Container}>
+                    <View style={[modalStyle.CardGeneric, { alignItems: 'flex-start', justifyContent: 'flex-start' }]}>
+                        <Text style={modalStyle.h1}>Rename File</Text>
+                        <TextInput
+                            autoFocus={true}
+                            placeholder='Enter File Name'
+                            style={modalStyle.Input}
+                            onChangeText={(text) => setNewFileName(text)}
+                            multiline={true}
+                            value={newFileName}
+                        />
+                        <View style={{ flexDirection: 'row', marginTop: 12.0, width: '100%', justifyContent: 'flex-end' }}>
+                            <TouchableOpacity
+                                style={[modalStyle.smolBtn, { marginRight: 12.0 }]}
+                                onPress={() => setShowRenameModal(false)}
+                            >
+                                <Text style={modalStyle.smolBtnText}>CANCEL</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[modalStyle.smolBtn, {}]} onPress={() => RenameFile(newFileName,renameModalPath,ReadFiles,setShowRenameModal)}>
+                                <Text style={modalStyle.smolBtnText}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Pressable>
+            </Modal>
+
+
         </>)
         : <PermissionNotGiven />
 }
