@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, Text, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
-import { kPrimaryColor } from '../../constants';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Text, ScrollView, StatusBar, Alert } from 'react-native'
+import { kPrimaryColor, pLog, pPrettyPrint } from '../../constants';
 import ReadPermission from '../../Scripts/ReadPermission';
 import Banner from './Banner';                                 // Every thing happens here !
 import Recent from './Recent';
 
 
-const Home:React.FC = () => {
+const Home: React.FC = () => {
     const [perm, setPerm] = useState<boolean>(false)
-    ReadPermission().then((res:any) => setPerm(res));
-    
+    ReadPermission().then((res: any) => setPerm(res));
+
     return (
         <>
             <StatusBar
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fcfcfc',
     },
-    btn:{
+    btn: {
         backgroundColor: '#66f',
         marginBottom: 20.0,
         paddingHorizontal: 16.0,

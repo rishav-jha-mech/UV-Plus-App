@@ -9,7 +9,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Loading from '../../Components/Loading';
 import { FlashList } from '@shopify/flash-list';
 import ReadPermission from '../../Scripts/ReadPermission';
-import { DOWNLOAD_PATH, modalStyle } from '../../constants';
+import { DOWNLOAD_PATH, modalStyle, pLog } from '../../constants';
 import Lottie from 'lottie-react-native';
 import RenameFile from '../../Components/renameFileDialog';
 
@@ -66,7 +66,8 @@ const Downloads: React.FC = () => {
 
     // Backhandlers
     const backAction = () => {
-        if (shownPath === '0') { // In  future this will be applied to android directory too so that the app doesnt crash
+        if (shownPath === '0') {
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
             navigation.goBack();
             return true;
         }

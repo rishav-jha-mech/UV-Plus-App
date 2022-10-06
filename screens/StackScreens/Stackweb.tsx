@@ -26,13 +26,15 @@ const StackWeb: React.FC = () => {
 
 
     const isDownloadable = () => {
-        pLog(`is Downloadable CALLED !\n${URL}`)
+        pLog(`${URL}`)
         if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE) || URL.includes(YOUTUBE)) {
             setDownloadable(true);
         } else {
             setDownloadable(false);
         }
     }
+
+
     return (
         <>
             <View style={styles.header}>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from 'react'
+import React, { useState, useRef, createRef, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, BackHandler } from 'react-native'
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native';
@@ -15,16 +15,17 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
 import { CardStateParams } from '../../types';
-import { modalStyle } from '../../constants';
+import { modalStyle, pLog, pPrettyPrint } from '../../constants';
 
 
 type webProps = StackNavigationProp<AppParamList, 'Web'>;
+type resultProp = StackNavigationProp<AppParamList, 'ResultStack'>;
 
 const Web: React.FC<webProps> = () => {
     const route = useRoute<RouteProp<AppParamList, 'WebStack'>>();
     const HOMEPAGE = (route.params == undefined) ? "https://www.google.com/" : route.params.url;
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<resultProp>();
     const [URL, setURL] = useState<string>(HOMEPAGE)
     const [tempURL, setTempURL] = useState<string>(URL)
     const [webkey, setWebKey] = useState<number>(0) // Not a very good option, this does a force update on the webview component
@@ -45,6 +46,7 @@ const Web: React.FC<webProps> = () => {
 
 
     const isDownloadable = () => {
+        // pLog(URL)
         if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE)) {
             setDownloadable(true);
         } else {
@@ -55,19 +57,22 @@ const Web: React.FC<webProps> = () => {
     // Backaction defined here, if the user cant go back he will go to home tab
     const backAction = () => {
         if (canGoBackward) {
-            console.log('simon go bavk')
             webViewRef.current.goBack();
         } else {
-            console.log('simon contgo')
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
             navigation.goBack();
         }
         return true;
     };
 
+
     BackHandler.addEventListener(
         "hardwareBackPress",
         backAction
     );
+    
+
+
     const Validate = (text: string): void => { // If the input isnt a url then it will go to GoogleIt function will be called.
         if (validator.isURL(text)) {
             setURL(text)
@@ -203,11 +208,18 @@ const Web: React.FC<webProps> = () => {
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
-            {downloadable ?
-                <TouchableOpacity style={styles.down}>
-                    <FeatherIcon name='ellipsis-vertical' size={28} color={'#fff'} />
-                </TouchableOpacity>
-                : <></>}
+            {downloadable ? 
+                <TouchableOpacity
+                style={styles.down}
+                activeOpacity={0.4}
+                onPress={() => {
+                    navigation.navigate('ResultStack', { url: URL })
+                }}
+            >
+                <FeatherIcon name='download' size={28} color={'#fff'} />
+            </TouchableOpacity>
+            
+            : <></>}
         </>
     )
 }
@@ -259,11 +271,14 @@ const styles = StyleSheet.create({
     },
     down: {
         position: 'absolute',
-        padding: 12.0,
+        height: 55,
+        width: 55,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 1000.0,
-        bottom: 35.0,
-        right: 15.0,
+        bottom: 8.0,
+        right: 10.0,
         backgroundColor: '#ff156f',
-        elevation: 10.0
+        elevation: 1000.0
     }
 })
