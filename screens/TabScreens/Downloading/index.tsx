@@ -1,8 +1,7 @@
 import { FlashList } from '@shopify/flash-list';
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
-import { useAppSelector } from '../../hooks';
-import { DownloadingParams } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Downcomp from './Downcomp';
 
 const Downloading: React.FC = () => {
@@ -17,7 +16,6 @@ const Downloading: React.FC = () => {
 				: <FlashList
 					data={DownloadList}
 					estimatedItemSize={100}
-
 					renderItem={(data) => {
 						return <Downcomp key={data.index} data={data.item} />
 					}} />

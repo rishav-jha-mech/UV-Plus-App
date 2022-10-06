@@ -8,7 +8,7 @@ import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import { DOWNLOAD_PATH, supWebsites } from '../../constants';
-import FileIconCard from './FileIconCard';
+import { VideoThumbCard, FileIconCard, RecentThumbCard } from './FileIconCard';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
@@ -39,7 +39,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
     const ReadFiles = () => {
         RNFS.readDir(DOWNLOAD_PATH).then(files => {
             const y = [...files].reverse(); // Reversed the array
-            const x = y.slice(0, 8);        // 100 Times more performant
+            const x = y.slice(0, 16);        // 100 Times more performant
             x.map((data: RNFS.ReadDirItem, index) => {
                 if (data.isFile()) {
                     setFileStats(prevValue => [...prevValue, data])
@@ -87,10 +87,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {fileStats.map((data, index) => {
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {fileStats.map((data, index) => <RecentThumbCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>
@@ -110,10 +107,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {videoStats.map((data, index) => {
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {videoStats.map((data, index) => <VideoThumbCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>
@@ -133,11 +127,7 @@ const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
                             </Text>
                             :
                             <>
-                                {audioStats.map((data, index) => {
-
-                                    const ext = formatFormatter(data.name);
-                                    return <FileIconCard key={index} filename={data.name} DOWNLOAD_PATH={DOWNLOAD_PATH} ext={ext} index={index} />
-                                })}
+                                {audioStats.map((data, index) => <FileIconCard key={index} data={data} />)}
                             </>
                     }
                 </ScrollView>

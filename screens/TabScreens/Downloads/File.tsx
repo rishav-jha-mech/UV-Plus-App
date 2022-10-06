@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity, Text, View, Pressable } from 'react-native'
 import OpenFile from '../../Scripts/OpenFile';
 import FileIcon from '../../Components/FileIcon'
-import { kDarkTextColor, kRedColor } from '../../constants'
+import { kBlueColor, kDarkTextColor, kRedColor, pPrettyPrint } from '../../constants'
 import deleteFileDialog from '../../Components/deleteFileDialog'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';
@@ -10,15 +10,19 @@ import RNFS from 'react-native-fs';
 import TimeStampToDate from '../../Scripts/TimeStampToDate';
 import bytesConverter from '../../Scripts/bytesConverter';
 import formatFormatter from '../../Scripts/formatFormatter';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type FileType = {
     data: RNFS.ReadDirItem,
     reload: Function,
     setShowModal: Function,
     setModalText: Function,
+    setRenameModalPath: Function,
+    setShowRenameModal: Function,
+    setNewFileName: Function
 }
 
-const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal }) => {
+const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, setRenameModalPath, setShowRenameModal, setNewFileName }) => {
 
     const { path, name, mtime, size } = data;
 
@@ -34,7 +38,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal }) 
                 activeOpacity={0.75}
                 onPress={() => {
                     showOptions ? setShowOptions(!showOptions) :
-                        OpenFile(path)
+                        OpenFile(path,name)
                 }}>
                 <View style={styles.fileIcon}>
                     <FileIcon size={40.0} ext={ext} />
@@ -58,9 +62,25 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal }) 
                         style={styles.dropdownbtn}
                         activeOpacity={0.65}
                         onPress={() => {
+                            setNewFileName(name);
+                            setRenameModalPath(path);
+                            setShowRenameModal(true);
+                            setShowOptions(false);
+                        }}
+                    >
+                        <View style={styles.iconContainer}>
+                            <MaterialIcon name='circle-edit-outline' size={20} color={kBlueColor} />
+                        </View>
+                        <Text style={{color: kDarkTextColor}}>
+                            Rename File
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.dropdownbtn}
+                        activeOpacity={0.65}
+                        onPress={() => {
                             deleteFileDialog(name, path, reload, setShowModal, setModalText);
-                        }
-                        }
+                        }}
                     >
                         <View style={styles.iconContainer}>
                             <IonIcon name='trash-outline' size={20} color={kRedColor} />

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { pLog, pPrettyPrint } from '../constants';
 import { DownloadingParams } from '../types';
 
 
@@ -36,9 +37,12 @@ const Download = createSlice({
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex].status = -1;
         },
-
+        removeDownloading: (state, action: { payload: { id: string } }) => {
+            var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
+            state.splice(downloadIndex, 1);
+        }
     },
 });
 
-export const { downloadedSuccessfully, errorDownloading, setDownloadedFileSize, setFilesize, startDownloading } = Download.actions;
+export const { downloadedSuccessfully, errorDownloading, setDownloadedFileSize, setFilesize, startDownloading, removeDownloading } = Download.actions;
 export default Download.reducer;

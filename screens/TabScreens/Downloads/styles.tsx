@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fcfafa',
         flex: 1,
         flexDirection: 'row',
-        height: 77.5,
+        height: 85,
     },
     fileIcon: {
         paddingLeft: 18.0,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
         minWidth: 140.0
     },
     dropdownbtn: {
-        paddingVertical: 10.0,
+        paddingVertical: 6.0,
         paddingHorizontal: 10.0,
         flexDirection: 'row',
         alignItems: 'center'

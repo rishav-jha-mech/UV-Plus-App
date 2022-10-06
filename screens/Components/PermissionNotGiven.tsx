@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Permission = () => {
+const Permission: React.FC = () => {
     return (
         <View style={Errors.Container}>
             <Text style={Errors.TheText}>Read Permission Not Given</Text>
@@ -13,8 +13,6 @@ const Permission = () => {
 }
 
 export default Permission
-
-const styles = StyleSheet.create({})
 
 const Errors = StyleSheet.create({
     Container: {

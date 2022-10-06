@@ -17,9 +17,13 @@ const  deleteFileDialog = async (name: string, path: string, reload: Function,se
 					if (exists) {
 						try {
 							await RNFS.unlink(path);
-							pLog(`File with Filename "${name}" deleted successfully`);
-							setModalText('');
-							setShowModal(false);
+							// pLog(`File with Filename "${name}" deleted successfully`);
+							setTimeout(() => { // yaar yeh file delete hone me itna time kyu lag raha .........
+								setModalText('');
+								setShowModal(false);
+								reload();
+							}, 1500);
+
 							// Alert.alert('File Deleted', `"${name}" has been deleted successfully`);
 						} catch (err) {
 							setModalText('');
