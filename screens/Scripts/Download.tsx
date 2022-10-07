@@ -7,7 +7,10 @@ import { downloadedSuccessfully, errorDownloading, setDownloadedFileSize, setFil
 
 const StartDownload = (payload: PayloadParams, dispatch: Function): void => {
 
-    Alert.alert("Download Started Check Notification For Progress");
+    Alert.alert(
+        '',
+        'Download Started Check Downloading Tab For Progress'
+    );
     const errorParams: raiseErrorParams = {
         id: payload.id,
         filename: payload.filename,
@@ -18,7 +21,10 @@ const StartDownload = (payload: PayloadParams, dispatch: Function): void => {
         .then(res => {
             // Check the comments below
             if (res.statusCode == 200) {
-                Alert.alert(payload.filename + ' Was Downloaded Successfully')
+                Alert.alert(
+                    '',
+                    `${payload.filename} downloaded successfully`,
+                )
                 dispatch(downloadedSuccessfully({
                     id: payload.id
                 }));
@@ -36,11 +42,13 @@ export default StartDownload;
 // Function to Dispatch Error Downloading
 const raiseError = (params: raiseErrorParams) => {
     const { id, filename, dispatch } = params;
-
     dispatch(errorDownloading({
         id: id
     }));
-    Alert.alert('Error occured while downloading' + filename);
+    Alert.alert(
+        'Error Occured',
+        `Error Downloading ${filename}`
+    );
 }
 
 // Function to Create Download File Options

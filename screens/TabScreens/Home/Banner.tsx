@@ -4,7 +4,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import isURL from 'validator/lib/isURL';
-import { aBannerImage } from '../../constants';
+import { aBannerImage, kPrimaryColor } from '../../constants';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
 import StorageLeft from '../../Scripts/storageLeft';
@@ -38,8 +38,6 @@ const Banner = () => {
     }
     useEffect(() => {
         StorageLeft().then((res: string) => setStorageStat(res))
-      return () => {
-      }
     }, [])
     
     return (<>
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         marginBottom: 50
     },
     BannerImageBG: {
@@ -122,7 +120,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         right: 16,
         padding: 14.0,
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         borderRadius: 25,
     },
     storageStat:{

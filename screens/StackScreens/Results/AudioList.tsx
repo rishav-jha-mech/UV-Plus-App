@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, Pressable, Alert } from 'react-native';
+import { Text, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import bytesConverter from '../../Scripts/bytesConverter';
 import RNFS from 'react-native-fs';
@@ -9,6 +9,7 @@ import { startDownloading } from '../../REDUX/DownloadSilce';
 import { FormatType } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
+import { listStyles }  from './listStyles';
 
 type AudioListType = {
     info: FormatType,
@@ -88,51 +89,24 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
     }
     return (youtube && audio) ? (
         <Pressable
-            style={styles.Container}
+            style={listStyles.Container}
             onPress={() => { StartDownloading(info.url, info.ext) }}
         >
-            <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
-            <Text style={styles.TheText}> {ext}</Text>
-            <Text style={styles.TheText}> {filesize ? filesize : 'undefined'}</Text>
+            <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
+            <Text style={listStyles.TheText}> {ext}</Text>
+            <Text style={listStyles.TheText}> {filesize ? filesize : 'undefined'}</Text>
         </Pressable>
     ) : (facebook && audio) ? (
         <Pressable
-            style={styles.Container}
+            style={listStyles.Container}
             onPress={() => { StartDownloading(info.url, info.ext) }}
         >
-            <Text style={[styles.TheText, styles.format]}> {format} </Text>
-            <Text style={styles.TheText}> {info.ext} </Text>
+            <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+            <Text style={listStyles.TheText}> {info.ext} </Text>
         </Pressable>
     ) : (instagram) ? (
-        <Text style={styles.nf}>We Dont Do That Here</Text>
+        <Text style={listStyles.nf}>We Dont Do That Here</Text>
     ) : (<></>)
 }
 
 export default AudioList
-
-
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 1.0
-    },
-    TheText: {
-        flex: 1,
-        backgroundColor: "#fff0f5",
-        textAlign: 'center',
-        paddingVertical: 16.0,
-    },
-    format: {
-        textTransform: 'capitalize',
-    },
-    nf: {
-        fontSize: 20,
-        paddingVertical: 10,
-        backgroundColor: 'orangered',
-        color: 'white',
-        fontWeight: '800',
-        textAlign: 'center'
-    }
-})

@@ -9,7 +9,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Loading from '../../Components/Loading';
 import { FlashList } from '@shopify/flash-list';
 import ReadPermission from '../../Scripts/ReadPermission';
-import { DOWNLOAD_PATH, modalStyle, pLog } from '../../constants';
+import { DOWNLOAD_PATH, kPrimaryColor, modalStyle, pLog } from '../../constants';
 import Lottie from 'lottie-react-native';
 import RenameFile from '../../Components/renameFileDialog';
 
@@ -90,11 +90,11 @@ const Downloads: React.FC = () => {
                 <View style={styles.Path}>
                     {loading ? // So that user does not click 2-3 times on the same button
                         <TouchableOpacity style={styles.backBtn}>
-                            <ActivityIndicator size={20} color={'#66f'} />
+                            <ActivityIndicator size={20} color={kPrimaryColor} />
                         </TouchableOpacity>
                         : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
                             <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true); PreviousPath(); }}>
-                                <FontAwesomeIcon name='angle-left' size={20} color={"#66f"} />
+                                <FontAwesomeIcon name='angle-left' size={20} color={kPrimaryColor} />
                             </TouchableOpacity>
                     }
                     <Text style={styles.PathText}>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     },
     PathText: {
         flex: 1,
-        color: '#66f',
+        color: kPrimaryColor,
         fontSize: 16.0,
         fontWeight: '500',
         letterSpacing: 0.5,

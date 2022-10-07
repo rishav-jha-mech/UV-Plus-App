@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import { DOWNLOAD_PATH, supWebsites } from '../../constants';
+import { DOWNLOAD_PATH, kPrimaryColor, supWebsites } from '../../constants';
 import { VideoThumbCard, FileIconCard, RecentThumbCard } from './FileIconCard';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -192,6 +192,6 @@ const Permi = () => {
 }
 const Loading = () => {
     return (
-        <View style={{ height: 190.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={'#66f'} /></View>
+        <View style={{ height: 190.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={kPrimaryColor} /></View>
     );
 }

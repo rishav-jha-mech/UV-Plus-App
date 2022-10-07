@@ -60,6 +60,7 @@ export type FormatType = {
     abr: number,
     asr: number,
     filesize: number,
+    filesize_approx: number, // When filsize is null
     fps: number,
     language_preference: number,
     quality: number,

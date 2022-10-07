@@ -17,6 +17,7 @@ import Web from './TabScreens/Web';
 import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
 import StartDownload from './Scripts/Download';
+import { kPrimaryColor } from './constants';
 
 
 export type AppParamList = {
@@ -45,7 +46,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='home' color={color} size={size} />
           ),
-          tabBarActiveTintColor: '#66f',
+          tabBarActiveTintColor: kPrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -56,7 +57,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='globe' color={color} size={size} />
           ),
-          tabBarActiveTintColor: '#66f',
+          tabBarActiveTintColor: kPrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -67,7 +68,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <IonIcon name='ios-folder-outline' color={color} size={size} />
           ),
-          tabBarActiveTintColor: '#66f',
+          tabBarActiveTintColor: kPrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -79,7 +80,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <FeatherIcon name='download' color={color} size={size} />
           ),
-          tabBarActiveTintColor: '#66f',
+          tabBarActiveTintColor: kPrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />

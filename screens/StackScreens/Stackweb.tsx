@@ -7,7 +7,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../NAVIGATION';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { pLog } from '../constants';
+import { kPrimaryColor, pLog } from '../constants';
 
 
 type resultScreenProps = StackNavigationProp<AppParamList, 'ResultStack'>;
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 60.0,
         right: 12.0,
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         elevation: 1000.0
     },
     header: {
         elevation: 2,
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         paddingHorizontal: 8,
         paddingVertical: 14,
         flexDirection: 'row',

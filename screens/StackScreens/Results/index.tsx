@@ -147,12 +147,13 @@ const styles = StyleSheet.create({
         paddingVertical: 5.0
     },
     Heading: {
-        fontSize: 24,
-        paddingVertical: 16.0,
+        fontSize: 20,
+        paddingVertical: 14.0,
         fontWeight: '800',
         textAlign: 'center',
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         color: '#fff',
+        letterSpacing: 1.5
     },
     ListContainer: {
         flexDirection: 'row',

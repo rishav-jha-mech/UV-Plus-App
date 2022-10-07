@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, Text, Pressable, Alert } from 'react-native'
+import { Text, Pressable, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../../Scripts/bytesConverter'
 import { ARP, SHWE, SAGO } from '../../env';
@@ -7,9 +7,11 @@ import RNFS from 'react-native-fs';
 import { AppContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
 import { startDownloading } from '../../REDUX/DownloadSilce';
-import { FormatType, YTDLP_Options } from '../../types';
+import { FormatType } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
+import { listStyles } from './listStyles';
+import { pLog, pPrettyPrint } from '../../constants';
 
 
 type VideoListType = {
@@ -84,11 +86,14 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         var Localformat = regExp.exec(info.format);
         setFormat(Localformat![1]);
         // Show Video files only
-        // if (info.height != null && info.ext == "mp4" && info.filesize != null) { This will give us all the Videos with or without Audio embeded this will be used when we Begin using FFMPEG in our project
+        // if (info.height != null && info.ext == "mp4" && info.filesize != null) { // This will give us all the Videos with or without Audio embeded this will be used when we Begin using FFMPEG in our project
         if (info.abr == 0 && info.asr != null && info.ext != "3gp") { // Only two streams i.e. 360px and 720px with audio are available 😌😥
             setVideo(true);
-            // Change file size from bytes to KB,MB,or GB
-            setFilesize(bytesConverter(info.filesize));
+            if (info.filesize == null) {
+                setFilesize(bytesConverter(info.filesize_approx));
+            } else {
+                setFilesize(bytesConverter(info.filesize));
+            }
         }
     }
     const Facebook = (info: FormatType) => {
@@ -130,96 +135,68 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
     }
     return (youtube && video) ? (
         <Pressable
-            style={styles.Container}
+            style={listStyles.Container}
             onPress={() => { StartDownloading(info.url, info.ext) }}
         >
-            <Text style={[styles.TheText, styles.format]}> {format ? format : 'Not Present'} </Text>
-            <Text style={styles.TheText}> {ext}</Text>
-            <Text style={styles.TheText}> {filesize ? filesize : 'undefined'}</Text>
+            <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
+            <Text style={listStyles.TheText}> {ext}</Text>
+            <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) :
         (facebook && video) ? (
             <Pressable
-                style={styles.Container}
+                style={listStyles.Container}
                 onPress={() => { StartDownloading(info.url, info.ext) }}
             >
-                <Text style={[styles.TheText, styles.format]}> {format} </Text>
-                <Text style={styles.TheText}> {info.ext}</Text>
+                <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+                <Text style={listStyles.TheText}> {info.ext}</Text>
             </Pressable>
         ) :
             (instagram) ? (
                 <Pressable
-                    style={styles.Container}
+                    style={listStyles.Container}
                     onPress={() => { StartDownloading(info.url, info.ext) }}
                 >
-                    <Text style={[styles.TheText, styles.format]}> ({info.height} x {info.width}) Video </Text>
-                    <Text style={styles.TheText}> {info.ext}</Text>
+                    <Text style={[listStyles.TheText, listStyles.format]}> ({info.height} x {info.width}) Video </Text>
+                    <Text style={listStyles.TheText}> {info.ext}</Text>
                 </Pressable>
             ) :
                 (arp && video) ? (
                     <Pressable
-                        style={styles.Container}
+                        style={listStyles.Container}
                         onPress={() => { StartDownloading(info.url, info.ext) }}
                     >
-                        <Text style={[styles.TheText, styles.format]}> {format} </Text>
-                        <Text style={styles.TheText}> {info.ext} </Text>
+                        <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+                        <Text style={listStyles.TheText}> {info.ext} </Text>
                     </Pressable>
                 ) :
                     (sago && video) ? (
                         <Pressable
-                            style={styles.Container}
+                            style={listStyles.Container}
                             onPress={() => { StartDownloading(info.url, info.ext) }}
                         >
-                            <Text style={[styles.TheText, styles.format]}> {format} </Text>
-                            <Text style={styles.TheText}> {info.ext} </Text>
+                            <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+                            <Text style={listStyles.TheText}> {info.ext} </Text>
                         </Pressable>
                     ) : (shwe && video) ? (
                         <Pressable
-                            style={styles.Container}
+                            style={listStyles.Container}
                             onPress={() => { StartDownloading(info.url, info.ext) }}
                         >
-                            <Text style={[styles.TheText, styles.format]}> {format} </Text>
-                            <Text style={styles.TheText}> {info.ext} </Text>
+                            <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+                            <Text style={listStyles.TheText}> {info.ext} </Text>
                         </Pressable>
                     ) :
                         (unknown) ? (
                             <Pressable
-                                style={styles.Container}
+                                style={listStyles.Container}
                                 onPress={() => { StartDownloading(info.url, info.ext) }}
                             >
-                                <Text style={[styles.TheText, styles.format]}> {info.format} </Text>
-                                <Text style={styles.TheText}> {info.ext} </Text>
-                                <Text style={styles.TheText}> {info.filesize} </Text>
+                                <Text style={[listStyles.TheText, listStyles.format]}> {info.format} </Text>
+                                <Text style={listStyles.TheText}> {info.ext} </Text>
+                                <Text style={listStyles.TheText}> {info.filesize} </Text>
                             </Pressable>
                         ) : (<></>)
 }
 
 export default VideoList
-
-
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 1.0
-    },
-    TheText: {
-        flex: 1,
-        backgroundColor: "#fff0f5",
-        textAlign: 'center',
-        paddingVertical: 16.0,
-    },
-    format: {
-        textTransform: 'capitalize',
-    },
-    nf: {
-        color: '#fff',
-        backgroundColor: 'orangered',
-        textAlign: 'center',
-        paddingVertical: 10,
-        fontWeight: '700'
-    }
-})
-
-

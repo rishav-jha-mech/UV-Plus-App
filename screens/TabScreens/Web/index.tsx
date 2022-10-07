@@ -15,7 +15,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
 import { CardStateParams } from '../../types';
-import { modalStyle, pLog, pPrettyPrint } from '../../constants';
+import { kPrimaryColor, modalStyle, pLog, pPrettyPrint } from '../../constants';
 
 
 type webProps = StackNavigationProp<AppParamList, 'Web'>;
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 8.0,
         right: 10.0,
-        backgroundColor: '#66f',
+        backgroundColor: kPrimaryColor,
         elevation: 1000.0
     }
 })
