@@ -88,26 +88,22 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         // Show Video files only
         // if (info.height != null && info.ext == "mp4" && info.filesize != null) { // This will give us all the Videos with or without Audio embeded this will be used when we Begin using FFMPEG in our project
         if (info.abr == 0 && info.asr != null && info.ext != "3gp") { // Only two streams i.e. 360px and 720px with audio are available 😌😥
+            GiveTheFileSize();
             setVideo(true);
-            if (info.filesize == null) {
-                setFilesize(bytesConverter(info.filesize_approx));
-            } else {
-                setFilesize(bytesConverter(info.filesize));
-            }
         }
     }
-    const Facebook = (info: FormatType) => {
+    const Facebook = (info: FormatType) => {        
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
         if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
             setVideo(true);
-            if (info.format_id == "dash_sd_src") {
+            if (info.format == "dash_sd_src") {
                 setFormat("SD Quality Video")
             }
-            else if (info.format_id == "dash_hd_src") { setFormat("HD Quality Video") }
-            else if (info.format_id.includes("sd_src_no_ratelimit")) { setFormat("SD High Quality Video") }
-            else if (info.format_id.includes("hd_src_no_ratelimit")) { setFormat("HD High Quality Video") }
-            else if (info.format_id.includes("sd")) { setFormat("SD Video") }
-            else if (info.format_id.includes("hd")) { setFormat("HD Video") }
+            else if (info.format == "dash_hd_src") { setFormat("HD Quality Video") }
+            else if (info.format.includes("sd_src_no_ratelimit")) { setFormat("SD High Quality Video") }
+            else if (info.format.includes("hd_src_no_ratelimit")) { setFormat("HD High Quality Video") }
+            else if (info.format.includes("sd")) { setFormat("SD Video") }
+            else if (info.format.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
         }
     }
@@ -133,6 +129,10 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
             else if (info.format_id == "low") { setFormat("low quality") }
         }
     }
+
+    const GiveTheFileSize = (): void => {
+        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ));
+    }
     return (youtube && video) ? (
         <Pressable
             style={listStyles.Container}
@@ -150,6 +150,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
             >
                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                 <Text style={listStyles.TheText}> {info.ext}</Text>
+                <Text style={listStyles.TheText}> {'Unknown'}</Text>
             </Pressable>
         ) :
             (instagram) ? (

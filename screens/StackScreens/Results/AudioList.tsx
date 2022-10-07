@@ -94,7 +94,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={listStyles.TheText}> {ext}</Text>
-            <Text style={listStyles.TheText}> {filesize ? filesize : 'undefined'}</Text>
+            <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) : (facebook && audio) ? (
         <Pressable
@@ -103,6 +103,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
             <Text style={listStyles.TheText}> {info.ext} </Text>
+            <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) : (instagram) ? (
         <Text style={listStyles.nf}>We Dont Do That Here</Text>
