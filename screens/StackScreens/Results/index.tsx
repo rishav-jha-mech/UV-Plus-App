@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, ImageBackground } from 'react-native'
 import axios from 'axios'
 import Loading from '../../Components/Loading';
 import AudioList from './AudioList';
@@ -7,7 +7,7 @@ import VideoList from './VideoList';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
-import { kPrimaryColor, pPrettyPrint } from '../../constants';
+import { kPrimaryColor, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
 import { formatTime } from '../../Scripts/timeFormatter';
 import { FormatType, YTDLP_Options } from '../../types';
 
@@ -19,7 +19,7 @@ const Results = () => {
     const [responseData, setResponseData] = useState<YTDLP_Options>()
     const [formats, setFormats] = useState<Array<FormatType>>([])
     const [loading, setLoading] = useState<boolean>(true)
-    const [message,setMessage] = useState<string>('')
+    const [message, setMessage] = useState<string>('')
     const [source, setSource] = useState<string>('')
     const [duration, setDuration] = useState<string>('')
     const [error, setError] = useState(true) // # Pessimism
@@ -64,8 +64,13 @@ const Results = () => {
                 <Text style={styles.headerText}>{responseData?.title}</Text>
             </View>
             <ScrollView>
-                <View style={{position: 'relative'}}>
-                    <Image style={styles.Thumbnail} source={{ uri: responseData?.thumbnail }} resizeMode={'cover'} />
+                <View style={{ position: 'relative' }}>
+                    <ImageBackground 
+                        style={[styles.Thumbnail,{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}]}
+                        source={{ uri: responseData?.thumbnail }}
+                        blurRadius={10}
+                    />
+                    <Image style={styles.Thumbnail} source={{ uri: responseData?.thumbnail }} resizeMode={'contain'} />
                     <Text style={styles.DurationHead} numberOfLines={1}>{duration}</Text>
                 </View>
                 <Text style={styles.Heading}>Audio Streams</Text>
@@ -107,23 +112,24 @@ const Results = () => {
 export default Results
 
 const styles = StyleSheet.create({
-    header:{
+    header: {
         paddingHorizontal: 16.0,
         paddingVertical: 8.0,
         backgroundColor: kPrimaryColor,
         elevation: 12
     },
-    headerText:{
+    headerText: {
         fontSize: 18.0,
         color: '#fff'
     },
     Container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
     },
     Thumbnail: {
         width: '100%',
-        minHeight: 220.0
+        height: SCREEN_HEIGHT / 3,
+
     },
     Title: {
         fontSize: 18,

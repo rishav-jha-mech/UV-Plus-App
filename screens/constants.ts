@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs';;
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 
 // Colours
@@ -15,7 +15,8 @@ export const kBrightRed = '#ffdedb';
 
 // Styles
 
-
+export const SCREEN_HEIGHT = Dimensions.get('screen').height;
+export const SCREEN_WIDTH = Dimensions.get('screen').width;
 export const modalStyle = StyleSheet.create({
     Container: {
         flex: 1,

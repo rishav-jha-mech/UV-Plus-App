@@ -7,10 +7,10 @@ export const formatTime = (timeInSec: number): string => {
         hours = hours < 10 ? '0' + hours : hours;
     }
     if (minutes > 0) {
-        minutes = minutes < 10 ? '0' + minutes : minutes;
+        minutes = minutes < 10 ? '0' + minutes : Math.round(minutes);
     }
     if (seconds > 0) {
-        seconds = seconds < 10 ? '0' + seconds : seconds;
+        seconds = seconds < 10 ? '0' + seconds : Math.round(seconds);
     }
     if (hours == 0 && minutes != 0) {
         return `${minutes}:${seconds}`

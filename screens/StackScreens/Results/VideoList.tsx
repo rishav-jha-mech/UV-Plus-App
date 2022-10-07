@@ -96,14 +96,14 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
         if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
             setVideo(true);
-            if (info.format == "dash_sd_src") {
+            if (info.format_id == "dash_sd_src") {
                 setFormat("SD Quality Video")
             }
-            else if (info.format == "dash_hd_src") { setFormat("HD Quality Video") }
-            else if (info.format.includes("sd_src_no_ratelimit")) { setFormat("SD High Quality Video") }
-            else if (info.format.includes("hd_src_no_ratelimit")) { setFormat("HD High Quality Video") }
-            else if (info.format.includes("sd")) { setFormat("SD Video") }
-            else if (info.format.includes("hd")) { setFormat("HD Video") }
+            else if (info.format_id == "dash_hd_src") { setFormat("HD Quality Video") }
+            else if (info.format_id.includes("sd_src_no_ratelimit")) { setFormat("SD High Quality Video") }
+            else if (info.format_id.includes("hd_src_no_ratelimit")) { setFormat("HD High Quality Video") }
+            else if (info.format_id.includes("sd")) { setFormat("SD Video") }
+            else if (info.format_id.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
         }
     }
