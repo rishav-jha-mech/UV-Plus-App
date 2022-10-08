@@ -18,7 +18,7 @@ type DownCompProp = {
 
 const Downcomp: React.FC<DownCompProp> = ({ data }) => {
 
-    const { id, filename, fileSize, downSize, status, audioDownSize, audioFileSize } = data;
+    const { id, filename, fileSize, downSize, status, audioDownSize, audioFileSize, type } = data;
     const [progress, setProgress] = useState(0);
     const dispatch = useAppDispatch();
 
@@ -34,7 +34,10 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
             activeOpacity={status == 'Downloaded' ? 0.5 : 1}
             onPress={() => {
                 status == 'Downloaded' ?
-                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${OutputFileName(filename)}`, filename) : null;
+                    type == 'Simple' ?
+                        OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`, filename) :
+                        OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename} ${appName}.mp4`, filename) : null
+                    ;
             }}
         >
             <View>

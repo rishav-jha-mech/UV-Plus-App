@@ -58,6 +58,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
         // Changing the format string
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
+        GiveTheFileSize()
         setFormat(Localformat![1]);
         // Show Audio files only
         if (info.height == null && info.ext !== 'webm') {
@@ -72,18 +73,24 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
             }
 
             setAudio(true);
-            setFilesize(bytesConverter(info.filesize));
+            setFilesize(bytesConverter(info.filesize ?? info.filesize_approx));
         }
     }
     const Facebook = (info: FormatType) => {
         if (info.format_note == "DASH audio") {
             setAudio(true)
+            GiveTheFileSize()
+            setBestAudio(info)
             setFormat("High Quality Audio")
         }
     }
     const Unknown = (info: FormatType) => {
         setAudio(true)
         setFormat("Unknown")
+    }
+    
+    const GiveTheFileSize = (): void => {
+        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ?? 0));
     }
     return (youtube && audio) ? (
         <Pressable

@@ -81,8 +81,11 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     }
     const Facebook = (info: FormatType) => {
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
-        if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
+        if (info.vcodec !== "none" && info.acodec !== "none") {
+            // pPrettyPrint(info)
             setVideo(true);
+            setColor("red")
+            GiveTheFileSize();
             if (info.format_id == "dash_sd_src") {
                 setFormat("SD Quality Video")
             }
@@ -92,6 +95,11 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             else if (info.format_id.includes("sd")) { setFormat("SD Video") }
             else if (info.format_id.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
+        } else {
+            setVideo(true)
+            setColor("pink")
+            GiveTheFileSize();
+            setFormat(`${info.height}X${info.width}`)
         }
     }
     const Arp = (info: FormatType) => {
@@ -128,7 +136,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     }
 
     const GiveTheFileSize = (): void => {
-        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx));
+        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ?? 0));
     }
     return (youtube && video) ? (
         <Pressable
@@ -144,12 +152,14 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     ) :
         (facebook && video) ? (
             <Pressable
-                style={listStyles.Container}
-                onPress={() => { CheckAndStart(info.url, info.ext) }}
+                style={[listStyles.Container,{backgroundColor: color }]}
+                onPress={() => { 
+                    color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
+                 }}
             >
                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                 <Text style={listStyles.TheText}> {info.ext}</Text>
-                <Text style={listStyles.TheText}> {'Unknown'}</Text>
+                <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
             </Pressable>
         ) :
             (instagram) ? (

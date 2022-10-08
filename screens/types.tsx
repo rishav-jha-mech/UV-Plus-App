@@ -18,6 +18,7 @@ export type DownloadingParams = {
     downSize: number,
     audioFileSize?: number,
     audioDownSize?: number,
+    type: 'Simple' | 'Complex',
     status: 'Downloading' | 'Downloaded' | 'Error' | 'Dowloading Video' | 'Downloading Audio' | 'Mergin Audio and Video' | 'Merged'
 }
 export type FFMPEG_PARAMS = {

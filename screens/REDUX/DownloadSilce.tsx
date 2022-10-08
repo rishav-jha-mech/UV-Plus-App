@@ -11,6 +11,7 @@ const Download = createSlice({
         startDownloading: (state, action: { payload: { id: string, url: string, filename: string } }) => {
             const params: DownloadingParams = {
                 id: action.payload.id,
+                type: 'Simple',
                 url: action.payload.url,
                 filename: action.payload.filename,
                 fileSize: 0,
@@ -22,6 +23,7 @@ const Download = createSlice({
         startDownloadingVideo: (state, action: { payload: { id: string, url: string, filename: string } }) => {
             const params: DownloadingParams = {
                 id: action.payload.id,
+                type: 'Complex',
                 url: action.payload.url,
                 filename: action.payload.filename,
                 fileSize: 0,

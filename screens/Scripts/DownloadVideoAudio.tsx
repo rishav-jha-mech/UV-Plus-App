@@ -1,6 +1,6 @@
 import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native';
 import { Alert } from 'react-native'
-import { DOWNLOAD_PATH, OutputFileName, pError, pLog, pPrettyPrint, SAVE_FILE_TO } from '../constants';
+import { appName, DOWNLOAD_PATH, OutputFileName, pError, pLog, pPrettyPrint, SAVE_FILE_TO } from '../constants';
 import { FFMPEG_PARAMS, PayloadParams } from '../types';
 import RNFS from 'react-native-fs';
 import { downloadedSuccessfully, errorDownloading, setAudioFilesize, setDownloadedFileSize, setDownloadedFileSizeAudio, setFilesize, startDownloadingAudio, startDownloadingVideo, startMergingAudioVideo } from '../REDUX/DownloadSilce';
@@ -27,7 +27,7 @@ const DownloadVideoAudio = (payload: PayloadParams, dispatch: Function): void =>
     const ffmpegParams: FFMPEG_PARAMS = {
         videoPath: `"${DOWNLOAD_PATH}/${payload.filename}"`,
         audioPath: `"${DOWNLOAD_PATH}/${audioParams.filename}"`,
-        outputPath: `"${OutputFileName(`${DOWNLOAD_PATH}/${payload.filename}`)}"`,
+        outputPath: `"${DOWNLOAD_PATH}/${payload.filename} ${appName}.mp4"`,
     }
     pPrettyPrint(ffmpegParams);
     // Download Video
