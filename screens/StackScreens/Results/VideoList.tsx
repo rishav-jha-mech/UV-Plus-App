@@ -43,12 +43,13 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     const [shwe, setShwe] = useState<boolean>(false)
     const [unknown, setUnknown] = useState<boolean>(false)
 
-    const [color,setColor] = useState<string>(kSecondaryColor)
+    const [color, setColor] = useState<string>(kSecondaryColor)
 
     // Hooks for showing video only
     const [video, setVideo] = useState<boolean>(false)
 
     useEffect(() => {
+        pLog(source)
         // Checking the source of the video file
         if (source.includes('youtube')) { setYoutube(true); Youtube(info) }
         else if (source.includes('facebook')) { setFacebook(true); Facebook(info); }
@@ -68,7 +69,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
         var Localformat = regExp.exec(info.format);
         setFormat(Localformat![1]);
         // Both Video and Audio
-        if(info.vcodec !== "none" && info.acodec !== "none"){
+        if (info.vcodec !== "none" && info.acodec !== "none") {
             GiveTheFileSize();
             setColor("red")
             setVideo(true);
@@ -95,7 +96,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             else if (info.format_id.includes("sd")) { setFormat("SD Video") }
             else if (info.format_id.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
-        } else if(info.ext !== 'm4a') {
+        } else if (info.ext !== 'm4a') {
             setVideo(true)
             setColor("pink")
             GiveTheFileSize();
@@ -119,6 +120,8 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     }
     const Shwe = (info: FormatType) => {
         if (info.protocol == "https") {
+            pPrettyPrint(info)
+            GiveTheFileSize()
             setVideo(true);
             if (info.format_id == "high") { setFormat("high quality") }
             else if (info.format_id == "low") { setFormat("low quality") }
@@ -140,8 +143,8 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     }
     return (youtube && video) ? (
         <Pressable
-            style={[listStyles.Container,{backgroundColor: color }]}
-            onPress={() => { 
+            style={[listStyles.Container, { backgroundColor: color }]}
+            onPress={() => {
                 color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
             }}
         >
@@ -152,10 +155,10 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     ) :
         (facebook && video) ? (
             <Pressable
-                style={[listStyles.Container,{backgroundColor: color }]}
-                onPress={() => { 
+                style={[listStyles.Container, { backgroundColor: color }]}
+                onPress={() => {
                     color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
-                 }}
+                }}
             >
                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                 <Text style={listStyles.TheText}> {info.ext}</Text>
@@ -178,6 +181,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
                     >
                         <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                         <Text style={listStyles.TheText}> {info.ext} </Text>
+                        <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                     </Pressable>
                 ) :
                     (sago && video) ? (
@@ -187,6 +191,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                             <Text style={listStyles.TheText}> {info.ext} </Text>
+                            <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                         </Pressable>
                     ) : (shwe && video) ? (
                         <Pressable
@@ -195,6 +200,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                             <Text style={listStyles.TheText}> {info.ext} </Text>
+                        <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                         </Pressable>
                     ) :
                         (unknown && video) ? (
