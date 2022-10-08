@@ -10,6 +10,7 @@ import { FormatType } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
 import { listStyles }  from './listStyles';
+import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
 
 type AudioListType = {
     info: FormatType,
@@ -24,29 +25,8 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
-    const { StartDownload } = useContext(AppContext);
-
-    const StartDownloading = (url: string, ext: string) => {
-        const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
-
-        RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
-            .then((exists) => {
-                if (exists) {
-                    Alert.alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
-                } else {
-                    const time = new Date();
-                    const id = time.toISOString();
-                    const params = {
-                        id: id,
-                        url: url,
-                        filename: filename
-                    };
-                    dispatch(startDownloading(params));
-                    StartDownload(params, dispatch);
-                    navigation.navigate('Downloading');
-                }
-            });
-    }
+    const CheckAndStart = (url: string, ext: string) => CheckAndStartDownloading(title, ext, url, dispatch, navigation);
+    
     const [filesize, setFilesize] = useState<string>('')
     const [format, setFormat] = useState<string>('')
     const [ext, setExt] = useState<string>('')
@@ -77,7 +57,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         var Localformat = regExp.exec(info.format);
         setFormat(Localformat![1]);
         // Show Audio files only
-        if (info.height == null) {
+        if (info.height == null && info.ext !== 'webm') {
             setAudio(true);
             // Change file size from bytes to KB,MB,or GB
             setFilesize(bytesConverter(info.filesize));
@@ -96,7 +76,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
     return (youtube && audio) ? (
         <Pressable
             style={listStyles.Container}
-            onPress={() => { StartDownloading(info.url, info.ext) }}
+            onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={listStyles.TheText}> {ext}</Text>
@@ -105,7 +85,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
     ) : (facebook && audio) ? (
         <Pressable
             style={listStyles.Container}
-            onPress={() => { StartDownloading(info.url, info.ext) }}
+            onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
             <Text style={listStyles.TheText}> {info.ext} </Text>

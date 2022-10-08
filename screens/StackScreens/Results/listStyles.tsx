@@ -1,20 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { kPrimaryColor, kSecondaryColor } from '../../constants';
+import { kBlueColor, kPrimaryColor, kRedColor, kSecondaryColor } from '../../constants';
 
 
 export const listStyles = StyleSheet.create({
     Container: {
         flex: 1,
+        backgroundColor: kRedColor,
         flexDirection: 'row',
+        marginVertical: 1.0,
         justifyContent: 'space-between',
-        marginVertical: 1.0
     },
     TheText: {
         flex: 1,
-        backgroundColor: kSecondaryColor,
         textAlign: 'center',
         paddingVertical: 16.0,
-        color: kPrimaryColor,
+        color: '#fff',
         fontWeight: '700'
     },
     format: {

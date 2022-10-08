@@ -2,17 +2,16 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Text, Pressable, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../../Scripts/bytesConverter'
-import { ARP, SHWE, SAGO } from '../../env.tsx';
+import { ARP, SHWE, SAGO } from '../../env';
 import RNFS from 'react-native-fs';
 import { AppContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
-import { startDownloading } from '../../REDUX/DownloadSilce';
 import { FormatType } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
 import { listStyles } from './listStyles';
-import { pLog, pPrettyPrint } from '../../constants';
-
+import { kSecondaryColor, pLog, pPrettyPrint } from '../../constants';
+import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
 
 type VideoListType = {
     info: FormatType,
@@ -26,30 +25,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
-    const { StartDownload } = useContext(AppContext);
-
-    const StartDownloading = (url: string, ext: string) => {
-        const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
-
-        RNFS.exists(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`)
-            .then((exists) => {
-                if (exists) {
-                    Alert.alert(`${filename} already exists, thus cannot be downloaded. Delete that file and try again`)
-                } else {
-                    const time = new Date();
-                    const id = time.toISOString();
-                    const params = {
-                        id: id,
-                        url: url,
-                        filename: filename
-                    };
-                    dispatch(startDownloading(params));
-                    StartDownload(params, dispatch);
-                    navigation.navigate('Downloading');
-                }
-            });
-    }
-
+    const CheckAndStart = (url: string, ext: string) => CheckAndStartDownloading(title, ext, url, dispatch, navigation);
     const [filesize, setFilesize] = useState<string>('')
     const [format, setFormat] = useState<string>('')
     const [ext, setExt] = useState<string>('')
@@ -63,17 +39,19 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
     const [shwe, setShwe] = useState<boolean>(false)
     const [unknown, setUnknown] = useState<boolean>(false)
 
+    const [color,setColor] = useState<string>(kSecondaryColor)
+
     // Hooks for showing video only
     const [video, setVideo] = useState<boolean>(false)
 
     useEffect(() => {
         // Checking the source of the video file
-        if (source == 'youtube') { setYoutube(true); Youtube(info) }
-        else if (source == 'facebook') { setFacebook(true); Facebook(info); }
-        else if (source == 'Instagram') { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
-        else if (source == ARP) { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
-        else if (source == SAGO) { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
-        else if (source == SHWE) { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
+        if (source.includes('youtube')) { setYoutube(true); Youtube(info) }
+        else if (source.includes('facebook')) { setFacebook(true); Facebook(info); }
+        else if (source.includes('Instagram')) { setInstagram(true) } //Instagram gives only a single file so no need of a seperate function
+        else if (source.includes(ARP)) { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
+        else if (source.includes(SAGO)) { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
+        else if (source.includes(SHWE)) { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else { setUnknown(true); Unknown(info) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
@@ -85,10 +63,15 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
         setFormat(Localformat![1]);
-        // Show Video files only
-        // if (info.height != null && info.ext == "mp4" && info.filesize != null) { // This will give us all the Videos with or without Audio embeded this will be used when we Begin using FFMPEG in our project
-        if (info.abr == 0 && info.asr != null && info.ext != "3gp") { // Only two streams i.e. 360px and 720px with audio are available 😌😥
+        // Both Video and Audio
+        if(info.vcodec !== "none" && info.acodec !== "none"){
             GiveTheFileSize();
+            setColor("red")
+            setVideo(true);
+        }
+        if (info.vcodec !== "none" && info.acodec === "none" && info.ext === "mp4") {
+            GiveTheFileSize();
+            setColor("pink")
             setVideo(true);
         }
     }
@@ -145,8 +128,8 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
     }
     return (youtube && video) ? (
         <Pressable
-            style={listStyles.Container}
-            onPress={() => { StartDownloading(info.url, info.ext) }}
+            style={[listStyles.Container,{backgroundColor: color }]}
+            onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={listStyles.TheText}> {ext}</Text>
@@ -156,7 +139,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         (facebook && video) ? (
             <Pressable
                 style={listStyles.Container}
-                onPress={() => { StartDownloading(info.url, info.ext) }}
+                onPress={() => { CheckAndStart(info.url, info.ext) }}
             >
                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                 <Text style={listStyles.TheText}> {info.ext}</Text>
@@ -166,7 +149,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
             (instagram) ? (
                 <Pressable
                     style={listStyles.Container}
-                    onPress={() => { StartDownloading(info.url, info.ext) }}
+                    onPress={() => { CheckAndStart(info.url, info.ext) }}
                 >
                     <Text style={[listStyles.TheText, listStyles.format]}> ({info.height} x {info.width}) Video </Text>
                     <Text style={listStyles.TheText}> {info.ext}</Text>
@@ -175,7 +158,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
                 (arp && video) ? (
                     <Pressable
                         style={listStyles.Container}
-                        onPress={() => { StartDownloading(info.url, info.ext) }}
+                        onPress={() => { CheckAndStart(info.url, info.ext) }}
                     >
                         <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                         <Text style={listStyles.TheText}> {info.ext} </Text>
@@ -184,7 +167,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
                     (sago && video) ? (
                         <Pressable
                             style={listStyles.Container}
-                            onPress={() => { StartDownloading(info.url, info.ext) }}
+                            onPress={() => { CheckAndStart(info.url, info.ext) }}
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                             <Text style={listStyles.TheText}> {info.ext} </Text>
@@ -192,7 +175,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
                     ) : (shwe && video) ? (
                         <Pressable
                             style={listStyles.Container}
-                            onPress={() => { StartDownloading(info.url, info.ext) }}
+                            onPress={() => { CheckAndStart(info.url, info.ext) }}
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                             <Text style={listStyles.TheText}> {info.ext} </Text>
@@ -201,7 +184,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
                         (unknown && video) ? (
                             <Pressable
                                 style={listStyles.Container}
-                                onPress={() => { StartDownloading(info.url, info.ext) }}
+                                onPress={() => { CheckAndStart(info.url, info.ext) }}
                             >
                                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                                 <Text style={listStyles.TheText}> {info.ext} </Text>
