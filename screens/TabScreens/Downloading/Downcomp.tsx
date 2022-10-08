@@ -43,7 +43,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
             <View>
                 <Circle
                     size={60}
-                    progress={progress}
+                    progress={status == 'Downloaded' ? 1 : progress}
                     color={
                         status == 'Downloading'
                             || status == 'Dowloading Video'

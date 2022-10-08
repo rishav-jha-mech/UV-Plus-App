@@ -95,11 +95,11 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             else if (info.format_id.includes("sd")) { setFormat("SD Video") }
             else if (info.format_id.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
-        } else {
+        } else if(info.ext !== 'm4a') {
             setVideo(true)
             setColor("pink")
             GiveTheFileSize();
-            setFormat(`${info.height}X${info.width}`)
+            setFormat(`${info?.height}X${info?.width}`)
         }
     }
     const Arp = (info: FormatType) => {
