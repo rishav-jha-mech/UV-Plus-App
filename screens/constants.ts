@@ -1,6 +1,8 @@
 import RNFS from 'react-native-fs';;
 import { StyleSheet, Dimensions } from 'react-native';
 
+export const appName: string = 'UV Downloader'
+
 
 // Colours
 
@@ -108,6 +110,9 @@ export const DOWNLOAD_PATH:string = RNFS.DownloadDirectoryPath + '/UV Downloader
 // Other Functions
 
 export const SAVE_FILE_TO = (filename: string): string => {return(`${RNFS.DownloadDirectoryPath}/UV Downloader/${filename}`)};
+
+export const filterFileName = (filename: string): string => filename.replace(/[/\\?%*:|"<>]/g, '-');
+
 
 export const supWebsites = [
     {

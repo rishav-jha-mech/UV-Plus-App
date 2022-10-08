@@ -18,7 +18,7 @@ const CheckAndDownloadBothVideoAndAudio = (title: string, ext: string, urlVideo:
                     id: id,
                     url: urlVideo,
                     filename: filename,
-                    bestAudio: bestAudio
+                    bestAudio: bestAudio,
                 };
                 dispatch(startDownloadingVideo(params));
                 DownloadVideoAudio(params, dispatch);

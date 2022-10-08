@@ -16,9 +16,18 @@ export type DownloadingParams = {
     filename: string,
     fileSize: number,
     downSize: number,
+    audioFileSize?: number,
+    audioDownSize?: number,
     status: 'Downloading' | 'Downloaded' | 'Error' | 'Dowloading Video' | 'Downloading Audio' | 'Mergin Audio and Video' | 'Merged'
 }
-
+export type FFMPEG_PARAMS = {
+    /*
+        Used by FFMPEG
+    */
+    videoPath: string,
+    audioPath: string,
+    outputPath: string
+}
 export type CardStateParams = {
     /*
         Used by WebTab

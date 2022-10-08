@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Circle } from 'react-native-progress';
 import bytesConverter from '../../Scripts/bytesConverter';
-import { kBlueColor, kGreenColor, kRedColor } from '../../constants';
+import { kBlueColor, kDarkTextColor, kGreenColor, kRedColor } from '../../constants';
 import OpenFile from '../../Scripts/OpenFile';
 import RNFS, { stat } from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -18,7 +18,7 @@ type DownCompProp = {
 
 const Downcomp: React.FC<DownCompProp> = ({ data }) => {
 
-    const { id, filename, fileSize, downSize, status } = data;
+    const { id, filename, fileSize, downSize, status, audioDownSize, audioFileSize } = data;
     const [progress, setProgress] = useState(0);
     const dispatch = useAppDispatch();
 
@@ -27,7 +27,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
             setProgress((downSize / fileSize))
         }
     }, [downSize])
-    const ext = filename.toString().slice(filename.toString().lastIndexOf('.') + 1, filename.toString().length);
+    const ext = filename.slice(filename.toString().lastIndexOf('.') + 1, filename.toString().length);
     return (
         <TouchableOpacity
             style={baby.Container}
@@ -42,10 +42,10 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                     size={60}
                     progress={progress}
                     color={
-                        status == 'Downloading' 
-                        || status == 'Dowloading Video' 
-                        || status == 'Downloading Audio'
-                        || status == 'Mergin Audio and Video' ? kBlueColor
+                        status == 'Downloading'
+                            || status == 'Dowloading Video'
+                            || status == 'Downloading Audio'
+                            || status == 'Mergin Audio and Video' ? kBlueColor
                             : status == 'Downloaded' ? kGreenColor
                                 : kRedColor
                     }
@@ -56,7 +56,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                 />
             </View>
             <View style={baby.textContainer}>
-                <Text style={baby.bigText} numberOfLines={1}>
+                <Text style={[baby.bigText, { color: status == 'Error' ? kRedColor : kDarkTextColor }]} numberOfLines={1}>
                     {filename}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -68,7 +68,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                                 </Text>
                                 :
                                 <Text style={baby.smolText} numberOfLines={1}>
-                                    {bytesConverter(downSize)}/{bytesConverter(fileSize)} | {ext}
+                                    {bytesConverter(downSize + (audioFileSize === undefined ? 0 : audioFileSize) )}/{bytesConverter(fileSize + (audioFileSize == undefined ? 0 : audioFileSize))} | {ext}
                                 </Text>
                         }
                     </View>
@@ -78,7 +78,8 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                             <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Completed</Text>
                             </Text>
-                            : <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>{status}</Text>
+                            : status == 'Error' ? <></> :
+                                <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>{status}</Text>
                     }
                 </View>
             </View>
@@ -87,7 +88,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                     style={baby.crossBtn}
                     onPress={() => dispatch(removeDownloading({ id: id }))}
                 >
-                    <FontAwesome5Icon name='times-circle' size={24} color={'#333'} />
+                    <FontAwesome5Icon name='times-circle' size={24} color={kRedColor} />
                 </TouchableOpacity>
                 : <></>}
         </TouchableOpacity>

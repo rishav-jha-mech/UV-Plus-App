@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { filterFileName, pPrettyPrint } from '../constants';
 import { DownloadingParams } from '../types';
 
 
@@ -31,11 +32,11 @@ const Download = createSlice({
             state.push(params);
         },
         startDownloadingAudio: (state, action: { payload: { id: string } }) => {
+            pPrettyPrint({'DOWNLOADING WILL START': state});
+
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex] = {
                 ...state[downloadIndex],
-                fileSize: 0,
-                downSize: 0,
                 status: 'Downloading Audio',
             };
         },
@@ -43,8 +44,6 @@ const Download = createSlice({
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex] = {
                 ...state[downloadIndex],
-                fileSize: 0,
-                downSize: 100, // This will be shown as the percentage of merging compelted
                 status: 'Mergin Audio and Video',
             };
         },
@@ -72,6 +71,14 @@ const Download = createSlice({
         videoDownloading: (state, action: { payload: { id: string } }) => {
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex].status = 'Dowloading Video';
+        },
+        setAudioFilesize: (state, action: { payload: { id: string, audioFileSize: number } }) => {
+            var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
+            state[downloadIndex].audioFileSize = action.payload.audioFileSize;
+        },
+        setDownloadedFileSizeAudio: (state, action: { payload: { id: string, audioDownSize: number } }) => {
+            var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
+            state[downloadIndex].audioDownSize = action.payload.audioDownSize
         }
     },
 });
@@ -87,5 +94,7 @@ export const {
     startDownloadingVideo,
     startDownloadingAudio,
     startMergingAudioVideo,
+    setAudioFilesize,
+    setDownloadedFileSizeAudio,
 } = Download.actions;
 export default Download.reducer;
