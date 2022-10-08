@@ -4,7 +4,8 @@ export type PayloadParams = {
     */
     id: string,
     url: string,
-    filename: string
+    filename: string,
+    bestAudio?: FormatType
 }
 export type DownloadingParams = {
     /* 
@@ -15,7 +16,7 @@ export type DownloadingParams = {
     filename: string,
     fileSize: number,
     downSize: number,
-    status: number
+    status: 'Downloading' | 'Downloaded' | 'Error' | 'Dowloading Video' | 'Downloading Audio' | 'Mergin Audio and Video' | 'Merged'
 }
 
 export type CardStateParams = {

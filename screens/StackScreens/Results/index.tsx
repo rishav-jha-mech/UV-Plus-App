@@ -7,9 +7,10 @@ import VideoList from './VideoList';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
-import { kPrimaryColor, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
+import { kPrimaryColor, pLog, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
 import { formatTime } from '../../Scripts/timeFormatter';
 import { FormatType, YTDLP_Options } from '../../types';
+import bytesConverter from '../../Scripts/bytesConverter';
 
 
 const Results = () => {
@@ -25,10 +26,16 @@ const Results = () => {
     const [error, setError] = useState(true) // # Pessimism
     const { url } = route.params;
     const [present, setPresent] = useState(true)
+    const [bestAudio, setBestAudio] = useState<FormatType>({ filesize: 0 })
 
     useEffect(() => {
         ReqData(url)
     }, []);
+
+    useEffect(() => {
+        pLog(bestAudio?.filesize)
+    }, [bestAudio]);
+
 
     const ReqData = (url: string) => {
         axios.post('https://uv-plus.herokuapp.com/', {
@@ -36,7 +43,7 @@ const Results = () => {
         })
             .then((res: any) => {
                 handleRes(res.data)
-                pPrettyPrint(res.data)
+                // pPrettyPrint(res.data)
             }).catch((error) => {
                 pPrettyPrint(error)
                 setMessage(error.message)
@@ -66,8 +73,8 @@ const Results = () => {
             </View>
             <ScrollView>
                 <View style={{ position: 'relative' }}>
-                    <ImageBackground 
-                        style={[styles.Thumbnail,{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}]}
+                    <ImageBackground
+                        style={[styles.Thumbnail, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }]}
                         source={{ uri: responseData?.thumbnail }}
                         blurRadius={10}
                     />
@@ -84,7 +91,7 @@ const Results = () => {
                                 <Text style={styles.optText}>Size</Text>
                             </View>
                             {formats.map((data, index) => {
-                                return (<AudioList title={responseData?.title ?? ''} source={source} key={index} info={data} />)
+                                return (<AudioList title={responseData?.title ?? ''} bestAudio={bestAudio} setBestAudio={setBestAudio} source={source} key={index} info={data} />)
 
                             })}
                         </ScrollView>
@@ -100,7 +107,7 @@ const Results = () => {
                                 <Text style={styles.optText}>Size</Text>
                             </View>
                             {formats.map((data, index) => {
-                                return (<VideoList title={responseData?.title ?? ''} source={source} key={index} info={data} />)
+                                return (<VideoList title={responseData?.title ?? ''} source={source} bestAudio={bestAudio} key={index} info={data} />)
                             })}
                         </ScrollView>
                     </View>

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimension
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import StorageLeft from '../../Scripts/storageLeft';
 import Downcomp from './Downcomp';
+import { pPrettyPrint } from '../../constants';
 
 const Downloading: React.FC = () => {
 
@@ -12,7 +13,8 @@ const Downloading: React.FC = () => {
 
     useEffect(() => {
         StorageLeft().then((res: string) => setStorageStat(res))
-    }, [])
+		pPrettyPrint(DownloadList)
+    }, [DownloadList])
 
 	return (
 		<View style={styles.Container}>

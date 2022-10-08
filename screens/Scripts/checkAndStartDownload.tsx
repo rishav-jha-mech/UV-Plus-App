@@ -2,6 +2,7 @@ import RNFS from 'react-native-fs';
 import { Alert } from 'react-native';
 import { startDownloading } from "../REDUX/DownloadSilce";
 import StartDownload from './Download';
+import { PayloadParams } from '../types';
 
 const CheckAndStartDownloading = (title: string, ext: string, url: string, dispatch: Function, navigation: any) => {
     const filename = `${title}.${ext}`.replace(/[/\\?%*:|"<>]/g, '-');
@@ -13,7 +14,7 @@ const CheckAndStartDownloading = (title: string, ext: string, url: string, dispa
             } else {
                 const time = new Date();
                 const id = time.toISOString();
-                const params = {
+                const params: PayloadParams = {
                     id: id,
                     url: url,
                     filename: filename

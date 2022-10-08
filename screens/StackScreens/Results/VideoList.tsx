@@ -12,20 +12,24 @@ import { AppParamList } from '../../NAVIGATION';
 import { listStyles } from './listStyles';
 import { kSecondaryColor, pLog, pPrettyPrint } from '../../constants';
 import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
+import CheckAndStartDownloadingBothVideoAndAudio from '../../Scripts/checkAndDownloadBothVideoAndAudio';
 
 type VideoListType = {
     info: FormatType,
     source: string,
-    title: string
+    title: string,
+    bestAudio: FormatType,
 }
 
 type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
 
-const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
+const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
     const CheckAndStart = (url: string, ext: string) => CheckAndStartDownloading(title, ext, url, dispatch, navigation);
+    const CheckAndStartVideoAndAudio = (url: string, ext: string) => CheckAndStartDownloadingBothVideoAndAudio(title, ext, url, dispatch, navigation, bestAudio);
+
     const [filesize, setFilesize] = useState<string>('')
     const [format, setFormat] = useState<string>('')
     const [ext, setExt] = useState<string>('')
@@ -129,7 +133,9 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
     return (youtube && video) ? (
         <Pressable
             style={[listStyles.Container,{backgroundColor: color }]}
-            onPress={() => { CheckAndStart(info.url, info.ext) }}
+            onPress={() => { 
+                color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
+            }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
             <Text style={listStyles.TheText}> {ext}</Text>

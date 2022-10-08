@@ -4,7 +4,7 @@ import { Circle } from 'react-native-progress';
 import bytesConverter from '../../Scripts/bytesConverter';
 import { kBlueColor, kGreenColor, kRedColor } from '../../constants';
 import OpenFile from '../../Scripts/OpenFile';
-import RNFS from 'react-native-fs';
+import RNFS, { stat } from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { DownloadingParams } from '../../types';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -31,9 +31,9 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
     return (
         <TouchableOpacity
             style={baby.Container}
-            activeOpacity={status == 1 ? 0.5 : 1}
+            activeOpacity={status == 'Downloaded' ? 0.5 : 1}
             onPress={() => {
-                status == 1 ?
+                status == 'Downloaded' ?
                     OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`, filename) : null;
             }}
         >
@@ -42,8 +42,11 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                     size={60}
                     progress={progress}
                     color={
-                        status == 0 ? kBlueColor
-                            : status == 1 ? kGreenColor
+                        status == 'Downloading' 
+                        || status == 'Dowloading Video' 
+                        || status == 'Downloading Audio'
+                        || status == 'Mergin Audio and Video' ? kBlueColor
+                            : status == 'Downloaded' ? kGreenColor
                                 : kRedColor
                     }
                     thickness={3}
@@ -59,7 +62,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <View>
                         {
-                            status == -1 ?
+                            status == 'Error' ?
                                 <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
                                     <Text style={{ fontSize: 12, color: kRedColor, fontWeight: '600' }}>Error Downloading</Text>
                                 </Text>
@@ -69,17 +72,17 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                                 </Text>
                         }
                     </View>
-                    {status == 0
+                    {status == 'Downloading'
                         ? <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Downloading</Text> :
-                        status == 1 ?
+                        status == 'Downloaded' ?
                             <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Completed</Text>
                             </Text>
-                            : <></>
+                            : <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>{status}</Text>
                     }
                 </View>
             </View>
-            {status == -1 ?
+            {status == 'Error' ?
                 <TouchableOpacity
                     style={baby.crossBtn}
                     onPress={() => dispatch(removeDownloading({ id: id }))}

@@ -9,24 +9,27 @@ import { startDownloading } from '../../REDUX/DownloadSilce';
 import { FormatType } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
-import { listStyles }  from './listStyles';
+import { listStyles } from './listStyles';
 import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
+import { pLog, pPrettyPrint } from '../../constants';
 
 type AudioListType = {
     info: FormatType,
     source: string,
-    title: string
+    title: string,
+    bestAudio?: FormatType,
+    setBestAudio: Function
 }
 
 type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
 
 
-const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
+const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, setBestAudio }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
     const CheckAndStart = (url: string, ext: string) => CheckAndStartDownloading(title, ext, url, dispatch, navigation);
-    
+
     const [filesize, setFilesize] = useState<string>('')
     const [format, setFormat] = useState<string>('')
     const [ext, setExt] = useState<string>('')
@@ -45,7 +48,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         else if (source == 'facebook') { setFacebook(true); Facebook(info) }
         else if (source == 'Instagram') { setInstagram(true); }
-        else{ setUnknown(true); Unknown(info); }
+        else { setUnknown(true); Unknown(info); }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -58,8 +61,17 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         setFormat(Localformat![1]);
         // Show Audio files only
         if (info.height == null && info.ext !== 'webm') {
+            // pPrettyPrint(info)
+            // Set audio then check if it is the best audio and repeat the process
+            if (bestAudio?.filesize !== null || bestAudio?.filesize !== undefined) {
+                // pLog('bestAudio.filesize is not null or undefined')
+                // pLog('bestAudio.filesize: ' + bestAudio?.filesize)
+                if (info.filesize > bestAudio!.filesize) {
+                    setBestAudio(info)
+                }                
+            }
+
             setAudio(true);
-            // Change file size from bytes to KB,MB,or GB
             setFilesize(bytesConverter(info.filesize));
         }
     }
