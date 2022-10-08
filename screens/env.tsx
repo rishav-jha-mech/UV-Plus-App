@@ -1,5 +1,0 @@
-export const ARP:string =  'https://www.xvideos.com/video'
-export const SAGO:string = 'https://www.pornHub.com/view_video.php'
-export const SHWE:string = 'https://www.xnxx.com/video'
-export const GOO:string = 'google'
-export const YOUTUBE:string = 'https://m.youtube.com/watch?v='

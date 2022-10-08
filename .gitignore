@@ -2,6 +2,11 @@
 #
 .DS_Store
 
+# Private Files
+#
+**/env*
+**/demo*
+
 # Xcode
 #
 build/
