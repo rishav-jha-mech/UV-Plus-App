@@ -65,7 +65,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         else if (source == 'facebook') { setFacebook(true); Facebook(info) }
         else if (source == 'Instagram') { setInstagram(true); }
-        else{ setUnknown(true); Unknown(); }
+        else{ setUnknown(true); Unknown(info); }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])

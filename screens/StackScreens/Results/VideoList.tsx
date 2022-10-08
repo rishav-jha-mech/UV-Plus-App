@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Text, Pressable, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import bytesConverter from '../../Scripts/bytesConverter'
-import { ARP, SHWE, SAGO } from '../../env';
+import { ARP, SHWE, SAGO } from '../../env.tsx';
 import RNFS from 'react-native-fs';
 import { AppContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
