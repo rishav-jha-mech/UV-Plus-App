@@ -52,9 +52,10 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
     const [ext, setExt] = useState<string>('')
 
     // Hooks for checking the platform
-    const [youtube, setYoutube] = useState(false)
-    const [facebook, setFacebook] = useState(false)
-    const [instagram, setInstagram] = useState(false)
+    const [youtube, setYoutube] = useState<boolean>(false)
+    const [facebook, setFacebook] = useState<boolean>(false)
+    const [instagram, setInstagram] = useState<boolean>(false)
+    const [unknown, setUnknown] = useState<boolean>(false)
 
     // Hooks for showing Audio only
     const [audio, setAudio] = useState(false)
@@ -62,8 +63,9 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
     useEffect(() => {
         // Checking the source of the audio file
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
-        if (source == 'facebook') { setFacebook(true); Facebook(info) }
-        if (source == 'Instagram') { setInstagram(true); }
+        else if (source == 'facebook') { setFacebook(true); Facebook(info) }
+        else if (source == 'Instagram') { setInstagram(true); }
+        else{ setUnknown(true); Unknown(); }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -86,6 +88,10 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title }) => {
             setAudio(true)
             setFormat("High Quality Audio")
         }
+    }
+    const Unknown = (info: FormatType) => {
+        setAudio(true)
+        setFormat("Unknown")
     }
     return (youtube && audio) ? (
         <Pressable

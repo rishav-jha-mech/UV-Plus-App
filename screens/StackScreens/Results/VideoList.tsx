@@ -74,7 +74,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         else if (source == ARP) { setArp(true); Arp(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else if (source == SAGO) { setSago(true); Sago(info) } // Has Many high quality videos with audio embedded except some videos with certain format_id containing hls cant be downloaded
         else if (source == SHWE) { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
-        else { setUnknown(true) } // This will plainly render all the video streams 
+        else { setUnknown(true); Unknown(info) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
     }, [info])
@@ -92,7 +92,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
             setVideo(true);
         }
     }
-    const Facebook = (info: FormatType) => {        
+    const Facebook = (info: FormatType) => {
         // if(info.format_note != "DASH audio"){ This will show all the Video files both with or without embeded audio
         if (info.format_note != "DASH video" && info.format_note != "Dash audio" && info.ext != "m4a") {
             setVideo(true);
@@ -130,8 +130,18 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
         }
     }
 
+    const Unknown = (info: FormatType) => {
+        if ((info.height != undefined || info.height != null)) {
+            if (info.format_id.includes('hls') === false) {
+                pLog(info.height)
+                setVideo(true);
+                setFormat(`${info.height}X${info.width}`)
+            }
+        }
+    }
+
     const GiveTheFileSize = (): void => {
-        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ));
+        setFilesize(bytesConverter(info.filesize ?? info.filesize_approx));
     }
     return (youtube && video) ? (
         <Pressable
@@ -188,14 +198,14 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title }) => {
                             <Text style={listStyles.TheText}> {info.ext} </Text>
                         </Pressable>
                     ) :
-                        (unknown) ? (
+                        (unknown && video) ? (
                             <Pressable
                                 style={listStyles.Container}
                                 onPress={() => { StartDownloading(info.url, info.ext) }}
                             >
-                                <Text style={[listStyles.TheText, listStyles.format]}> {info.format} </Text>
+                                <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
                                 <Text style={listStyles.TheText}> {info.ext} </Text>
-                                <Text style={listStyles.TheText}> {info.filesize} </Text>
+                                <Text style={listStyles.TheText}> {bytesConverter(info.filesize ?? info.filesize_approx ?? 0)} </Text>
                             </Pressable>
                         ) : (<></>)
 }

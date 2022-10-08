@@ -36,8 +36,9 @@ const Results = () => {
         })
             .then((res: any) => {
                 handleRes(res.data)
-                // pPrettyPrint(res.data)
+                pPrettyPrint(res.data)
             }).catch((error) => {
+                pPrettyPrint(error)
                 setMessage(error.message)
                 setLoading(false);
                 setError(true);
