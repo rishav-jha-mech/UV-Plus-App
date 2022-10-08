@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Circle } from 'react-native-progress';
 import bytesConverter from '../../Scripts/bytesConverter';
-import { kBlueColor, kDarkTextColor, kGreenColor, kRedColor } from '../../constants';
+import { appName, kBlueColor, kDarkTextColor, kGreenColor, kRedColor, OutputFileName, pLog, pPrettyPrint } from '../../constants';
 import OpenFile from '../../Scripts/OpenFile';
 import RNFS, { stat } from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -26,7 +26,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
         if (downSize > 0) {
             setProgress((downSize / fileSize))
         }
-    }, [downSize])
+    }, [downSize!])
     const ext = filename.slice(filename.toString().lastIndexOf('.') + 1, filename.toString().length);
     return (
         <TouchableOpacity
@@ -34,7 +34,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
             activeOpacity={status == 'Downloaded' ? 0.5 : 1}
             onPress={() => {
                 status == 'Downloaded' ?
-                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${filename}`, filename) : null;
+                    OpenFile(RNFS.DownloadDirectoryPath + `/UV Downloader/${OutputFileName(filename)}`, filename) : null;
             }}
         >
             <View>
@@ -68,7 +68,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                                 </Text>
                                 :
                                 <Text style={baby.smolText} numberOfLines={1}>
-                                    {bytesConverter(downSize + (audioFileSize === undefined ? 0 : audioFileSize) )}/{bytesConverter(fileSize + (audioFileSize == undefined ? 0 : audioFileSize))} | {ext}
+                                    {bytesConverter(downSize + (audioFileSize === undefined ? 0 : audioFileSize))}/{bytesConverter(fileSize + (audioFileSize == undefined ? 0 : audioFileSize))} | {ext}
                                 </Text>
                         }
                     </View>

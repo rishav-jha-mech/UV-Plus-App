@@ -1,6 +1,6 @@
 import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native';
 import { Alert } from 'react-native'
-import { DOWNLOAD_PATH, pError, pLog, pPrettyPrint, SAVE_FILE_TO } from '../constants';
+import { DOWNLOAD_PATH, OutputFileName, pError, pLog, pPrettyPrint, SAVE_FILE_TO } from '../constants';
 import { FFMPEG_PARAMS, PayloadParams } from '../types';
 import RNFS from 'react-native-fs';
 import { downloadedSuccessfully, errorDownloading, setAudioFilesize, setDownloadedFileSize, setDownloadedFileSizeAudio, setFilesize, startDownloadingAudio, startDownloadingVideo, startMergingAudioVideo } from '../REDUX/DownloadSilce';
@@ -27,9 +27,9 @@ const DownloadVideoAudio = (payload: PayloadParams, dispatch: Function): void =>
     const ffmpegParams: FFMPEG_PARAMS = {
         videoPath: `"${DOWNLOAD_PATH}/${payload.filename}"`,
         audioPath: `"${DOWNLOAD_PATH}/${audioParams.filename}"`,
-        outputPath: `"${DOWNLOAD_PATH}/sa${payload.filename}"`,
+        outputPath: `"${OutputFileName(`${DOWNLOAD_PATH}/${payload.filename}`)}"`,
     }
-
+    pPrettyPrint(ffmpegParams);
     // Download Video
     RNFS.downloadFile(DownloadFileOptionsVideo(payload, dispatch)).promise
         .then(res => {
@@ -62,10 +62,11 @@ const DownloadVideoAudio = (payload: PayloadParams, dispatch: Function): void =>
                                 pError(error);
                                 raiseError(errorParams);
                             }).finally(() => {
-                                FileExists(`${DOWNLOAD_PATH}/${payload.filename}`).then(res => res ? deleteFile(`${DOWNLOAD_PATH}/${payload.filename}`) : null);
-                                FileExists(`${DOWNLOAD_PATH}/${audioParams.filename}`).then(res => res ? deleteFile(`${DOWNLOAD_PATH}/${audioParams.filename}`) : null);
+                                deleteFile(`${DOWNLOAD_PATH}/${payload.filename}`);
+                                deleteFile(`${DOWNLOAD_PATH}/${audioParams.filename}`)
                             });
                         } else {
+                            pError('Error by status code for audio')
                             raiseError(errorParams)
                         }
                     }).catch(err => {
@@ -74,12 +75,15 @@ const DownloadVideoAudio = (payload: PayloadParams, dispatch: Function): void =>
                     });
 
             } else {
+                pError('Error by status code for video')
+                pPrettyPrint(res);
                 raiseError(errorParams)
             }
         }).catch(err => {
             pError(`Error in Downloading Video ${err}`);
             raiseError(errorParams)
         });
+
 }
 
 export default DownloadVideoAudio;

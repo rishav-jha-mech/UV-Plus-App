@@ -113,6 +113,12 @@ export const SAVE_FILE_TO = (filename: string): string => {return(`${RNFS.Downlo
 
 export const filterFileName = (filename: string): string => filename.replace(/[/\\?%*:|"<>]/g, '-');
 
+export const OutputFileName = (filename: string): string => {
+    const name = filename.slice(0, filename.lastIndexOf('.'));
+    const ext = filename.slice(filename.lastIndexOf('.')+1, filename.length);
+    pLog(`${name} ${appName}.${ext}`)
+    return `${name} ${appName}.${ext}`
+}
 
 export const supWebsites = [
     {

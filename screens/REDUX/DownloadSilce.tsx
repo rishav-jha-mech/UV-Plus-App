@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { filterFileName, pPrettyPrint } from '../constants';
 import { DownloadingParams } from '../types';
 
 
@@ -32,11 +31,10 @@ const Download = createSlice({
             state.push(params);
         },
         startDownloadingAudio: (state, action: { payload: { id: string } }) => {
-            pPrettyPrint({'DOWNLOADING WILL START': state});
-
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex] = {
                 ...state[downloadIndex],
+                fileSize: state[downloadIndex].downSize,
                 status: 'Downloading Audio',
             };
         },
@@ -44,6 +42,7 @@ const Download = createSlice({
             var downloadIndex = state.findIndex((obj => obj.id == action.payload.id));
             state[downloadIndex] = {
                 ...state[downloadIndex],
+                audioFileSize: state[downloadIndex].audioDownSize,
                 status: 'Mergin Audio and Video',
             };
         },

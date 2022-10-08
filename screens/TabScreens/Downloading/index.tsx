@@ -13,7 +13,7 @@ const Downloading: React.FC = () => {
 
     useEffect(() => {
         StorageLeft().then((res: string) => setStorageStat(res))
-		pPrettyPrint(DownloadList)
+		// pPrettyPrint(DownloadList)
     }, [DownloadList])
 
 	return (
