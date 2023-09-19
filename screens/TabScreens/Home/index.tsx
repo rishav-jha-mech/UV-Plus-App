@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, ScrollView, StatusBar, Alert } from 'react-native'
-import { kPrimaryColor, pLog, pPrettyPrint } from '../../constants';
+import React, { useState } from 'react';
+import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { kPrimaryColor } from '../../constants';
 import ReadPermission from '../../Scripts/ReadPermission';
-import Banner from './Banner';                                 // Every thing happens here !
+import Banner from './Banner'; // Every thing happens here !
 import Recent from './Recent';
+
 
 
 const Home: React.FC = () => {

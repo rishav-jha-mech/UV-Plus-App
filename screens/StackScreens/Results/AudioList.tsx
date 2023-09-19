@@ -12,6 +12,7 @@ import { AppParamList } from '../../NAVIGATION';
 import { listStyles } from './listStyles';
 import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
 import { pLog, pPrettyPrint } from '../../constants';
+import { SAGO } from '../../env';
 
 type AudioListType = {
     info: FormatType,
@@ -38,6 +39,8 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
     const [youtube, setYoutube] = useState<boolean>(false)
     const [facebook, setFacebook] = useState<boolean>(false)
     const [instagram, setInstagram] = useState<boolean>(false)
+    const [sago, setSago] = useState<boolean>(false)
+
     const [unknown, setUnknown] = useState<boolean>(false)
 
     // Hooks for showing Audio only
@@ -48,6 +51,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
         if (source == 'youtube') { setYoutube(true); Youtube(info) }
         else if (source == 'facebook') { setFacebook(true); Facebook(info) }
         else if (source == 'Instagram') { setInstagram(true); }
+        else if (source.includes(SAGO)) { setSago(true); Sago(info) }
         else { setUnknown(true); Unknown(info); }
         // For setting up formats and other stuffs before rendering
         setExt(info.ext)
@@ -69,7 +73,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
                 // pLog('bestAudio.filesize: ' + bestAudio?.filesize)
                 if (info.filesize > bestAudio!.filesize) {
                     setBestAudio(info)
-                }                
+                }
             }
 
             setAudio(true);
@@ -84,11 +88,19 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
             setFormat("High Quality Audio")
         }
     }
+    const Sago = (info: FormatType) => {
+        if (info.acodec !== "none") {
+            pPrettyPrint(info)
+            setFormat("High Quality Audio")
+            setAudio(true)
+            GiveTheFileSize()
+        }
+    }
     const Unknown = (info: FormatType) => {
         setAudio(true)
         setFormat("Unknown")
     }
-    
+
     const GiveTheFileSize = (): void => {
         setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ?? 0));
     }
@@ -112,6 +124,15 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
         </Pressable>
     ) : (instagram) ? (
         <Text style={listStyles.nf}>We Dont Do That Here</Text>
+    ) : (sago && audio) ? (
+        <Pressable
+            style={listStyles.Container}
+            onPress={() => { CheckAndStart(info.url, info.ext) }}
+        >
+            <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
+            <Text style={listStyles.TheText}> {info.ext} </Text>
+            <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
+        </Pressable>
     ) : (<></>)
 }
 

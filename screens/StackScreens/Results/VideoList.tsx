@@ -49,7 +49,6 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     const [video, setVideo] = useState<boolean>(false)
 
     useEffect(() => {
-        pLog(source)
         // Checking the source of the video file
         if (source.includes('youtube')) { setYoutube(true); Youtube(info) }
         else if (source.includes('facebook')) { setFacebook(true); Facebook(info); }
@@ -116,6 +115,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             var Localformat = info.format
             Localformat = Localformat.slice(0, Localformat.search("-"))
             setFormat(Localformat)
+            GiveTheFileSize()
         }
     }
     const Shwe = (info: FormatType) => {
@@ -143,7 +143,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     }
     return (youtube && video) ? (
         <Pressable
-            style={[listStyles.Container, { backgroundColor: color }]}
+            style={[listStyles.Container]}
             onPress={() => {
                 color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
             }}
@@ -155,7 +155,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     ) :
         (facebook && video) ? (
             <Pressable
-                style={[listStyles.Container, { backgroundColor: color }]}
+                style={[listStyles.Container]}
                 onPress={() => {
                     color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
                 }}

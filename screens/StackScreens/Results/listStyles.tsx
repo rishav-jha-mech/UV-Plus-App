@@ -5,7 +5,7 @@ import { kBlueColor, kPrimaryColor, kRedColor, kSecondaryColor } from '../../con
 export const listStyles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: kRedColor,
+        backgroundColor: '#f2f2f2',
         flexDirection: 'row',
         marginVertical: 1.0,
         justifyContent: 'space-between',
@@ -14,7 +14,7 @@ export const listStyles = StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         paddingVertical: 16.0,
-        color: '#fff',
+        color: '#444',
         fontWeight: '700'
     },
     format: {

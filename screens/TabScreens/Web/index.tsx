@@ -69,7 +69,7 @@ const Web: React.FC<webProps> = () => {
         "hardwareBackPress",
         backAction
     );
-    
+
 
 
     const Validate = (text: string): void => { // If the input isnt a url then it will go to GoogleIt function will be called.
@@ -123,7 +123,7 @@ const Web: React.FC<webProps> = () => {
             <Modal style={{ flex: 1 }} visible={showModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container} onPress={() => { setShowModal(!showModal); setShowCard(!showCard) }}>
                     {showCard ?
-                        <Pressable style={modalStyle.Card}>
+                        <Pressable style={[modalStyle.Card, { padding: 18 }]}>
                             <TouchableOpacity
                                 style={modalStyle.Button}
                                 onPress={() => {
@@ -158,12 +158,14 @@ const Web: React.FC<webProps> = () => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { webViewRef.current.clearCache(true);setShowCard(false); setCardState({
-                                    bg: "#fff",
-                                    iconName: 'check-circle',
-                                    text: "Cache Cleared",
-                                    fontColor: "dodgerblue"
-                                })}}
+                                onPress={() => {
+                                    webViewRef.current.clearCache(true); setShowCard(false); setCardState({
+                                        bg: "#fff",
+                                        iconName: 'check-circle',
+                                        text: "Cache Cleared",
+                                        fontColor: "dodgerblue"
+                                    })
+                                }}
                             >
                                 <Text style={modalStyle.ButtonText}>
                                     Clear Cache
@@ -171,8 +173,8 @@ const Web: React.FC<webProps> = () => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={modalStyle.Button}
-                                onPress={() => { 
-                                    webViewRef.current.clearHistory(true) 
+                                onPress={() => {
+                                    webViewRef.current.clearHistory(true)
                                     setShowCard(false);
                                     setCardState({
                                         bg: "#fff",
@@ -207,18 +209,18 @@ const Web: React.FC<webProps> = () => {
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
             />
-            {downloadable ? 
+            {downloadable ?
                 <TouchableOpacity
-                style={styles.down}
-                activeOpacity={0.4}
-                onPress={() => {
-                    navigation.navigate('ResultStack', { url: URL })
-                }}
-            >
-                <FeatherIcon name='download' size={28} color={'#fff'} />
-            </TouchableOpacity>
-            
-            : <></>}
+                    style={styles.down}
+                    activeOpacity={0.4}
+                    onPress={() => {
+                        navigation.navigate('ResultStack', { url: URL })
+                    }}
+                >
+                    <FeatherIcon name='download' size={28} color={'#fff'} />
+                </TouchableOpacity>
+
+                : <></>}
         </>
     )
 }

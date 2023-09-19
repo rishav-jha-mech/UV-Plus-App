@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, ScrollView, Image, ImageBackground } from 'react-native'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import Loading from '../../Components/Loading';
 import AudioList from './AudioList';
 import VideoList from './VideoList';
@@ -11,6 +11,7 @@ import { kPrimaryColor, pLog, pPrettyPrint, SCREEN_HEIGHT } from '../../constant
 import { formatTime } from '../../Scripts/timeFormatter';
 import { FormatType, YTDLP_Options } from '../../types';
 import bytesConverter from '../../Scripts/bytesConverter';
+import { SERVER_URL } from '../../env';
 
 
 const Results = () => {
@@ -36,19 +37,19 @@ const Results = () => {
     }, [bestAudio]);
 
 
-    const ReqData = (url: string) => {
-        axios.post('https://uv-plus.herokuapp.com/', {
-            uri: url,
-        })
-            .then((res: any) => {
-                handleRes(res.data)
-                // pPrettyPrint(res.data)
-            }).catch((error) => {
-                pPrettyPrint(error)
-                setMessage(error.message)
-                setLoading(false);
-                setError(true);
-            });
+    const ReqData = async (url: string): Promise<void> => {
+        try {
+            const res: AxiosResponse<YTDLP_Options, any> = await axios.post(SERVER_URL, {
+                uri: url,
+            })
+            handleRes(res?.data)
+        }
+        catch (e:any) {
+            pPrettyPrint(e)
+            setMessage(e?.message)
+            setLoading(false);
+            setError(true);
+        }
     }
     const handleRes = (data: YTDLP_Options) => {
         setResponseData(data)
