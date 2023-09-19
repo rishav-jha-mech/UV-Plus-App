@@ -1,6 +1,5 @@
 import React, { createRef, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import Lottie from 'lottie-react-native';
 import { Colors } from '../constants';
 
 type ErrorWrongURlProps = {
@@ -9,25 +8,18 @@ type ErrorWrongURlProps = {
 
 const ErrorWrongURl: React.FC<ErrorWrongURlProps> = ({ message }) => {
 
-
-    const animationRef = createRef<Lottie>()
-
-    useEffect(() => {
-        animationRef.current?.play()
-    }, [])
-
     return (
         <View style={styles.Container}>
             <View style={styles.Card}>
-                    <Lottie
-                        style={{width: '100%', maxHeight: 225}}                    
-                        ref={animationRef}
-                        source={
-                            message.includes('500') ?
-                                require('../assets/lottie/link.json') :
-                                require('../assets/lottie/wifi.json')
-                        }
-                    />
+                <Text>
+                    {
+
+                        message.includes('500') ?
+                            `Error occured ${message}` :
+                            'Network Error'
+                    }
+
+                </Text>
                 <Text style={styles.Text}>
                     {message.includes('500') ? 'Entered URL is not supported' : message.includes('Network Error') ? 'Switch on your Mobile Data or Wifi to use the internet' : message}
                 </Text>

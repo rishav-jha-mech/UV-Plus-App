@@ -1,17 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import Lottie from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, BackHandler, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import RNFS from 'react-native-fs';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import t from 'twrnc';
 import Loading from '../../Components/Loading';
 import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import RenameFile from '../../Components/renameFileDialog';
 import ReadPermission from '../../Scripts/ReadPermission';
 import { Colors, DOWNLOAD_PATH, modalStyle } from '../../constants';
 import FileList from './FileList';
-import t from 'twrnc'
 
 const Downloads: React.FC = () => {
 
@@ -36,10 +34,6 @@ const Downloads: React.FC = () => {
     useEffect(() => {
         ReadFiles();
     }, [path])
-
-    useEffect(() => {
-        animationRef.current?.play()
-    }, [showModal]);
 
     // useEffect(() => {
     //     const backAction = () => {
@@ -153,7 +147,7 @@ const Downloads: React.FC = () => {
             <Modal style={{ flex: 1 }} visible={showModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container}>
                     <View style={modalStyle.CardGeneric}>
-                        <Lottie style={{ height: 200 }} ref={animationRef} source={require('../../assets/lottie/trash.json')} />
+                        <ActivityIndicator size={40} color={Colors.PrimaryColor} />
                         <Text style={modalStyle.CardText}>{modalText}</Text>
                     </View>
                 </Pressable>

@@ -1,22 +1,12 @@
-import React, { createRef, useEffect, useRef } from 'react';
-import Lottie from 'lottie-react-native';
-import { View, ActivityIndicator, Image } from 'react-native'
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { Colors } from '../constants';
 
 const Loading = () => {
 
-    const animationRef = createRef<Lottie>()
-
-    useEffect(() => {
-        animationRef.current?.play()
-    }, [])
-
-
     return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Lottie
-                ref={animationRef}
-                source={require('../assets/lottie/loading.json')}
-            />
+            <ActivityIndicator size={40} color={Colors.PrimaryColor} />
         </View>
     )
 }
