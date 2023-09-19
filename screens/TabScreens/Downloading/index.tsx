@@ -1,29 +1,36 @@
-import React, { useEffect } from 'react'
 import { FlashList } from '@shopify/flash-list';
-import { StyleSheet, Text, View, ScrollView, RefreshControl, FlatList, Dimensions } from 'react-native'
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import StorageLeft from '../../Scripts/storageLeft';
+import { useAppSelector } from '../../hooks';
 import Downcomp from './Downcomp';
-import { pPrettyPrint } from '../../constants';
+import t from 'twrnc'
+import { Colors } from '../../constants';
 
 const Downloading: React.FC = () => {
 
 	const DownloadList = useAppSelector((state) => state.downloadList);
 	const [storageStat, setStorageStat] = React.useState<string>('');
 
-    useEffect(() => {
-        StorageLeft().then((res: string) => setStorageStat(res))
+	useEffect(() => {
+		StorageLeft().then((res: string) => setStorageStat(res))
 		// pPrettyPrint(DownloadList)
-    }, [DownloadList])
+	}, [DownloadList])
 
 	return (
-		<View style={styles.Container}>
-			<View style={styles.topContainer}>
-				<Text style={styles.topHeading}>Downloading</Text>
-				<Text style={styles.space}>{storageStat}</Text>
+		<View style={t`flex-1`}>
+			<View style={[t`flex-row justify-between items-center px-3`,{
+				backgroundColor: Colors.PrimaryColor
+			}]}>
+				<Text style={t`text-lg text-white py-4.5`}>Downloading</Text>
+				<Text style={t`text-xs text-white`}>{storageStat}</Text>
 			</View>
 			{(DownloadList.length === 0) ?
-				<NoDownloading />
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<Text style={t`text-black text-center text-base`}>
+						No file is getting downloaded at the moment
+					</Text>
+				</View>
 				: <FlashList
 					data={DownloadList}
 					estimatedItemSize={100}
@@ -35,43 +42,4 @@ const Downloading: React.FC = () => {
 	)
 }
 
-export default Downloading
-
-const styles = StyleSheet.create({
-	Container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		paddingHorizontal: 10.0
-	},
-	topContainer:{
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		borderBottomWidth: 1.0,
-		borderBottomColor: 'rgba(0,0,0,0.1)',
-		paddingVertical: 16.0,
-		paddingHorizontal: 4.0,
-	},
-	topHeading: {
-		fontSize: 20.0,
-		fontWeight: '700',
-		color: '#333',
-	},
-	space:{
-		color: '#333',
-		fontSize: 12.0,
-		fontWeight: '600',
-	},
-	downloadView: {
-		flex: 1,
-		backgroundColor: '#ff56'
-	}
-});
-
-const NoDownloading = () => {
-	return (
-		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-			<Text style={{ color: '#333', fontSize: 16.0, marginHorizontal: 16.0, textAlign: "center" }}>No file is getting downloaded at the moment</Text>
-		</View>
-	);
-}
+export default Downloading;

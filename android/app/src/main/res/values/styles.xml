@@ -3,8 +3,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
         <item name="android:forceDarkAllowed">false</item>
-        <item name="android:statusBarColor">#080941</item>
-        <item name="android:navigationBarColor">#080941</item> 
+        <item name="android:statusBarColor">#bd1f36</item>
+        <item name="android:navigationBarColor">#bd1f36</item> 
     </style>
 
 </resources>

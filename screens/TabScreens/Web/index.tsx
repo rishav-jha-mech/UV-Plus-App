@@ -91,14 +91,14 @@ const Web: React.FC<webProps> = () => {
         <>
             <View style={TopBar.Container}>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => setURL(HOMEPAGE)}>
-                    <OctiIcon name="home" color={'#555'} size={22} />
+                    <OctiIcon name="home" color={Colors.WhiteColor} size={22} />
                 </TouchableOpacity>
                 <View style={TopBar.Row}>
                     <TextInput
                         style={TopBar.Input}
                         ref={inputRef}
                         placeholder="Search or type web address"
-                        placeholderTextColor={"#666"}
+                        placeholderTextColor={Colors.DarkTextColor}
                         value={tempURL}
                         onPressIn={() => { inputRef.current?.focus() }}
                         textAlign="left"
@@ -109,12 +109,12 @@ const Web: React.FC<webProps> = () => {
                     />
                     <View style={TopBar.removeIcon}>
                         <TouchableOpacity onPress={() => eraseInput()}>
-                            <FontAwesome5Icon name='times-circle' size={20} color={'#333'} />
+                            <FontAwesome5Icon name='times-circle' size={20} color={Colors.DarkTextColor} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <TouchableOpacity style={TopBar.Opt} onPress={() => { setShowModal(!showModal), setShowCard(true) }}>
-                    <IonIcon name='ellipsis-vertical' color={'#555'} size={20} />
+                    <IonIcon name='ellipsis-vertical' color={Colors.WhiteColor} size={28} />
                 </TouchableOpacity>
             </View>
 

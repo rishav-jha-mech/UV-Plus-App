@@ -1,17 +1,17 @@
-// react-native-media-thumbnail may be used in future commits
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, BackHandler, Modal, Pressable, Text, TouchableOpacity, ActivityIndicator, RefreshControl, TextInput, Keyboard } from 'react-native';
-import FileList from './FileList';
 import { useNavigation } from '@react-navigation/native';
+import { FlashList } from '@shopify/flash-list';
+import Lottie from 'lottie-react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, BackHandler, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import RNFS from 'react-native-fs';
-import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Loading from '../../Components/Loading';
-import { FlashList } from '@shopify/flash-list';
-import ReadPermission from '../../Scripts/ReadPermission';
-import { DOWNLOAD_PATH, kPrimaryColor, modalStyle, pLog } from '../../constants';
-import Lottie from 'lottie-react-native';
+import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import RenameFile from '../../Components/renameFileDialog';
+import ReadPermission from '../../Scripts/ReadPermission';
+import { Colors, DOWNLOAD_PATH, modalStyle } from '../../constants';
+import FileList from './FileList';
+import t from 'twrnc'
 
 const Downloads: React.FC = () => {
 
@@ -39,7 +39,9 @@ const Downloads: React.FC = () => {
 
     useEffect(() => {
         animationRef.current?.play()
-    }, [showModal])
+    }, [showModal]);
+
+
 
     const ReadFiles = () => {
         setLoading(true);
@@ -87,19 +89,26 @@ const Downloads: React.FC = () => {
             {/* Flies and Directories */}
 
             <View style={styles.Container}>
-                <View style={styles.Path}>
-                    {loading ? // So that user does not click 2-3 times on the same button
-                        <TouchableOpacity style={styles.backBtn}>
-                            <ActivityIndicator size={20} color={kPrimaryColor} />
-                        </TouchableOpacity>
-                        : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
-                            <TouchableOpacity style={styles.backBtn} onPress={() => { setLoading(true); PreviousPath(); }}>
-                                <FontAwesomeIcon name='angle-left' size={20} color={kPrimaryColor} />
+                <View style={[t`flex-row`,{
+                    backgroundColor: Colors.PrimaryColor
+                }]}>
+                    <View style={t`items-center justify-center mr-3`}>
+                        {loading ?
+                            <TouchableOpacity style={t`p-2`}>
+                                <ActivityIndicator size={20} color={Colors.WhiteColor} />
                             </TouchableOpacity>
-                    }
-                    <Text style={styles.PathText}>
+                            : (shownPath === "0") ? <></> : // Or the app will get 'crashed' if the user tries to go before this path
+                                <TouchableOpacity style={t`p-2`} onPress={() => { setLoading(true); PreviousPath(); }}>
+                                    <FontAwesomeIcon name='angle-left' size={28} color={Colors.WhiteColor} />
+                                </TouchableOpacity>
+                        }
+                    </View>
+                    <ScrollView horizontal>
+                    <Text style={t`text-white text-base flex-1 py-5 pr-3`}>
                         {shownPath.replace('0', 'Home')}
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi dolor, laborum obcaecati iure magni soluta pariatur corporis excepturi quaerat aut omnis voluptatum eaque culpa eum ullam consequuntur veniam autem sunt.
                     </Text>
+                    </ScrollView>
                 </View>
                 {loading ?
                     <Loading />
@@ -167,7 +176,7 @@ const Downloads: React.FC = () => {
                             >
                                 <Text style={modalStyle.smolBtnText}>CANCEL</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[modalStyle.smolBtn, {}]} onPress={() => RenameFile(newFileName,renameModalPath,ReadFiles,setShowRenameModal)}>
+                            <TouchableOpacity style={[modalStyle.smolBtn, {}]} onPress={() => RenameFile(newFileName, renameModalPath, ReadFiles, setShowRenameModal)}>
                                 <Text style={modalStyle.smolBtnText}>OK</Text>
                             </TouchableOpacity>
                         </View>
@@ -185,34 +194,11 @@ export default Downloads
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: '#fcfafa',
+        backgroundColor: Colors.WhiteColor,
         justifyContent: 'center',
-    },
-    Path: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        height: 52.0,
-        borderBottomColor: 'rgba(0,0,0,0.075)',
-        borderBottomWidth: 1.5
-    },
-    PathText: {
-        flex: 1,
-        color: kPrimaryColor,
-        fontSize: 16.0,
-        fontWeight: '500',
-        letterSpacing: 0.5,
-        paddingHorizontal: 16.0,
-        paddingVertical: 16.0,
-        overflow: 'hidden',
-        height: 52.0
-    },
-    backBtn: {
-        paddingHorizontal: 16.0,
-        paddingVertical: 16.0
     },
     BlankFilePage: {
-        backgroundColor: '#fcfafa',
+        backgroundColor: Colors.WhiteColor,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'

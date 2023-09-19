@@ -9,9 +9,11 @@ export const appName: string = 'UV Downloader'
 export const Colors = {
     PrimaryColor: '#bd1f36',
     SecondaryColor: '#ffff66',
+    WhiteColor: '#fff',
     BlueColor: '#0D6EFD',
     GreenColor: '#04AA6D',
     RedColor: '#DC3545',
+    GrayColor: '#888',
     DarkTextColor: '#333',
     BrightRed: '#ffdedb',
 };
