@@ -64,7 +64,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
         // Changing the format string
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
-        setFormat(Localformat![1]);
+        setFormat(Localformat !== null ? Localformat[1] : '');
         // Both Video and Audio
         if (info.vcodec !== "none" && info.acodec !== "none") {
             GiveTheFileSize();

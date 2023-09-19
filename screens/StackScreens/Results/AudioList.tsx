@@ -60,7 +60,7 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
         var regExp = /\(([^)]+)\)/;
         var Localformat = regExp.exec(info.format);
         GiveTheFileSize()
-        setFormat(Localformat![1]);
+        setFormat(Localformat !== null ? Localformat[1] : '');
         // Show Audio files only
         if (info.height == null && info.ext !== 'webm') {
             // pPrettyPrint(info)

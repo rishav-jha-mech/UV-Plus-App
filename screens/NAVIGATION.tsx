@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,6 +18,8 @@ import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
 import StartDownload from './Scripts/Download';
 import { Colors } from './constants';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import CustomDrawer from './customDrawer';
 
 
 export type AppParamList = {
@@ -30,8 +32,10 @@ export type AppParamList = {
 }
 
 
+const Drawer = createDrawerNavigator();
 
-const HomeTabNavigation:React.FC<AppParamList> = () => {
+
+const HomeTabNavigation: React.FC<AppParamList> = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -88,7 +92,22 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
   )
 }
 
-const NAVIGATION:React.FC = () => {
+const DrawerNav = () => {
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerTransparent: true,
+        headerShown: false,
+      }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
+    >
+      <Drawer.Screen name="Home Tab" component={HomeTabNavigation} />
+    </Drawer.Navigator>
+  );
+}
+
+const NAVIGATION: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -96,7 +115,7 @@ const NAVIGATION:React.FC = () => {
         {{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home Tab" component={HomeTabNavigation} />
+        <Stack.Screen name="Homie" component={DrawerNav} />
         <Stack.Screen name="WebStack" component={StackWeb} />
         <Stack.Screen name="ResultStack" component={Results} />
       </Stack.Navigator>
@@ -104,7 +123,7 @@ const NAVIGATION:React.FC = () => {
   )
 }
 
-const UV:React.FC = () => {
+const UV: React.FC = () => {
 
   return (
     <AppContext.Provider value={{ StartDownload }}>

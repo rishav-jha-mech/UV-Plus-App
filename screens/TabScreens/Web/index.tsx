@@ -15,6 +15,7 @@ import toShare from '../../Scripts/toShare';
 import { Colors, modalStyle } from '../../constants';
 import { ARP, SAGO, SHWE } from '../../env';
 import { CardStateParams } from '../../types';
+import { useFocusEffect } from '@react-navigation/native';
 
 type webProps = NativeStackNavigationProp<AppParamList, 'Web'>;
 type resultProp = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
@@ -50,24 +51,6 @@ const Web: React.FC<webProps> = () => {
             setDownloadable(false);
         }
     }
-
-    // Backaction defined here, if the user cant go back he will go to home tab
-    const backAction = () => {
-        if (canGoBackward) {
-            webViewRef.current.goBack();
-        } else {
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
-            navigation.goBack();
-        }
-        return true;
-    };
-
-
-    BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
-    );
-
 
 
     const Validate = (text: string): void => { // If the input isnt a url then it will go to GoogleIt function will be called.

@@ -9,18 +9,18 @@ const OpenFile = (path: string, name: string): void => {
         if (exists) {
             FileViewer.open(path, { showOpenWithDialog: false, displayName: name, showAppsSuggestions: true })
                 .then(() => {
-                    // console.log('Do nothing');
+                    console.log('Do nothing');
                 })
                 .catch((error) => {
                     pError(error);
-                    Alert.alert('You dont have any app to open files of this type');
+                    Alert.alert('Error','You dont have any app to open files of this type');
                 });
         } else {
-            Alert.alert('File does not exist');
+            Alert.alert('Error','File does not exist');
         }
     }).catch((err) => {
         pError(err);
-        Alert.alert('Something went wrong');
+        Alert.alert('Error','Something went wrong');
     });
 }
 

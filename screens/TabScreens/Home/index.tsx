@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
-import { kPrimaryColor } from '../../constants';
+import { Colors } from '../../constants';
 import ReadPermission from '../../Scripts/ReadPermission';
 import Banner from './Banner'; // Every thing happens here !
 import Recent from './Recent';
@@ -10,13 +10,8 @@ import Recent from './Recent';
 const Home: React.FC = () => {
     const [perm, setPerm] = useState<boolean>(false)
     ReadPermission().then((res: any) => setPerm(res));
-
     return (
         <>
-            <StatusBar
-                animated={true}
-                backgroundColor={kPrimaryColor}
-            />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ backgroundColor: '#fcfcfc', flex: 1 }}>
                     <Banner />
@@ -35,7 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fcfcfc',
     },
     btn: {
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         marginBottom: 20.0,
         paddingHorizontal: 16.0,
         paddingVertical: 16.0,

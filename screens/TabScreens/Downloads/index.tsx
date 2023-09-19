@@ -41,6 +41,29 @@ const Downloads: React.FC = () => {
         animationRef.current?.play()
     }, [showModal]);
 
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         if (shownPath === '0') {
+    //             BackHandler.removeEventListener('hardwareBackPress', backAction);
+    //             navigation.goBack();
+    //             return true;
+    //         }
+    //         if (canGoBackward) {
+    //             setLoading(true);
+    //             PreviousPath();
+    //         }
+    //         return true;
+    //     };
+    //     BackHandler.addEventListener(
+    //         "hardwareBackPress",
+    //         backAction
+    //     );
+    //     return () => {
+    //         BackHandler.removeEventListener('hardwareBackPress', backAction);
+    //     }
+    // }, [])
+
+
 
 
     const ReadFiles = () => {
@@ -66,33 +89,15 @@ const Downloads: React.FC = () => {
     var shownPath = path
     shownPath = shownPath.slice((shownPath.indexOf('0')), shownPath.length)
 
-    // Backhandlers
-    const backAction = () => {
-        if (shownPath === '0') {
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
-            navigation.goBack();
-            return true;
-        }
-        if (canGoBackward) {
-            setLoading(true);
-            PreviousPath();
-        }
-        return true;
-    };
-    BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
-    );
-
     return readPerm ? (
         <>
             {/* Flies and Directories */}
 
             <View style={styles.Container}>
-                <View style={[t`flex-row`,{
+                <View style={[t`flex-row`, {
                     backgroundColor: Colors.PrimaryColor
                 }]}>
-                    <View style={t`items-center justify-center mr-3`}>
+                    {/* <View style={t`items-center justify-center mr-3`}>
                         {loading ?
                             <TouchableOpacity style={t`p-2`}>
                                 <ActivityIndicator size={20} color={Colors.WhiteColor} />
@@ -102,12 +107,11 @@ const Downloads: React.FC = () => {
                                     <FontAwesomeIcon name='angle-left' size={28} color={Colors.WhiteColor} />
                                 </TouchableOpacity>
                         }
-                    </View>
+                    </View> */}
                     <ScrollView horizontal>
-                    <Text style={t`text-white text-base flex-1 py-5 pr-3`}>
-                        {shownPath.replace('0', 'Home')}
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi dolor, laborum obcaecati iure magni soluta pariatur corporis excepturi quaerat aut omnis voluptatum eaque culpa eum ullam consequuntur veniam autem sunt.
-                    </Text>
+                        <Text style={t`text-white text-base flex-1 py-5 px-3`}>
+                            {shownPath.replace('0', 'Home')}
+                        </Text>
                     </ScrollView>
                 </View>
                 {loading ?

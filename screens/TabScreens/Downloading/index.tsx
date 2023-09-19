@@ -23,12 +23,12 @@ const Downloading: React.FC = () => {
 				backgroundColor: Colors.PrimaryColor
 			}]}>
 				<Text style={t`text-lg text-white py-4.5`}>Downloading</Text>
-				<Text style={t`text-xs text-white`}>{storageStat}</Text>
+				<Text style={t`text-xs text-white opacity-75`}>{storageStat}</Text>
 			</View>
 			{(DownloadList.length === 0) ?
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 					<Text style={t`text-black text-center text-base`}>
-						No file is getting downloaded at the moment
+						No file is being downloaded at the moment
 					</Text>
 				</View>
 				: <FlashList
