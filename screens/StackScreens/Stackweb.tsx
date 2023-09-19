@@ -6,11 +6,11 @@ import { ARP, SAGO, SHWE, YOUTUBE } from '../env';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../NAVIGATION';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { kPrimaryColor, pLog } from '../constants';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Colors, pLog } from '../constants';
 
 
-type resultScreenProps = StackNavigationProp<AppParamList, 'ResultStack'>;
+type resultScreenProps = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
 
 const StackWeb: React.FC = () => {
 
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 60.0,
         right: 12.0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         elevation: 1000.0
     },
     header: {
         elevation: 2,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         paddingHorizontal: 8,
         paddingVertical: 14,
         flexDirection: 'row',

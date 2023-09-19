@@ -1,12 +1,12 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import OctiIcon from 'react-native-vector-icons/Octicons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 import Home from './TabScreens/Home';
@@ -17,7 +17,7 @@ import Web from './TabScreens/Web';
 import StackWeb from './StackScreens/Stackweb';
 import { AppContext } from './context';
 import StartDownload from './Scripts/Download';
-import { kPrimaryColor } from './constants';
+import { Colors } from './constants';
 
 
 export type AppParamList = {
@@ -46,7 +46,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='home' color={color} size={size} />
           ),
-          tabBarActiveTintColor: kPrimaryColor,
+          tabBarActiveTintColor: Colors.PrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -57,7 +57,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='globe' color={color} size={size} />
           ),
-          tabBarActiveTintColor: kPrimaryColor,
+          tabBarActiveTintColor: Colors.PrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -68,7 +68,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <IonIcon name='ios-folder-outline' color={color} size={size} />
           ),
-          tabBarActiveTintColor: kPrimaryColor,
+          tabBarActiveTintColor: Colors.PrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />
@@ -80,7 +80,7 @@ const HomeTabNavigation:React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <FeatherIcon name='download' color={color} size={size} />
           ),
-          tabBarActiveTintColor: kPrimaryColor,
+          tabBarActiveTintColor: Colors.PrimaryColor,
           tabBarInactiveTintColor: '#999',
         }}
       />

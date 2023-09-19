@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity, Text, View, Pressable } from 'react-native'
 import OpenFile from '../../Scripts/OpenFile';
 import FileIcon from '../../Components/FileIcon'
-import { kBlueColor, kDarkTextColor, kRedColor, pPrettyPrint } from '../../constants'
+import { Colors } from '../../constants'
 import deleteFileDialog from '../../Components/deleteFileDialog'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';
@@ -69,9 +69,9 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         }}
                     >
                         <View style={styles.iconContainer}>
-                            <MaterialIcon name='circle-edit-outline' size={20} color={kBlueColor} />
+                            <MaterialIcon name='circle-edit-outline' size={20} color={Colors.BlueColor} />
                         </View>
-                        <Text style={{color: kDarkTextColor}}>
+                        <Text style={{color: Colors.DarkTextColor}}>
                             Rename File
                         </Text>
                     </TouchableOpacity>
@@ -83,9 +83,9 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         }}
                     >
                         <View style={styles.iconContainer}>
-                            <IonIcon name='trash-outline' size={20} color={kRedColor} />
+                            <IonIcon name='trash-outline' size={20} color={Colors.RedColor} />
                         </View>
-                        <Text style={{color: kDarkTextColor}}>
+                        <Text style={{color: Colors.DarkTextColor}}>
                             Delete File
                         </Text>
                     </TouchableOpacity>

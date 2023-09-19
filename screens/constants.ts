@@ -6,13 +6,15 @@ export const appName: string = 'UV Downloader'
 
 // Colours
 
-export const kPrimaryColor = '#6666ff';
-export const kSecondaryColor = '#ffff66';
-export const kBlueColor = '#0D6EFD';
-export const kGreenColor = '#04AA6D';
-export const kRedColor = '#DC3545';
-export const kDarkTextColor = '#333';
-export const kBrightRed = '#ffdedb';
+export const Colors = {
+    PrimaryColor: '#bd1f36',
+    SecondaryColor: '#ffff66',
+    BlueColor: '#0D6EFD',
+    GreenColor: '#04AA6D',
+    RedColor: '#DC3545',
+    DarkTextColor: '#333',
+    BrightRed: '#ffdedb',
+};
 
 
 // Styles
@@ -33,7 +35,7 @@ export const modalStyle = StyleSheet.create({
         borderRadius: 16,
         elevation: 8,
     },
-    CardGeneric:{
+    CardGeneric: {
         backgroundColor: '#fff',
         minHeight: '20%',
         width: '80%',
@@ -58,32 +60,32 @@ export const modalStyle = StyleSheet.create({
         textAlign: 'center',
         color: 'dodgerblue'
     },
-    CardText:{
+    CardText: {
         fontSize: 16,
-        color: kDarkTextColor,
+        color: Colors.PrimaryColor,
         fontWeight: '400',
         textAlign: 'center',
         paddingVertical: 16
     },
-    Input:{
-        borderColor: kPrimaryColor,
+    Input: {
+        borderColor: Colors.PrimaryColor,
         borderWidth: 1,
         width: '100%',
         borderRadius: 8.0,
         paddingHorizontal: 12,
     },
-    h1:{
-        color: kDarkTextColor,
+    h1: {
+        color: Colors.PrimaryColor,
         fontSize: 24,
         fontWeight: '700',
         marginBottom: 24
     },
-    smolBtn:{
+    smolBtn: {
         paddingVertical: 8.0,
         paddingHorizontal: 12.0,
         marginTop: 14
     },
-    smolBtnText:{
+    smolBtnText: {
         fontWeight: '600',
         color: 'dodgerblue'
     }
@@ -103,19 +105,19 @@ export const aBannerImage = require('./assets/img/banner.png');
 
 // Paths
 
-export const DOWNLOAD_PATH:string = RNFS.DownloadDirectoryPath + '/UV Downloader';
+export const DOWNLOAD_PATH: string = RNFS.DownloadDirectoryPath + '/UV Downloader';
 
 
 
 // Other Functions
 
-export const SAVE_FILE_TO = (filename: string): string => {return(`${RNFS.DownloadDirectoryPath}/UV Downloader/${filename}`)};
+export const SAVE_FILE_TO = (filename: string): string => { return (`${RNFS.DownloadDirectoryPath}/UV Downloader/${filename}`) };
 
 export const filterFileName = (filename: string): string => filename.replace(/[/\\?%*:|"<>]/g, '-');
 
 export const OutputFileName = (filename: string): string => {
     const name = filename.slice(0, filename.lastIndexOf('.'));
-    const ext = filename.slice(filename.lastIndexOf('.')+1, filename.length);
+    const ext = filename.slice(filename.lastIndexOf('.') + 1, filename.length);
     pLog(`${name} ${appName}.${ext}`)
     return `${name} ${appName}.${ext}`
 }

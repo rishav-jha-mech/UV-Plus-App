@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { kBlueColor, kPrimaryColor, kRedColor, kSecondaryColor } from '../../constants';
 
 
 export const listStyles = StyleSheet.create({

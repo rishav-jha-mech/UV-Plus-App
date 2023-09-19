@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Circle } from 'react-native-progress';
-import bytesConverter from '../../Scripts/bytesConverter';
-import { appName, kBlueColor, kDarkTextColor, kGreenColor, kRedColor, OutputFileName, pLog, pPrettyPrint } from '../../constants';
-import OpenFile from '../../Scripts/OpenFile';
-import RNFS, { stat } from 'react-native-fs';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import RNFS from 'react-native-fs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { DownloadingParams } from '../../types';
+import { Circle } from 'react-native-progress';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { useAppDispatch } from '../../hooks';
 import { removeDownloading } from '../../REDUX/DownloadSilce';
+import OpenFile from '../../Scripts/OpenFile';
+import bytesConverter from '../../Scripts/bytesConverter';
+import { Colors, appName } from '../../constants';
+import { useAppDispatch } from '../../hooks';
+import { DownloadingParams } from '../../types';
 
 
 type DownCompProp = {
@@ -48,9 +48,9 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                         status == 'Downloading'
                             || status == 'Dowloading Video'
                             || status == 'Downloading Audio'
-                            || status == 'Mergin Audio and Video' ? kBlueColor
-                            : status == 'Downloaded' ? kGreenColor
-                                : kRedColor
+                            || status == 'Mergin Audio and Video' ? Colors.BlueColor
+                            : status == 'Downloaded' ? Colors.GreenColor
+                                : Colors.RedColor
                     }
                     thickness={3}
                     showsText={true}
@@ -59,7 +59,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                 />
             </View>
             <View style={baby.textContainer}>
-                <Text style={[baby.bigText, { color: status == 'Error' ? kRedColor : kDarkTextColor }]} numberOfLines={1}>
+                <Text style={[baby.bigText, { color: status == 'Error' ? Colors.RedColor : Colors.DarkTextColor }]} numberOfLines={1}>
                     {filename}
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -67,7 +67,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                         {
                             status == 'Error' ?
                                 <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 12, color: kRedColor, fontWeight: '600' }}>Error Downloading</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.RedColor, fontWeight: '600' }}>Error Downloading</Text>
                                 </Text>
                                 :
                                 <Text style={baby.smolText} numberOfLines={1}>
@@ -76,13 +76,13 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                         }
                     </View>
                     {status == 'Downloading'
-                        ? <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Downloading</Text> :
+                        ? <Text style={{ fontSize: 12, color: Colors.GreenColor, fontWeight: '600' }}>Downloading</Text> :
                         status == 'Downloaded' ?
                             <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>Completed</Text>
+                                <Text style={{ fontSize: 12, color: Colors.GreenColor, fontWeight: '600' }}>Completed</Text>
                             </Text>
                             : status == 'Error' ? <></> :
-                                <Text style={{ fontSize: 12, color: kGreenColor, fontWeight: '600' }}>{status}</Text>
+                                <Text style={{ fontSize: 12, color: Colors.GreenColor, fontWeight: '600' }}>{status}</Text>
                     }
                 </View>
             </View>
@@ -91,7 +91,7 @@ const Downcomp: React.FC<DownCompProp> = ({ data }) => {
                     style={baby.crossBtn}
                     onPress={() => dispatch(removeDownloading({ id: id }))}
                 >
-                    <FontAwesome5Icon name='times-circle' size={24} color={kRedColor} />
+                    <FontAwesome5Icon name='times-circle' size={24} color={Colors.RedColor} />
                 </TouchableOpacity>
                 : <></>}
         </TouchableOpacity>

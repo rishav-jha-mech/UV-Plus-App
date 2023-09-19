@@ -7,10 +7,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import RNFS from 'react-native-fs';
 import formatFormatter from '../../Scripts/formatFormatter';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import { DOWNLOAD_PATH, kPrimaryColor, supWebsites } from '../../constants';
+import { DOWNLOAD_PATH, Colors, supWebsites } from '../../constants';
 import { VideoThumbCard, FileIconCard, RecentThumbCard } from './FileIconCard';
 import styles from './styles'
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppParamList } from '../../NAVIGATION';
 
 type RecentCompTypes = {
@@ -19,7 +19,7 @@ type RecentCompTypes = {
 
 
 
-type webStackProps = StackNavigationProp<AppParamList, 'WebStack'>;
+type webStackProps = NativeStackNavigationProp<AppParamList, 'WebStack'>;
 
 const Recent: React.FC<RecentCompTypes> = ({ perm }) => {
     if (perm === false) {
@@ -192,6 +192,6 @@ const Permi = () => {
 }
 const Loading = () => {
     return (
-        <View style={{ height: 190.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={kPrimaryColor} /></View>
+        <View style={{ height: 190.0, justifyContent: 'center' }}><ActivityIndicator size={55} color={Colors.PrimaryColor} /></View>
     );
 }

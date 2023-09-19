@@ -7,7 +7,7 @@ import VideoList from './VideoList';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
-import { kPrimaryColor, pLog, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
+import { Colors, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
 import { formatTime } from '../../Scripts/timeFormatter';
 import { FormatType, YTDLP_Options } from '../../types';
 import bytesConverter from '../../Scripts/bytesConverter';
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     header: {
         paddingHorizontal: 16.0,
         paddingVertical: 8.0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         elevation: 12
     },
     headerText: {
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         paddingVertical: 14.0,
         fontWeight: '800',
         textAlign: 'center',
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         color: '#fff',
         letterSpacing: 1.5
     },

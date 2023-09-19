@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Text, Pressable, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import bytesConverter from '../../Scripts/bytesConverter'
-import { ARP, SHWE, SAGO } from '../../env';
-import RNFS from 'react-native-fs';
-import { AppContext } from '../../context';
+import React, { useEffect, useState } from 'react';
+import { Pressable, Text } from 'react-native';
+import { AppParamList } from '../../NAVIGATION';
+import bytesConverter from '../../Scripts/bytesConverter';
+import CheckAndStartDownloadingBothVideoAndAudio from '../../Scripts/checkAndDownloadBothVideoAndAudio';
+import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
+import { Colors, pLog, pPrettyPrint } from '../../constants';
+import { ARP, SAGO, SHWE } from '../../env';
 import { useAppDispatch } from '../../hooks';
 import { FormatType } from '../../types';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AppParamList } from '../../NAVIGATION';
 import { listStyles } from './listStyles';
-import { kSecondaryColor, pLog, pPrettyPrint } from '../../constants';
-import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
-import CheckAndStartDownloadingBothVideoAndAudio from '../../Scripts/checkAndDownloadBothVideoAndAudio';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type VideoListType = {
     info: FormatType,
@@ -21,7 +19,7 @@ type VideoListType = {
     bestAudio: FormatType,
 }
 
-type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
+type downloadingProps = NativeStackNavigationProp<AppParamList, 'Downloading'>;
 
 const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) => {
 
@@ -43,7 +41,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     const [shwe, setShwe] = useState<boolean>(false)
     const [unknown, setUnknown] = useState<boolean>(false)
 
-    const [color, setColor] = useState<string>(kSecondaryColor)
+    const [color, setColor] = useState<string>(Colors.SecondaryColor)
 
     // Hooks for showing video only
     const [video, setVideo] = useState<boolean>(false)

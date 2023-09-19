@@ -1,25 +1,23 @@
-import React, { useState, useRef, createRef, useEffect } from 'react'
-import { StyleSheet, View, TextInput, TouchableOpacity, Modal, Text, Pressable, BackHandler } from 'react-native'
-import WebView from 'react-native-webview'
-import { useNavigation } from '@react-navigation/native';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import OctiIcon from 'react-native-vector-icons/Octicons';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { createRef, useRef, useState } from 'react';
+import { BackHandler, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import validator from 'validator'
-import copyToClipboard from '../../Scripts/copyToClipboard'
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import OctiIcon from 'react-native-vector-icons/Octicons';
+import WebView from 'react-native-webview';
+import validator from 'validator';
 import ModalCard from '../../Components/ModalCard';
-import toShare from '../../Scripts/toShare'
-import { ARP, SAGO, SHWE } from '../../env';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppParamList } from '../../NAVIGATION';
+import copyToClipboard from '../../Scripts/copyToClipboard';
+import toShare from '../../Scripts/toShare';
+import { Colors, modalStyle } from '../../constants';
+import { ARP, SAGO, SHWE } from '../../env';
 import { CardStateParams } from '../../types';
-import { kPrimaryColor, modalStyle, pLog, pPrettyPrint } from '../../constants';
 
-
-type webProps = StackNavigationProp<AppParamList, 'Web'>;
-type resultProp = StackNavigationProp<AppParamList, 'ResultStack'>;
+type webProps = NativeStackNavigationProp<AppParamList, 'Web'>;
+type resultProp = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
 
 const Web: React.FC<webProps> = () => {
     const route = useRoute<RouteProp<AppParamList, 'WebStack'>>();
@@ -230,7 +228,7 @@ export default Web
 const TopBar = StyleSheet.create({
     Container: {
         paddingVertical: 10,
-        backgroundColor: '#fff',
+        backgroundColor: Colors.PrimaryColor,
         flexDirection: "row",
         elevation: 2
     },
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
         borderRadius: 1000.0,
         bottom: 8.0,
         right: 10.0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         elevation: 1000.0
     }
 })

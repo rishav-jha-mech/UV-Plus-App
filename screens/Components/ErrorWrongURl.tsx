@@ -1,7 +1,7 @@
 import React, { createRef, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Lottie from 'lottie-react-native';
-import { kBrightRed, kDarkTextColor } from '../constants';
+import { Colors } from '../constants';
 
 type ErrorWrongURlProps = {
     message: string
@@ -41,7 +41,7 @@ export default ErrorWrongURl
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: kBrightRed,
+        backgroundColor: Colors.RedColor,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -57,6 +57,6 @@ const styles = StyleSheet.create({
         letterSpacing: 0.8,
         fontWeight: '700',
         lineHeight: 32,
-        color: kDarkTextColor
+        color: Colors.DarkTextColor
     }
 })

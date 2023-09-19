@@ -1,18 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import bytesConverter from '../../Scripts/bytesConverter';
-import RNFS from 'react-native-fs';
-import { AppContext } from '../../context';
-import { useAppDispatch } from '../../hooks';
-import { startDownloading } from '../../REDUX/DownloadSilce';
-import { FormatType } from '../../types';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { Pressable, Text } from 'react-native';
 import { AppParamList } from '../../NAVIGATION';
-import { listStyles } from './listStyles';
+import bytesConverter from '../../Scripts/bytesConverter';
 import CheckAndStartDownloading from '../../Scripts/checkAndStartDownload';
-import { pLog, pPrettyPrint } from '../../constants';
+import { pPrettyPrint } from '../../constants';
 import { SAGO } from '../../env';
+import { useAppDispatch } from '../../hooks';
+import { FormatType } from '../../types';
+import { listStyles } from './listStyles';
 
 type AudioListType = {
     info: FormatType,
@@ -22,7 +19,7 @@ type AudioListType = {
     setBestAudio: Function
 }
 
-type downloadingProps = StackNavigationProp<AppParamList, 'Downloading'>;
+type downloadingProps = NativeStackNavigationProp<AppParamList, 'Downloading'>;
 
 
 const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, setBestAudio }) => {

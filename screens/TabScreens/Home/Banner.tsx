@@ -1,17 +1,17 @@
-import React, { useState, createRef, useEffect } from 'react';
-import FeatherIcon from 'react-native-vector-icons/Feather'
+import React, { createRef, useEffect, useState } from 'react';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import isURL from 'validator/lib/isURL';
-import { aBannerImage, kPrimaryColor } from '../../constants';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { AppParamList } from '../../NAVIGATION';
 import StorageLeft from '../../Scripts/storageLeft';
+import { Colors } from '../../constants';
 
 
-type resultStackProps = StackNavigationProp<AppParamList, 'ResultStack'>;
-type webStackProps = StackNavigationProp<AppParamList, 'WebStack'>;
+type resultStackProps = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
+type webStackProps = NativeStackNavigationProp<AppParamList, 'WebStack'>;
 
 
 const Banner = () => {
@@ -43,9 +43,7 @@ const Banner = () => {
     return (<>
         <View style={styles.Banner}>
             <Text style={styles.storageStat}>{storageStat}</Text>
-            <ImageBackground source={aBannerImage} style={styles.BannerImageBG} resizeMode={"cover"} >
                 <Text style={styles.NavbarText}>Universal Downloader</Text>
-            </ImageBackground>
             <View style={styles.urlContainer}>
                 <TextInput
                     style={styles.Input}
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         marginBottom: 50
     },
     BannerImageBG: {
@@ -120,7 +118,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         right: 16,
         padding: 14.0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.PrimaryColor,
         borderRadius: 25,
     },
     storageStat:{
