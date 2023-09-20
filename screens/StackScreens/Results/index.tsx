@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
 import Loading from '../../Components/Loading';
 import { AppParamList } from '../../NAVIGATION';
@@ -62,8 +62,8 @@ const Results = () => {
         setError(false)
     }
     return loading ? (
-        <View style={styles.Container}>
-            <View style={[t`py-2`, { backgroundColor: Colors.PrimaryColor }]}>
+        <SafeAreaView style={t`flex-1 bg-white`}>
+            <View style={[t`h-16 justify-center`, { backgroundColor: Colors.PrimaryColor }]}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={t`p-2`}
@@ -72,15 +72,27 @@ const Results = () => {
                 </TouchableOpacity>
             </View>
             <Loading />
-        </View>
+        </SafeAreaView>
     ) : (error) ? (
         <ErrorWrongURl message={message} />
     ) : (
-        <View style={styles.Container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>{responseData?.title}</Text>
+        <SafeAreaView style={t`flex-1 bg-whtie`}>
+            <View style={t`h-16`}>
+                <ScrollView
+                    style={[t`flex-row`, { backgroundColor: Colors.PrimaryColor }]}
+                    horizontal
+                    contentContainerStyle={t`items-center`}
+                >
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={t`p-2 mr-2`}
+                    >
+                        <FontawesomeIcon name='arrow-left' size={24} color={Colors.WhiteColor} />
+                    </TouchableOpacity>
+                    <Text style={t`text-white text-lg`}>{responseData?.title}</Text>
+                </ScrollView>
             </View>
-            <ScrollView>
+            <ScrollView style={t`flex-1`}>
                 <View style={{ position: 'relative' }}>
                     <ImageBackground
                         style={[styles.Thumbnail, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }]}
@@ -88,7 +100,7 @@ const Results = () => {
                         blurRadius={10}
                     />
                     <Image style={styles.Thumbnail} source={{ uri: responseData?.thumbnail }} resizeMode={'contain'} />
-                    <Text style={styles.DurationHead} numberOfLines={1}>{duration}</Text>
+                    <Text style={t`absolute bottom-0 right-0 bg-black text-white text-sm py-2 px-3 rounded-l`} numberOfLines={1}>{duration}</Text>
                 </View>
                 <Text style={styles.Heading}>Audio Streams</Text>
                 {present ?
@@ -105,7 +117,7 @@ const Results = () => {
                             })}
                         </ScrollView>
                     </View>
-                    : <Text style={styles.nf}>No audio files present</Text>}
+                    : <Text style={t`py-8 text-center text-lg text-black font-semibold`}>No audio results present</Text>}
                 <Text style={styles.Heading}>Video Streams</Text>
                 {present ?
                     <View>
@@ -117,35 +129,21 @@ const Results = () => {
                             </View>
                             {formats.map((data, index) => {
                                 if (data.filesize == 0 || data.filesize_approx == 0) {
-                                    pPrettyPrint({ data })
+                                    // pPrettyPrint({ data })
                                 }
                                 return (<VideoListItem title={responseData?.title ?? ''} source={source} bestAudio={bestAudio} key={index} info={data} />)
                             })}
                         </ScrollView>
                     </View>
-                    : <Text style={styles.nf}>No video files present</Text>}
+                    : <Text style={t`py-8 text-center text-lg text-black font-semibold`}>No video results present</Text>}
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 
 export default Results
 
 const styles = StyleSheet.create({
-    header: {
-        paddingHorizontal: 16.0,
-        paddingVertical: 8.0,
-        backgroundColor: Colors.PrimaryColor,
-        elevation: 12
-    },
-    headerText: {
-        fontSize: 18.0,
-        color: '#fff'
-    },
-    Container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
     Thumbnail: {
         width: '100%',
         height: SCREEN_HEIGHT / 3,
@@ -160,17 +158,6 @@ const styles = StyleSheet.create({
         color: '#000',
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(0,0,0,0.1)'
-    },
-    DurationHead: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: '#fff',
-        position: 'absolute',
-        backgroundColor: '#000',
-        bottom: 0,
-        right: 0,
-        paddingHorizontal: 8.0,
-        paddingVertical: 5.0
     },
     Heading: {
         fontSize: 20,
@@ -191,8 +178,6 @@ const styles = StyleSheet.create({
     },
     nf: {
         color: '#fff',
-        // backgroundColor: 'orangered',
-        // paddingVertical: 16,
         textAlign: 'center',
         fontWeight: '700',
         fontSize: 18,

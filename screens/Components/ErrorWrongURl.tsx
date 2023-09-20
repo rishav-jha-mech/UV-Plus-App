@@ -15,7 +15,7 @@ const ErrorWrongURl: React.FC<ErrorWrongURlProps> = ({ message }) => {
 
     return (
         <SafeAreaView style={[t`flex-1`, { backgroundColor: Colors.WhiteColor }]}>
-            <View style={[t`py-2`, { backgroundColor: Colors.PrimaryColor }]}>
+            <View style={[t`h-16 justify-center`, { backgroundColor: Colors.PrimaryColor }]}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={t`p-2`}
