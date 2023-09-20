@@ -1,15 +1,13 @@
-import React, { createRef, useEffect, useState, useRef } from 'react';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import { AppState } from 'react-native';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { createRef, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import t from 'twrnc';
 import isURL from 'validator/lib/isURL';
 import { AppParamList } from '../../NAVIGATION';
 import StorageLeft from '../../Scripts/storageLeft';
 import { Colors } from '../../constants';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import t from 'twrnc'
 
 
 type resultStackProps = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
@@ -25,25 +23,6 @@ const Banner = () => {
     const [storageStat, setStorageStat] = useState<string>('')
 
     const inputRef = createRef<TextInput>();
-
-    const appState = useRef(AppState.currentState);
-    useEffect(() => {
-        const subscription = AppState.addEventListener('change', nextAppState => {
-            if (
-                appState.current.match(/inactive|background/) &&
-                nextAppState === 'active'
-            ) {
-
-            }
-
-            appState.current = nextAppState;
-            console.log('AppState', appState.current);
-        });
-
-        return () => {
-            subscription.remove();
-        };
-    }, []);
 
     const PostReq = (url: string) => {
         if (isURL(url)) {
@@ -77,7 +56,9 @@ const Banner = () => {
             <Text style={styles.NavbarText}>Universal Downloader</Text>
             <View style={styles.urlContainer}>
                 <TextInput
-                    style={styles.Input}
+                    style={[t`h-14 rounded-full pl-6 pr-18 w-full bg-white`,{
+                        elevation: 7
+                    }]}
                     ref={inputRef}
                     placeholder="Enter url or search"
                     keyboardType="url"
@@ -136,14 +117,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: 20.0,
         paddingHorizontal: 12,
-    },
-    Input: {
-        backgroundColor: '#fff',
-        flex: 1,
-        fontSize: 16.0,
-        borderRadius: 50.0,
-        padding: 16.0,
-        elevation: 12.0,
     },
     Search: {
         position: 'absolute',

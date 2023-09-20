@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
-import { Colors } from '../../constants';
+import React, { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import ReadPermission from '../../Scripts/ReadPermission';
 import Banner from './Banner'; // Every thing happens here !
 import Recent from './Recent';
@@ -23,17 +22,3 @@ const Home: React.FC = () => {
 }
 
 export default Home
-
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: '#fcfcfc',
-    },
-    btn: {
-        backgroundColor: Colors.PrimaryColor,
-        marginBottom: 20.0,
-        paddingHorizontal: 16.0,
-        paddingVertical: 16.0,
-        borderRadius: 8.0
-    }
-})

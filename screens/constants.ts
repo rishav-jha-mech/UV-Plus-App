@@ -2,7 +2,9 @@ import RNFS from 'react-native-fs';;
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const appName: string = 'UV Downloader'
-
+export const AMAZON_STORE_URL: string = ''
+export const MAIL_ID: string = 'rdjinc.official@gmail.com'
+export const PRIVACY_POLICY_URL: string  = 'https://github.com/Lannister-Labs/Universal-Donwnloader/'
 
 // Colours
 
@@ -101,9 +103,6 @@ export const pLog = (arg?: any): void => console.log(arg);
 export const pWarn = (arg?: any): void => console.warn(arg);
 export const pError = (arg?: any): void => console.error(arg);
 
-// Asset Images
-
-export const aBannerImage = require('./assets/img/banner.png');
 
 // Paths
 

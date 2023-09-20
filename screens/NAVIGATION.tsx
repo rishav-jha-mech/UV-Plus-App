@@ -19,8 +19,9 @@ import { AppContext } from './context';
 import StartDownload from './Scripts/Download';
 import { Colors } from './constants';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import CustomDrawer from './customDrawer';
-
+import CustomDrawer from './Components/customDrawer';
+import { View } from 'react-native';
+import t from 'twrnc'
 
 export type AppParamList = {
   HomeTab: undefined;
@@ -41,6 +42,11 @@ const HomeTabNavigation: React.FC<AppParamList> = () => {
       screenOptions={{
         headerShown: false,
         // tabBarShowLabel: false,
+        tabBarBackground: () => (
+          <View style={[t`h-full w-100`,{
+            backgroundColor: Colors.PrimaryColor
+          }]}></View>
+        ),
         tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
@@ -50,8 +56,8 @@ const HomeTabNavigation: React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='home' color={color} size={size} />
           ),
-          tabBarActiveTintColor: Colors.PrimaryColor,
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: Colors.SecondaryColor,
+          tabBarInactiveTintColor: 'rgba(254,254,254,0.85)',
         }}
       />
       <Tab.Screen
@@ -61,8 +67,8 @@ const HomeTabNavigation: React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <OctiIcon name='globe' color={color} size={size} />
           ),
-          tabBarActiveTintColor: Colors.PrimaryColor,
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: Colors.SecondaryColor,
+          tabBarInactiveTintColor: 'rgba(254,254,254,0.85)',
         }}
       />
       <Tab.Screen
@@ -72,8 +78,8 @@ const HomeTabNavigation: React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <IonIcon name='ios-folder-outline' color={color} size={size} />
           ),
-          tabBarActiveTintColor: Colors.PrimaryColor,
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: Colors.SecondaryColor,
+          tabBarInactiveTintColor: 'rgba(254,254,254,0.85)',
         }}
       />
 
@@ -84,8 +90,8 @@ const HomeTabNavigation: React.FC<AppParamList> = () => {
           tabBarIcon: ({ color, size }) => (
             <FeatherIcon name='download' color={color} size={size} />
           ),
-          tabBarActiveTintColor: Colors.PrimaryColor,
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: Colors.SecondaryColor,
+          tabBarInactiveTintColor: 'rgba(254,254,254,0.85)',
         }}
       />
     </Tab.Navigator>
@@ -102,7 +108,7 @@ const DrawerNav = () => {
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-      <Drawer.Screen name="Home Tab" component={HomeTabNavigation} />
+      <Drawer.Screen name="HomeTab" component={HomeTabNavigation} />
     </Drawer.Navigator>
   );
 }
