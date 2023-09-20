@@ -1,7 +1,8 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { createRef, useRef, useState } from 'react';
-import { BackHandler, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -12,10 +13,9 @@ import ModalCard from '../../Components/ModalCard';
 import { AppParamList } from '../../NAVIGATION';
 import copyToClipboard from '../../Scripts/copyToClipboard';
 import toShare from '../../Scripts/toShare';
-import { Colors, modalStyle } from '../../constants';
+import { Colors, ProdAdIds, modalStyle } from '../../constants';
 import { ARP, SAGO, SHWE } from '../../env';
 import { CardStateParams } from '../../types';
-import { useFocusEffect } from '@react-navigation/native';
 
 type webProps = NativeStackNavigationProp<AppParamList, 'Web'>;
 type resultProp = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
@@ -189,6 +189,13 @@ const Web: React.FC<webProps> = () => {
                 // renderLoading={true}
                 // ...
                 setSupportMultipleWindows={false} // We dont want the user to go out of our app
+            />
+            <BannerAd
+                unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.WebBottomAd}
+                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                requestOptions={{
+                    requestNonPersonalizedAdsOnly: true,
+                }}
             />
             {downloadable ?
                 <TouchableOpacity

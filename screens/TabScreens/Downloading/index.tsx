@@ -5,7 +5,8 @@ import StorageLeft from '../../Scripts/storageLeft';
 import { useAppSelector } from '../../hooks';
 import Downcomp from './Downcomp';
 import t from 'twrnc'
-import { Colors } from '../../constants';
+import { Colors, ProdAdIds } from '../../constants';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
 const Downloading: React.FC = () => {
 
@@ -19,7 +20,7 @@ const Downloading: React.FC = () => {
 
 	return (
 		<View style={t`flex-1`}>
-			<View style={[t`flex-row justify-between items-center px-3`,{
+			<View style={[t`flex-row justify-between items-center px-3`, {
 				backgroundColor: Colors.PrimaryColor
 			}]}>
 				<Text style={t`text-lg text-white py-4.5`}>Downloading</Text>
@@ -38,6 +39,13 @@ const Downloading: React.FC = () => {
 						return <Downcomp key={data.index} data={data.item} />
 					}} />
 			}
+			<BannerAd
+				unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.DownloadingBottomAd}
+				size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+				requestOptions={{
+					requestNonPersonalizedAdsOnly: true,
+				}}
+			/>
 		</View>
 	)
 }

@@ -4,12 +4,13 @@ import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import t from 'twrnc'
-import { Colors, MAIL_ID, PRIVACY_POLICY_URL } from '../constants'
+import { Colors, MAIL_ID, PRIVACY_POLICY_URL, ProdAdIds } from '../constants'
 import { Alert, Linking } from 'react-native'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import IoniIcon from 'react-native-vector-icons/Ionicons'
 import onShare from '../Scripts/onsShare'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 const CustomDrawer = (props: DrawerContentComponentProps) => {
     const insets = useSafeAreaInsets();
@@ -80,6 +81,15 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                 <FeatherIcon style={t`mr-3`} name='mail' color={Colors.PrimaryColor} size={19} />
                 <Text style={[btnText]}>Contact us</Text>
             </TouchableOpacity>
+            <View style={t`mt-4`}>
+                <BannerAd
+                    unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.DrawerBottomAd}
+                    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: true,
+                    }}
+                />
+            </View>
         </DrawerContentScrollView>
     )
 }

@@ -1,18 +1,20 @@
+import analytics from '@react-native-firebase/analytics';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
+import { Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import t from 'twrnc';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
 import Loading from '../../Components/Loading';
 import { AppParamList } from '../../NAVIGATION';
 import { formatTime } from '../../Scripts/timeFormatter';
-import { Colors, SCREEN_HEIGHT, pPrettyPrint } from '../../constants';
+import { Colors, ProdAdIds, SCREEN_HEIGHT, pPrettyPrint } from '../../constants';
 import { SERVER_URL } from '../../env';
 import { FormatType, YTDLP_Options } from '../../types';
 import AudioListItem from './AudioListItem';
 import VideoListItem from './VideoListItem';
-import t from 'twrnc'
-import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 const Results = () => {
 
@@ -34,6 +36,28 @@ const Results = () => {
         ReqData(url)
     }, []);
 
+    const showAD = async () => {
+        const interstitialAd = await InterstitialAd.createForAdRequest(
+            __DEV__ ?
+                TestIds.INTERSTITIAL
+                : ProdAdIds.ResultInterstitial
+        );
+
+        interstitialAd.addAdEventListener(AdEventType.LOADED, () => {
+            interstitialAd.show();
+        });
+
+        interstitialAd.load();
+    }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            showAD();
+        }, 8000);
+        return () => {
+            clearTimeout(timer);
+        }
+    }, [])
     useEffect(() => {
     }, [bestAudio]);
 
@@ -44,12 +68,20 @@ const Results = () => {
                 uri: url,
             })
             handleRes(res?.data)
+            await analytics().logEvent('API_Call_Successful', {
+                url: url,
+                data: res.data
+            })
         }
         catch (e: any) {
             pPrettyPrint(e)
             setMessage(e?.message)
             setLoading(false);
             setError(true);
+            await analytics().logEvent('API_Call_Unsuccessful', {
+                url: url,
+                error: e
+            })
         }
     }
     const handleRes = (data: YTDLP_Options) => {

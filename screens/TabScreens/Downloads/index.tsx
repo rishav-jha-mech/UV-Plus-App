@@ -8,9 +8,10 @@ import Loading from '../../Components/Loading';
 import PermissionNotGiven from '../../Components/PermissionNotGiven';
 import RenameFile from '../../Components/renameFileDialog';
 import ReadPermission from '../../Scripts/ReadPermission';
-import { Colors, DOWNLOAD_PATH, modalStyle } from '../../constants';
+import { Colors, DOWNLOAD_PATH, ProdAdIds, modalStyle } from '../../constants';
 import FileList from './FileList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
 const Downloads: React.FC = () => {
 
@@ -145,6 +146,13 @@ const Downloads: React.FC = () => {
                             }}
                         />
                 }
+                <BannerAd
+                    unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.DownloadsBottomAd}
+                    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: true,
+                    }}
+                />
             </View>
 
             {/* Deleting Animation Modal */}

@@ -1,6 +1,18 @@
 import RNFS from 'react-native-fs';;
 import { StyleSheet, Dimensions } from 'react-native';
 
+// Admob Production Ids
+export const ProdAdIds = {
+    ResultInterstitial: 'ca-app-pub-3828171120772338/4602093639',
+    HomeInterstitial: 'ca-app-pub-3828171120772338/3778012844',
+    HomeBottomAd: 'ca-app-pub-3828171120772338/6134667158',
+    HomeBottomAd2: 'ca-app-pub-3828171120772338/6565911997',
+    WebBottomAd: 'ca-app-pub-3828171120772338/7830892206',
+    DownloadsBottomAd: 'ca-app-pub-3828171120772338/8790666376',
+    DownloadingBottomAd: 'ca-app-pub-3828171120772338/2714296893',
+    DrawerBottomAd: 'ca-app-pub-3828171120772338/5699004144'
+}
+
 export const appName: string = 'UV Downloader'
 export const AMAZON_STORE_URL: string = ''
 export const MAIL_ID: string = 'rdjinc.official@gmail.com'

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "511595607180",
+    "project_id": "uv-downloader-56cd3",
+    "storage_bucket": "uv-downloader-56cd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511595607180:android:07e0166175cca330c9f7a9",
+        "android_client_info": {
+          "package_name": "com.uvdownloader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbOavYMxCQWEYevrfY7wa29u5C0BkbPiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

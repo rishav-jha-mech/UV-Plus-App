@@ -1,4 +1,7 @@
 {
   "name": "UVDownloader",
-  "displayName": "UVDownloader"
+  "displayName": "UVDownloader",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3828171120772338~2031221877"
+  }
 }
