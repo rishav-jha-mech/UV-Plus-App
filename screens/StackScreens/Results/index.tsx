@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Image, ImageBackground } from 'react-native'
-import axios, { AxiosResponse } from 'axios'
-import Loading from '../../Components/Loading';
-import AudioList from './AudioList';
-import VideoList from './VideoList';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import axios, { AxiosResponse } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ErrorWrongURl from '../../Components/ErrorWrongURl';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import Loading from '../../Components/Loading';
 import { AppParamList } from '../../NAVIGATION';
-import { Colors, pPrettyPrint, SCREEN_HEIGHT } from '../../constants';
 import { formatTime } from '../../Scripts/timeFormatter';
-import { FormatType, YTDLP_Options } from '../../types';
-import bytesConverter from '../../Scripts/bytesConverter';
+import { Colors, SCREEN_HEIGHT, pPrettyPrint } from '../../constants';
 import { SERVER_URL } from '../../env';
-
+import { FormatType, YTDLP_Options } from '../../types';
+import AudioListItem from './AudioListItem';
+import VideoListItem from './VideoListItem';
+import t from 'twrnc'
+import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 const Results = () => {
 
@@ -28,6 +28,7 @@ const Results = () => {
     const { url } = route.params;
     const [present, setPresent] = useState(true)
     const [bestAudio, setBestAudio] = useState<FormatType>({ filesize: 0 })
+    const navigation = useNavigation();
 
     useEffect(() => {
         ReqData(url)
@@ -44,7 +45,7 @@ const Results = () => {
             })
             handleRes(res?.data)
         }
-        catch (e:any) {
+        catch (e: any) {
             pPrettyPrint(e)
             setMessage(e?.message)
             setLoading(false);
@@ -62,6 +63,14 @@ const Results = () => {
     }
     return loading ? (
         <View style={styles.Container}>
+            <View style={[t`py-2`, { backgroundColor: Colors.PrimaryColor }]}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={t`p-2`}
+                >
+                    <FontawesomeIcon name='arrow-left' size={24} color={Colors.WhiteColor} />
+                </TouchableOpacity>
+            </View>
             <Loading />
         </View>
     ) : (error) ? (
@@ -91,7 +100,7 @@ const Results = () => {
                                 <Text style={styles.optText}>Size</Text>
                             </View>
                             {formats.map((data, index) => {
-                                return (<AudioList title={responseData?.title ?? ''} bestAudio={bestAudio} setBestAudio={setBestAudio} source={source} key={index} info={data} />)
+                                return (<AudioListItem title={responseData?.title ?? ''} bestAudio={bestAudio} setBestAudio={setBestAudio} source={source} key={index} info={data} />)
 
                             })}
                         </ScrollView>
@@ -107,7 +116,10 @@ const Results = () => {
                                 <Text style={styles.optText}>Size</Text>
                             </View>
                             {formats.map((data, index) => {
-                                return (<VideoList title={responseData?.title ?? ''} source={source} bestAudio={bestAudio} key={index} info={data} />)
+                                if (data.filesize == 0 || data.filesize_approx == 0) {
+                                    pPrettyPrint({ data })
+                                }
+                                return (<VideoListItem title={responseData?.title ?? ''} source={source} bestAudio={bestAudio} key={index} info={data} />)
                             })}
                         </ScrollView>
                     </View>

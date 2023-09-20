@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, Alert } from 'react-native';
 import { AppParamList } from '../../NAVIGATION';
 import bytesConverter from '../../Scripts/bytesConverter';
 import CheckAndStartDownloadingBothVideoAndAudio from '../../Scripts/checkAndDownloadBothVideoAndAudio';
@@ -12,21 +12,27 @@ import { FormatType } from '../../types';
 import { listStyles } from './listStyles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type VideoListType = {
+type VideoListItemType = {
     info: FormatType,
     source: string,
     title: string,
-    bestAudio: FormatType,
+    bestAudio?: FormatType,
 }
 
 type downloadingProps = NativeStackNavigationProp<AppParamList, 'Downloading'>;
 
-const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) => {
+const VideoListItem: React.FC<VideoListItemType> = ({ info, source, title, bestAudio }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
     const CheckAndStart = (url: string, ext: string) => CheckAndStartDownloading(title, ext, url, dispatch, navigation);
-    const CheckAndStartVideoAndAudio = (url: string, ext: string) => CheckAndStartDownloadingBothVideoAndAudio(title, ext, url, dispatch, navigation, bestAudio);
+    const CheckAndStartVideoAndAudio = (url: string, ext: string) => {
+        if (bestAudio) {
+            CheckAndStartDownloadingBothVideoAndAudio(title, ext, url, dispatch, navigation, bestAudio)
+        } else {
+            Alert.alert('Error', 'No audiio available for this video, try to download other video instead')
+        }
+    }
 
     const [filesize, setFilesize] = useState<string>('')
     const [format, setFormat] = useState<string>('')
@@ -56,7 +62,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
         else if (source.includes(SHWE)) { setShwe(true); Shwe(info) } // Has only 2 streams High and Low Quality name will not be disclosed in the Source Code
         else { setUnknown(true); Unknown(info) } // This will plainly render all the video streams 
         // For setting up formats and other stuffs before rendering
-        setExt(info.ext)
+        setExt(info?.ext ?? '')
     }, [info])
 
 
@@ -93,7 +99,7 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             else if (info.format_id.includes("sd")) { setFormat("SD Video") }
             else if (info.format_id.includes("hd")) { setFormat("HD Video") }
             else { setFormat(info.format) }
-        } else if (info.ext !== 'm4a') {
+        } else if (info?.ext !== 'm4a') {
             setVideo(true)
             setColor("pink")
             GiveTheFileSize();
@@ -139,11 +145,11 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
     const GiveTheFileSize = (): void => {
         setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ?? 0));
     }
-    return (youtube && video) ? (
+    return (filesize === '0 B') ? <></> : (youtube && video) ? (
         <Pressable
             style={[listStyles.Container]}
             onPress={() => {
-                color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
+                color == "red" ? CheckAndStart(info.url, info?.ext ?? '') : CheckAndStartVideoAndAudio(info.url, info?.ext ?? '')
             }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
@@ -155,62 +161,62 @@ const VideoList: React.FC<VideoListType> = ({ info, source, title, bestAudio }) 
             <Pressable
                 style={[listStyles.Container]}
                 onPress={() => {
-                    color == "red" ? CheckAndStart(info.url, info.ext) : CheckAndStartVideoAndAudio(info.url, info.ext)
+                    color == "red" ? CheckAndStart(info.url, info?.ext ?? '') : CheckAndStartVideoAndAudio(info.url, info?.ext ?? '')
                 }}
             >
                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-                <Text style={listStyles.TheText}> {info.ext}</Text>
+                <Text style={listStyles.TheText}> {info?.ext ?? ''}</Text>
                 <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
             </Pressable>
         ) :
             (instagram) ? (
                 <Pressable
                     style={listStyles.Container}
-                    onPress={() => { CheckAndStart(info.url, info.ext) }}
+                    onPress={() => { CheckAndStart(info.url, info?.ext ?? '') }}
                 >
                     <Text style={[listStyles.TheText, listStyles.format]}> ({info.height} x {info.width}) Video </Text>
-                    <Text style={listStyles.TheText}> {info.ext}</Text>
+                    <Text style={listStyles.TheText}> {info?.ext ?? ''}</Text>
                 </Pressable>
             ) :
                 (arp && video) ? (
                     <Pressable
                         style={listStyles.Container}
-                        onPress={() => { CheckAndStart(info.url, info.ext) }}
+                        onPress={() => { CheckAndStart(info.url, info?.ext ?? '') }}
                     >
                         <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-                        <Text style={listStyles.TheText}> {info.ext} </Text>
+                        <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
                         <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                     </Pressable>
                 ) :
                     (sago && video) ? (
                         <Pressable
                             style={listStyles.Container}
-                            onPress={() => { CheckAndStart(info.url, info.ext) }}
+                            onPress={() => { CheckAndStart(info.url, info?.ext ?? '') }}
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-                            <Text style={listStyles.TheText}> {info.ext} </Text>
+                            <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
                             <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                         </Pressable>
                     ) : (shwe && video) ? (
                         <Pressable
                             style={listStyles.Container}
-                            onPress={() => { CheckAndStart(info.url, info.ext) }}
+                            onPress={() => { CheckAndStart(info.url, info?.ext ?? '') }}
                         >
                             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-                            <Text style={listStyles.TheText}> {info.ext} </Text>
-                        <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
+                            <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
+                            <Text style={listStyles.TheText}> {filesize == '0 B' ? 'Unknown' : filesize}</Text>
                         </Pressable>
                     ) :
                         (unknown && video) ? (
                             <Pressable
                                 style={listStyles.Container}
-                                onPress={() => { CheckAndStart(info.url, info.ext) }}
+                                onPress={() => { CheckAndStart(info.url, info?.ext ?? '') }}
                             >
                                 <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-                                <Text style={listStyles.TheText}> {info.ext} </Text>
+                                <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
                                 <Text style={listStyles.TheText}> {bytesConverter(info.filesize ?? info.filesize_approx ?? 0)} </Text>
                             </Pressable>
                         ) : (<></>)
 }
 
-export default VideoList
+export default VideoListItem

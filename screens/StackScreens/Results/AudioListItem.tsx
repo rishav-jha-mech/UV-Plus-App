@@ -11,7 +11,7 @@ import { useAppDispatch } from '../../hooks';
 import { FormatType } from '../../types';
 import { listStyles } from './listStyles';
 
-type AudioListType = {
+type AudioListItemType = {
     info: FormatType,
     source: string,
     title: string,
@@ -22,7 +22,7 @@ type AudioListType = {
 type downloadingProps = NativeStackNavigationProp<AppParamList, 'Downloading'>;
 
 
-const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, setBestAudio }) => {
+const AudioListItem: React.FC<AudioListItemType> = ({ info, source, title, bestAudio, setBestAudio }) => {
 
     const navigation = useNavigation<downloadingProps>();
     const dispatch = useAppDispatch();
@@ -65,16 +65,16 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
         if (info.height == null && info.ext !== 'webm') {
             // pPrettyPrint(info)
             // Set audio then check if it is the best audio and repeat the process
-            if (bestAudio?.filesize !== null || bestAudio?.filesize !== undefined) {
+            if (bestAudio && bestAudio?.filesize !== null || bestAudio?.filesize !== undefined) {
                 // pLog('bestAudio.filesize is not null or undefined')
                 // pLog('bestAudio.filesize: ' + bestAudio?.filesize)
-                if (info.filesize > bestAudio!.filesize) {
+                if (info.filesize > bestAudio.filesize) {
                     setBestAudio(info)
                 }
             }
 
             setAudio(true);
-            setFilesize(bytesConverter(info.filesize ?? info.filesize_approx));
+            setFilesize(bytesConverter(info?.filesize ?? info?.filesize_approx));
         }
     }
     const Facebook = (info: FormatType) => {
@@ -101,13 +101,13 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
     const GiveTheFileSize = (): void => {
         setFilesize(bytesConverter(info.filesize ?? info.filesize_approx ?? 0));
     }
-    return (youtube && audio) ? (
+    return filesize === '0 B' ? <></> : (youtube && audio) ? (
         <Pressable
             style={listStyles.Container}
             onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format ? format : 'Not Present'} </Text>
-            <Text style={listStyles.TheText}> {ext}</Text>
+            <Text style={listStyles.TheText}> {ext ?? ''}</Text>
             <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) : (facebook && audio) ? (
@@ -116,21 +116,21 @@ const AudioList: React.FC<AudioListType> = ({ info, source, title, bestAudio, se
             onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-            <Text style={listStyles.TheText}> {info.ext} </Text>
+            <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
             <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) : (instagram) ? (
-        <Text style={listStyles.nf}>We Dont Do That Here</Text>
+        <Text style={listStyles.nf}>No audios available for instagram</Text>
     ) : (sago && audio) ? (
         <Pressable
             style={listStyles.Container}
             onPress={() => { CheckAndStart(info.url, info.ext) }}
         >
             <Text style={[listStyles.TheText, listStyles.format]}> {format} </Text>
-            <Text style={listStyles.TheText}> {info.ext} </Text>
+            <Text style={listStyles.TheText}> {info?.ext ?? ''} </Text>
             <Text style={listStyles.TheText}> {filesize ? filesize : 'Unknown'}</Text>
         </Pressable>
     ) : (<></>)
 }
 
-export default AudioList
+export default AudioListItem

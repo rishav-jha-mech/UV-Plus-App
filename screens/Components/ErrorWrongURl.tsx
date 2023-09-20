@@ -1,6 +1,9 @@
-import React, { createRef, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import t from 'twrnc';
 import { Colors } from '../constants';
+import { useNavigation } from '@react-navigation/native';
+import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 type ErrorWrongURlProps = {
     message: string
@@ -8,10 +11,22 @@ type ErrorWrongURlProps = {
 
 const ErrorWrongURl: React.FC<ErrorWrongURlProps> = ({ message }) => {
 
+    const navigation = useNavigation();
+
     return (
-        <View style={styles.Container}>
-            <View style={styles.Card}>
-                <Text>
+        <SafeAreaView style={[t`flex-1`, { backgroundColor: Colors.WhiteColor }]}>
+            <View style={[t`py-2`, { backgroundColor: Colors.PrimaryColor }]}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={t`p-2`}
+                >
+                    <FontawesomeIcon name='arrow-left' size={24} color={Colors.WhiteColor} />
+                </TouchableOpacity>
+            </View>
+            <View style={t`flex-1 items-center justify-center`}>
+                <Text style={[t`text-4xl font-semibold`, {
+                    color: Colors.PrimaryColor
+                }]}>
                     {
 
                         message.includes('500') ?
@@ -20,35 +35,12 @@ const ErrorWrongURl: React.FC<ErrorWrongURlProps> = ({ message }) => {
                     }
 
                 </Text>
-                <Text style={styles.Text}>
+                <Text style={t`text-white`}>
                     {message.includes('500') ? 'Entered URL is not supported' : message.includes('Network Error') ? 'Switch on your Mobile Data or Wifi to use the internet' : message}
                 </Text>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
 export default ErrorWrongURl
-
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: Colors.RedColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    Card: {
-        borderRadius: 8,
-        padding: 16,
-        margin: 10,
-        alignItems: 'center'
-    },
-    Text: {
-        textAlign: 'center',
-        fontSize: 24,
-        letterSpacing: 0.8,
-        fontWeight: '700',
-        lineHeight: 32,
-        color: Colors.DarkTextColor
-    }
-})
