@@ -10,6 +10,7 @@ import RenameFile from '../../Components/renameFileDialog';
 import ReadPermission from '../../Scripts/ReadPermission';
 import { Colors, DOWNLOAD_PATH, modalStyle } from '../../constants';
 import FileList from './FileList';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Downloads: React.FC = () => {
 
@@ -122,6 +123,10 @@ const Downloads: React.FC = () => {
                                     onRefresh={() => ReadFiles()}
                                 />
                             }
+                            ListFooterComponent={() => (filestats.length !== 0 ? <View style={t`flex-row items-center justify-center`}>
+                                <FontAwesome5 name='arrow-down' color={Colors.DarkTextColor} style={t`mr-2`} />
+                                <Text style={t`my-4 text-black text-sm text-center`}>Pull down to refresh</Text>
+                            </View> : null)}
                             estimatedItemSize={100}
                             renderItem={(info) => {
                                 return (
@@ -158,7 +163,7 @@ const Downloads: React.FC = () => {
             <Modal style={{ flex: 1 }} visible={showRenameModal} transparent={true} animationType={'fade'}>
                 <Pressable style={modalStyle.Container}>
                     <View style={[modalStyle.CardGeneric, { alignItems: 'flex-start', justifyContent: 'flex-start' }]}>
-                        <Text style={modalStyle.h1}>Rename File</Text>
+                        <Text style={t`text-xl mb-8 font-semibold text-black`}>Rename File</Text>
                         <TextInput
                             autoFocus={true}
                             placeholder='Enter File Name'

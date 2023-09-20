@@ -1,17 +1,19 @@
-const TimeStampToDate = (date: Date) => {
+const TimeStampToDate = (param: Date) => {
+    try {
+        const date = new Date(param); 
 
-    var Localdate = new Date(date);
-    let hours: any = date.getHours();
-    let minutes: any = date.getMinutes();
-    let ampm: string = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    const strTime = hours + ':' + minutes + ' ' + ampm;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    const LocalDateString = `${ModTime(`${Localdate.getDate()}`)}-${ModTime(`${parseInt(`${Localdate.getMonth()}`)}` + 1)}-${Localdate.getFullYear()}  ${strTime}`
+        const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
+        return formattedDateTime;
 
-    return LocalDateString
+    } catch (error) {
+        return 'Unknown'
+    }
 }
 
 const ModTime = (anytime: string) => { // This function will add zeroes to the starting of Dates and Months

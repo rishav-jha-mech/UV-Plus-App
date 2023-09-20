@@ -11,6 +11,7 @@ import TimeStampToDate from '../../Scripts/TimeStampToDate';
 import bytesConverter from '../../Scripts/bytesConverter';
 import formatFormatter from '../../Scripts/formatFormatter';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import t from 'twrnc'
 
 type FileType = {
     data: RNFS.ReadDirItem,
@@ -28,7 +29,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
 
     const ext = formatFormatter(name);
     const fileSize = (bytesConverter(size))
-    const date = (TimeStampToDate(mtime))
+    const date = mtime && (TimeStampToDate(mtime))
 
     const [showOptions, setShowOptions] = useState(false);
     return (
@@ -38,7 +39,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                 activeOpacity={0.75}
                 onPress={() => {
                     showOptions ? setShowOptions(!showOptions) :
-                        OpenFile(path,name)
+                        OpenFile(path, name)
                 }}>
                 <View style={styles.fileIcon}>
                     <FileIcon size={40.0} ext={ext} />
@@ -47,14 +48,18 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                     <Text style={styles.Title} numberOfLines={2}>{name}</Text>
                     <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{ext ? ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
                 </View>
-                <Pressable
-                    style={styles.elipsi}
+                <TouchableOpacity
+                    style={[styles.elipsi, t``]}
                     onPress={() => {
                         setShowOptions(!showOptions);
                     }}
                 >
-                    <IonIcon name='ellipsis-vertical' color={'#666'} size={20} />
-                </Pressable>
+                    {showOptions ?
+                        <MaterialIcon name='close' color={Colors.DarkTextColor} size={20} />
+                        :
+                        <IonIcon name='ellipsis-vertical' color={Colors.DarkTextColor} size={20} />
+                    }
+                </TouchableOpacity>
             </TouchableOpacity>
             {showOptions ?
                 <View style={styles.dropdown}>
@@ -71,7 +76,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         <View style={styles.iconContainer}>
                             <MaterialIcon name='circle-edit-outline' size={20} color={Colors.BlueColor} />
                         </View>
-                        <Text style={{color: Colors.DarkTextColor}}>
+                        <Text style={{ color: Colors.DarkTextColor }}>
                             Rename File
                         </Text>
                     </TouchableOpacity>
@@ -85,7 +90,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         <View style={styles.iconContainer}>
                             <IonIcon name='trash-outline' size={20} color={Colors.RedColor} />
                         </View>
-                        <Text style={{color: Colors.DarkTextColor}}>
+                        <Text style={{ color: Colors.DarkTextColor }}>
                             Delete File
                         </Text>
                     </TouchableOpacity>

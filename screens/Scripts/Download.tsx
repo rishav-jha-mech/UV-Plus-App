@@ -8,7 +8,7 @@ import { downloadedSuccessfully, errorDownloading, setDownloadedFileSize, setFil
 const StartDownload = (payload: PayloadParams, dispatch: Function): void => {
 
     Alert.alert(
-        '',
+        'Download Started',
         'Download Started Check Downloading Tab For Progress'
     );
     const errorParams: raiseErrorParams = {
@@ -22,7 +22,7 @@ const StartDownload = (payload: PayloadParams, dispatch: Function): void => {
             // Check the comments below
             if (res.statusCode == 200) {
                 Alert.alert(
-                    '',
+                    'Download Successful',
                     `${payload.filename} downloaded successfully`,
                 )
                 dispatch(downloadedSuccessfully({

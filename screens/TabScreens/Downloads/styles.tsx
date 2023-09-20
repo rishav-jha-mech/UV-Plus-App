@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "../../constants";
 
 
 export const styles = StyleSheet.create({
@@ -7,6 +8,8 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         height: 85,
+        borderBottomColor: 'rgba(0,0,0,0.12)',
+        borderBottomWidth: 1
     },
     fileIcon: {
         paddingLeft: 18.0,
@@ -42,14 +45,14 @@ export const styles = StyleSheet.create({
     elipsi: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 8.0,
+        paddingHorizontal: 12.0,
     },
     dropdown: {
         backgroundColor: '#fff',
         elevation: 5,
         position: 'absolute',
         bottom: 6.0,
-        right: 36.0,
+        right: 44.0,
         borderRadius: 6.0,
         paddingVertical: 4.0,
         minWidth: 140.0

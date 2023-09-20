@@ -1,6 +1,8 @@
 import React from 'react'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MusicIcon from '../assets/music';
+import VideoIcon from '../assets/video';
 
 type FileIconType = {
     ext: string,
@@ -27,14 +29,14 @@ const FileIcon: React.FC<FileIconType> = ({ ext, size }) => {
         ext.includes('mkv') ||
         ext.includes('webm')
 
-    ) return <FontAwesome5Icon name='file-video' size={size} color={'dodgerblue'} />
+    ) return <VideoIcon />
     else if (
         ext.includes('m4a') ||
         ext.includes('mp3') ||
         ext.includes('wav') ||       // AUDIO EXTENTIONS
         ext.includes('wma') ||
         ext.includes('aac')
-    ) return <FontAwesome5Icon name='file-audio' size={size} color={'#66f'} />
+    ) return <MusicIcon />
     else if (ext.includes('pdf'))      // PDF EXTENTION
         return <FontAwesome5Icon name='file-pdf' size={size} color={'red'} />
     else if (ext.includes('zip'))      // ZIP EXTENTION

@@ -72,7 +72,7 @@ export const modalStyle = StyleSheet.create({
         paddingVertical: 16
     },
     Input: {
-        borderColor: Colors.PrimaryColor,
+        borderColor: Colors.BlueColor,
         borderWidth: 1,
         width: '100%',
         borderRadius: 8.0,

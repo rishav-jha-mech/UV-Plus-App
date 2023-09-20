@@ -11,7 +11,7 @@ import FileExists from './fileExists';
 const DownloadVideoAudio = (payload: PayloadParams, dispatch: Function): void => {
 
     Alert.alert(
-        '',
+        'Download Started',
         'Download Started Check Downloading Tab For Progress'
     );
     const errorParams: raiseErrorParams = {
