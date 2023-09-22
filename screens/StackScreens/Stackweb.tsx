@@ -1,16 +1,17 @@
-import React, { useRef, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native'
-import WebView from 'react-native-webview'
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import { ARP, SAGO, SHWE, YOUTUBE } from '../env';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { AppParamList } from '../NAVIGATION';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Colors, pLog } from '../constants';
-
+import React, { useRef, useState, useEffect } from 'react';
+import { BackHandler, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import WebView from 'react-native-webview';
+import { AppParamList } from '../NAVIGATION';
+import { Colors } from '../constants';
+import { ARP, SAGO, SHWE, YOUTUBE } from '../env';
+import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5'
+import t from 'twrnc'
 
 type resultScreenProps = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
+const jsCode = `document.getElementsByTagName('body').style.backgroundColor = 'purple';`;
 
 const StackWeb: React.FC = () => {
 
@@ -24,8 +25,6 @@ const StackWeb: React.FC = () => {
     const [canGoBack, setCanGoBack] = useState(false)
     const [downloadable, setDownloadable] = useState<boolean>(false)
 
-    
-
     // Backaction defined here, if the user cant go back he will go to home tab
     const backAction = () => {
         if (canGoBack) {
@@ -37,12 +36,20 @@ const StackWeb: React.FC = () => {
         return true;
     };
 
+    useEffect(() => {
 
-    BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
-    );
-    
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
+
+        }
+    }, [])
+
+
     const isDownloadable = () => {
         if (URL.includes(ARP) || URL.includes(SAGO) || URL.includes(SHWE) || URL.includes(YOUTUBE)) {
             setDownloadable(true);
@@ -53,14 +60,27 @@ const StackWeb: React.FC = () => {
 
 
     return (
-        <>
-            <View style={styles.header}>
-                <Text style={styles.headerText} numberOfLines={1}>{title}</Text>
+        <SafeAreaView style={t`flex-1`}>
+            <View style={[t`flex-row items-center h-15`, {
+                backgroundColor: Colors.PrimaryColor
+            }]}>
+                <TouchableOpacity
+                    style={t`p-3`}
+                    onPress={() => backAction()}
+                >
+                    <FontawesomeIcon name='arrow-left' color={Colors.WhiteColor} size={18} />
+                </TouchableOpacity>
+                <ScrollView horizontal>
+                    <Text style={t`text-white text-base flex-1 px-3`}>
+                        {title}
+                    </Text>
+                </ScrollView>
             </View>
             <WebView
                 source={{ uri: URL }}
                 ref={webViewRef}
-                style={styles.Container}
+                style={t`flex-1`}
+                injectedJavaScript={jsCode}
                 domStorageEnabled={true}
                 pullToRefreshEnabled={true}
                 allowsFullscreenVideo={true}
@@ -84,16 +104,13 @@ const StackWeb: React.FC = () => {
                     <FeatherIcon name='download' size={28} color={'#fff'} />
                 </TouchableOpacity>
                 : <></>}
-        </>
+        </SafeAreaView>
     )
 }
 
 export default StackWeb
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-    },
     down: {
         position: 'absolute',
         height: 55,

@@ -20,16 +20,17 @@ const Home: React.FC = () => {
         );
 
         interstitialAd.addAdEventListener(AdEventType.LOADED, () => {
-            interstitialAd.show();
+            if (__DEV__ && ProdAdIds.ShowInterStitialAdsOnDebug) {
+                interstitialAd.show();
+            }
         });
-
         interstitialAd.load();
     }
 
     useEffect(() => {
         const timer = setInterval(() => {
             showAD();
-        }, 15000);
+        }, 30000);
         return () => {
             clearTimeout(timer);
         }
@@ -40,6 +41,7 @@ const Home: React.FC = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ backgroundColor: '#fcfcfc', flex: 1 }}>
                     <Banner />
+                    <Recent perm={perm} />
                     <BannerAd
                         unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.HomeBottomAd}
                         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
@@ -47,7 +49,6 @@ const Home: React.FC = () => {
                             requestNonPersonalizedAdsOnly: true,
                         }}
                     />
-                    <Recent perm={perm} />
                     <BannerAd
                         unitId={__DEV__ ? TestIds.BANNER : ProdAdIds.HomeBottomAd2}
                         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}

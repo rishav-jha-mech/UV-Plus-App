@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 // Admob Production Ids
 export const ProdAdIds = {
+    ShowInterStitialAdsOnDebug: false,
     ResultInterstitial: 'ca-app-pub-3828171120772338/4602093639',
     HomeInterstitial: 'ca-app-pub-3828171120772338/3778012844',
     HomeBottomAd: 'ca-app-pub-3828171120772338/6134667158',

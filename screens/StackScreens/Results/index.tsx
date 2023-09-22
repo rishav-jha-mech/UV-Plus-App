@@ -44,7 +44,9 @@ const Results = () => {
         );
 
         interstitialAd.addAdEventListener(AdEventType.LOADED, () => {
-            interstitialAd.show();
+            if (__DEV__ && ProdAdIds.ShowInterStitialAdsOnDebug) {
+                interstitialAd.show();
+            }
         });
 
         interstitialAd.load();

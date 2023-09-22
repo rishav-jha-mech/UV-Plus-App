@@ -11,10 +11,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import IoniIcon from 'react-native-vector-icons/Ionicons'
 import onShare from '../Scripts/onsShare'
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { AppParamList } from '../NAVIGATION'
 
 const CustomDrawer = (props: DrawerContentComponentProps) => {
     const insets = useSafeAreaInsets();
-
+    const navigation = useNavigation<NativeStackNavigationProp<AppParamList, 'WebStack'>>()
     const btnStyle = [t`mx-3 rounded flex-row bg-blue-50 my-1.5 py-3.5 px-4 border border-blue-100`,]
     const btnText = [t`text-gray-600 font-semibold`]
     return (
@@ -67,7 +70,9 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
 
             <TouchableOpacity
                 style={[btnStyle]}
-                onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}
+                onPress={() => navigation.navigate('WebStack',{
+                    url: PRIVACY_POLICY_URL
+                })}
             >
                 <FeatherIcon style={t`mr-3`} name='shield' color={Colors.PrimaryColor} size={19} />
                 <Text style={[btnText]}>Privacy Policy</Text>
