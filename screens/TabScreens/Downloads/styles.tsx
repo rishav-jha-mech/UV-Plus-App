@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         paddingVertical: 8,
-        paddingHorizontal: 6
+        paddingHorizontal: 10
     },
     Title: {
         fontSize: 14,

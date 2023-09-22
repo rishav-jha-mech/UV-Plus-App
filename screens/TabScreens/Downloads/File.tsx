@@ -48,7 +48,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                     <Text style={styles.Title} numberOfLines={2}>{name}</Text>
                     <Text style={styles.SubTitle} numberOfLines={1}>{fileSize ? fileSize : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{ext ? ext : 'Unknown'}&nbsp;&nbsp;|&nbsp;&nbsp;{date ? date : 'Unknown'}</Text>
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={[styles.elipsi, t``]}
                     onPress={() => {
                         setShowOptions(!showOptions);
@@ -59,9 +59,9 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         :
                         <IonIcon name='ellipsis-vertical' color={Colors.DarkTextColor} size={20} />
                     }
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </TouchableOpacity>
-            {showOptions ?
+            {/* {showOptions ?
                 <View style={styles.dropdown}>
                     <TouchableOpacity
                         style={styles.dropdownbtn}
@@ -95,7 +95,7 @@ const File: React.FC<FileType> = ({ data, reload, setModalText, setShowModal, se
                         </Text>
                     </TouchableOpacity>
                 </View>
-                : <></>}
+                : <></>} */}
         </View>
     );
 }
