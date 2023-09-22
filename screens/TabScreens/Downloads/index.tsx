@@ -104,7 +104,7 @@ const Downloads: React.FC = () => {
                                 </TouchableOpacity>
                         }
                     </View> */}
-                    <ScrollView horizontal>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         <Text style={t`text-white text-base flex-1 py-5 px-3`}>
                             {shownPath.replace('0', 'Home')}
                         </Text>

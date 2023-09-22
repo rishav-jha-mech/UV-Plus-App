@@ -17,7 +17,7 @@ export const ProdAdIds = {
 export const appName: string = 'UV Downloader'
 export const AMAZON_STORE_URL: string = ''
 export const MAIL_ID: string = 'rdjinc.official@gmail.com'
-export const PRIVACY_POLICY_URL: string  = 'https://github.com/Lannister-Labs/Universal-Donwnloader/'
+export const PRIVACY_POLICY_URL: string  = 'https://github.com/Lannister-Labs/Universal-Downloader/blob/main/Privacy%20Policy.md'
 
 // Colours
 

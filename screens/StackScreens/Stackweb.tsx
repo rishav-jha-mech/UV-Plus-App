@@ -11,7 +11,7 @@ import FontawesomeIcon from 'react-native-vector-icons/FontAwesome5'
 import t from 'twrnc'
 
 type resultScreenProps = NativeStackNavigationProp<AppParamList, 'ResultStack'>;
-const jsCode = `document.getElementsByTagName('body').style.backgroundColor = 'purple';`;
+const jsCode = ``;
 
 const StackWeb: React.FC = () => {
 
@@ -70,7 +70,7 @@ const StackWeb: React.FC = () => {
                 >
                     <FontawesomeIcon name='arrow-left' color={Colors.WhiteColor} size={18} />
                 </TouchableOpacity>
-                <ScrollView horizontal>
+                <ScrollView horizontal  showsHorizontalScrollIndicator={false}>
                     <Text style={t`text-white text-base flex-1 px-3`}>
                         {title}
                     </Text>
